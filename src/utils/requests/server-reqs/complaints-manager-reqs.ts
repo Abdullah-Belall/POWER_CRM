@@ -68,6 +68,7 @@ export const SERVER_COLLECTOR_REQ = async (varFunction: any, dataBody?: any) => 
   let access_token = await getCookieServer("access_token");
   if (!access_token) {
     const refreshResponse = await REFRESH_TOKEN_REQ();
+    console.log('ttttttttttttttt => ', refreshResponse);
     if (!refreshResponse.done) return { done: false, message: "Unauthorized.", status: 401 };
     access_token = refreshResponse.access_token;
   }

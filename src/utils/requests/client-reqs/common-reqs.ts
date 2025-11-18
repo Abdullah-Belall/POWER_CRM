@@ -183,9 +183,11 @@ export const CHANGE_PASSWORD = async ({ data }: any) => {
 
 export const REFRESH_TOKEN_REQ = async () => {
     console.log('one1');
+  const refresh_token =  getCookie(`refresh_token`);
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
-      withCredentials: true,
+      headers: { cookie: `refresh_token=${refresh_token};` },
+      withCredentials: true
     });
     console.log('one2 => ', response);
     if (response?.data?.access_token) {
