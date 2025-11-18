@@ -69,35 +69,35 @@ const UPLOAD_IMAGE_REQ = async ({ formData }: any) => {
     };
   }
 };
-const DELETE_IMAGE_REQ = async ({
-  fileName,
-  cloudName,
-  publicId,
-}: {
-  fileName: string;
-  publicId: string;
-  cloudName: string;
-}) => {
-  try {
-    const response: any = await axios.delete(
-      `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?public_ids=${publicId}&type=upload`
-    );
-    return response?.data?.deleted[fileName] === "deleted"
-      ? { done: true }
-      : {
-          done: false,
-          message: `There is problem, please try again later`,
-          status: response.status,
-        };
-  } catch (error: any) {
-    let message = `There is problem, please try again later`;
-    if (error?.response?.status !== 400) {
-      message = error?.response?.data?.error?.message;
-    }
-    return {
-      done: false,
-      message: message,
-      status: error.status,
-    };
-  }
-};
+// const DELETE_IMAGE_REQ = async ({
+//   fileName,
+//   cloudName,
+//   publicId,
+// }: {
+//   fileName: string;
+//   publicId: string;
+//   cloudName: string;
+// }) => {
+//   try {
+//     const response: any = await axios.delete(
+//       `https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload?public_ids=${publicId}&type=upload`
+//     );
+//     return response?.data?.deleted[fileName] === "deleted"
+//       ? { done: true }
+//       : {
+//           done: false,
+//           message: `There is problem, please try again later`,
+//           status: response.status,
+//         };
+//   } catch (error: any) {
+//     let message = `There is problem, please try again later`;
+//     if (error?.response?.status !== 400) {
+//       message = error?.response?.data?.error?.message;
+//     }
+//     return {
+//       done: false,
+//       message: message,
+//       status: error.status,
+//     };
+//   }
+// };

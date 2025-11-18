@@ -10,7 +10,7 @@ import Select from "../Select"
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
-import { ASSIGN_SALER, UPDATE_CUSTOMER_STATUS } from "@/utils/requests/client-reqs/sales-reqs"
+import { UPDATE_CUSTOMER_STATUS } from "@/utils/requests/client-reqs/sales-reqs"
 import { useRouter } from "next/navigation"
 import { PotentialCustomerStatusEnum } from "@/types/enums/potential-customers-enums"
 

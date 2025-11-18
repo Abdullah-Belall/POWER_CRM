@@ -369,7 +369,7 @@ const AppSidebar: React.FC = () => {
   );
 
   const [openSubmenu, setOpenSubmenu] = useState<Set<string>>(new Set());
-  const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
+  const [, setSubMenuHeight] = useState<Record<string, number>>(
     {}
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -461,12 +461,12 @@ const AppSidebar: React.FC = () => {
 
     // Use multiple requestAnimationFrame calls and setTimeout to ensure nested menus are fully rendered
     // This is necessary because deeply nested menus need time to render
-    let rafId1: number;
+    
     let rafId2: number;
     let rafId3: number;
     let timeoutId: NodeJS.Timeout;
 
-    rafId1 = requestAnimationFrame(() => {
+    const rafId1 = requestAnimationFrame(() => {
       rafId2 = requestAnimationFrame(() => {
         rafId3 = requestAnimationFrame(() => {
           updateHeights();

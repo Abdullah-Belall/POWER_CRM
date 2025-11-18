@@ -4,7 +4,7 @@ import { closePopup, selectPopup } from "@/store/slices/popups-slice"
 import BlackLayer from "../black-layer"
 import { useAppDispatch } from "@/store/hooks/dispatch"
 import { MdOutlineClose  } from "react-icons/md";
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Input from "../input/InputField"
 import { errMsg, handleData } from "@/utils/base"
 import Select from "../Select"

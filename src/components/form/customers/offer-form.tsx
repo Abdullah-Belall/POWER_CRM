@@ -6,7 +6,6 @@ import { useAppDispatch } from "@/store/hooks/dispatch"
 import { MdOutlineClose  } from "react-icons/md";
 import { useCallback, useEffect, useState } from "react"
 import {  handleData } from "@/utils/base"
-import Select from "../Select"
 import Input from "../input/InputField"
 import Label from "../Label"
 import { CLIENT_COLLECTOR_REQ, COMMON_SEARCH } from "@/utils/requests/client-reqs/common-reqs"
@@ -17,7 +16,7 @@ import { useRouter } from "next/navigation"
 import { ServiceInterface, SystemInterface } from "@/types/interfaces/sales-interface"
 import MultiSelect from "../MultiSelect"
 
-export default function CustomerOfferFormPopup({ type }: { type: "contract" | "offer" }) {
+export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer" }) {
   const router = useRouter()
   const popup = useAppSelector(selectPopup('offerFormPopup'))
   const dispatch = useAppDispatch()

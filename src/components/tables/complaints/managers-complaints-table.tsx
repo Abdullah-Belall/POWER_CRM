@@ -8,7 +8,7 @@ import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/store/hooks/dispatch";
 import { MdAssignmentTurnedIn } from "react-icons/md";
-import { closePopup, openPopup } from "@/store/slices/popups-slice";
+import { openPopup } from "@/store/slices/popups-slice";
 import { ComplaintStatusEnum } from "@/types/enums/complaints-enums";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { FaEye } from "react-icons/fa6";

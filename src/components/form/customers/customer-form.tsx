@@ -54,7 +54,7 @@ export default function CustomerFormPopup() {
   const handleDone = async () => {
     if (loading) return;
     if (!vaildation()) return false;
-    let submitData: any = {
+    const submitData: any = {
       ...data,
       phone: data.phone === "+20" ? undefined : data.phone,
     };

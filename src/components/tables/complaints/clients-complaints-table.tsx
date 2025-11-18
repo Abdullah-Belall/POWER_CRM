@@ -1,7 +1,7 @@
 'use client'
 import { useAppSelector } from "@/store/hooks/selector";
 import { fillTable, getTable } from "@/store/slices/tables-slice";
-import { checkNull, ComplaintPriorityStatusViewer, formatDate, StatusViewer } from "@/utils/base";
+import { checkNull, formatDate, StatusViewer } from "@/utils/base";
 import MainTable from "../main-table";
 import { getPageTrans } from "@/store/slices/language-slice";
 import { useEffect } from "react";
