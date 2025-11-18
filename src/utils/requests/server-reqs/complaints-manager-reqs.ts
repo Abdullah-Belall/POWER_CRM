@@ -45,7 +45,10 @@ const REFRESH_TOKEN_REQ = async () => {
   const refresh_token = await getCookieServer(`refresh_token`);
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
-      headers: { cookie: `refresh_token=${refresh_token};` },
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${refresh_token}`
+      }
     });
     return response?.data?.done
       ? response?.data
