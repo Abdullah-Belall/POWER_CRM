@@ -181,11 +181,13 @@ export const CHANGE_PASSWORD = async ({ data }: any) => {
   }
 };
 
-const REFRESH_TOKEN_REQ = async () => {
+export const REFRESH_TOKEN_REQ = async () => {
+    console.log('one1');
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
       withCredentials: true,
     });
+    console.log('one2 => ', response);
     if (response?.data?.access_token) {
       setCookie("access_token", response?.data?.access_token);
     }
@@ -193,6 +195,7 @@ const REFRESH_TOKEN_REQ = async () => {
       ? { done: true }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
+    console.log('one3 => ', error);
     let message = errMsg;
     if (error?.response?.status !== 400) {
     }

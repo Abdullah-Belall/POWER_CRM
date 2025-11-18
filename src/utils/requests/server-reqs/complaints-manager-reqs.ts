@@ -42,6 +42,7 @@ export const CLIENT_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_token
   }
 };
 const REFRESH_TOKEN_REQ = async () => {
+  console.log('two1');
   const refresh_token = await getCookieServer(`refresh_token`);
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
@@ -50,10 +51,12 @@ const REFRESH_TOKEN_REQ = async () => {
         Authorization: `Bearer ${refresh_token}`
       }
     });
+    console.log('two2 => ', response);
     return response?.data?.done
       ? response?.data
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
+    console.log('two3 => ', error);
     return {
       done: false,
       message: error?.response?.data?.error?.message || errMsg,
