@@ -7,7 +7,7 @@ import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
 import { GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs";
 import { useEffect, useState } from "react";
 
-export default async function PotentialCustomers() {
+export default function PotentialCustomers() {
   const [data, setData] = useState()
 
   const fetchData = async () => {
