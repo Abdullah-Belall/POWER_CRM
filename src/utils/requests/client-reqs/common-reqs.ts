@@ -184,11 +184,8 @@ export const CHANGE_PASSWORD = async ({ data }: any) => {
 
 export const REFRESH_TOKEN_REQ = async () => {
   console.log('CLIENT REFRESH TOKEN STARTED');
-  const refresh_token =  getCookie(`refresh_token`);
-  console.log('CLIENT REFRESH refresh_token => ', refresh_token);
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
-      headers: { cookie: `refresh_token=${refresh_token};` },
       withCredentials: true
     });
     console.log('CLIENT REFRESH response => ', response);
