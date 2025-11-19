@@ -1,13 +1,25 @@
+"use client"
 import AssignSalerFormPopup from "@/components/form/customers/assign-saler-form";
 import CustomerFormPopup from "@/components/form/customers/customer-form";
 import CustomersTableActions from "@/components/sales/inputs/customers/customersTableActions";
 import PotentialCustomersTable from "@/components/tables/sales/inputs/potential-customers-table";
-import { SERVER_COLLECTOR_REQ } from "@/utils/requests/server-reqs/complaints-manager-reqs";
-import { POTENTIAL_CUSTOMERS_SERVER_REQ } from "@/utils/requests/server-reqs/sales-managers-reqs";
+import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
+import { GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs";
+import { useEffect, useState } from "react";
 
-export default async function ManagersComplaints() {
-  const res= await SERVER_COLLECTOR_REQ(POTENTIAL_CUSTOMERS_SERVER_REQ)
-  if(res.done){
+export default async function PotentialCustomers() {
+  const [data, setData] = useState()
+
+  const fetchData = async () => {
+  const res= await CLIENT_COLLECTOR_REQ(GET_ALL_POTENTIAL_CUSTOMERS)
+    if(res.done) {
+      setData(res.data)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
   return (
     <>
     <div>
@@ -21,7 +33,7 @@ export default async function ManagersComplaints() {
     <CustomersTableActions />
     </div>
     <div>
-      <PotentialCustomersTable data={res.data} />
+      <PotentialCustomersTable data={data as any} />
     </div>
       </div>
     </div>
@@ -29,8 +41,5 @@ export default async function ManagersComplaints() {
     <AssignSalerFormPopup />
     <AssignSalerFormPopup />
     </>
-  )}
-  else {
-    <h1>ERRRRORRRR</h1>
-  }
+  )
 }

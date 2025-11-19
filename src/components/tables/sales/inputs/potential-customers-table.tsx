@@ -16,8 +16,8 @@ export default function PotentialCustomersTable({data}: {data: {customers: Poten
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fillTable({tableName: 'potentialCustomerTable', obj: {
-      data: data?.customers,
-      total: data?.total
+      data: data?.customers || [],
+      total: data?.total || 0
     }}))
   }, [data])
 

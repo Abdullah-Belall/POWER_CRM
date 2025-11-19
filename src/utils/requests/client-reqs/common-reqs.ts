@@ -1,6 +1,6 @@
 import { BASE_URL, errMsg } from "@/utils/base";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 
 export const SIGN_OUT = async () => {
   try {
@@ -27,16 +27,17 @@ export const SIGN_OUT = async () => {
 };
 
 export const SIGN_IN = async ({ data }: any) => {
+  console.log('SIGN IN STARTED');
   try {
     const response = await axios.post(`${BASE_URL}/auth/sign-in`, data, {
       withCredentials: true,
     });
-    console.log(response);
+  console.log('SIGN IN RESPONSE => ',response);
     return response?.data?.done
       ? { done: true, data: response.data.user }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
-    console.log(error);
+    console.log('SIGN IN error => ',error);
     let message = errMsg;
     if (error?.response?.status !== 400) {
     }
@@ -241,7 +242,7 @@ export const GET_USERS = async (data: { roleAttributes?: string }) => {
 export const CLIENT_COLLECTOR_REQ = async (varFunction: any, dataBody?: any) => {
   console.log('========== CLIENT COLLECTOR REQ ============');
   const access_token = getCookie("access_token");
-  console.log('CLIENT access_token => ', access_token);
+  console.log('CLIENT access_token => ', access_token, !access_token);
   if (!access_token) {
     console.log('CLIENT NO ACCESS_tOKEN');
     const refreshResponse = await REFRESH_TOKEN_REQ();
@@ -264,9 +265,9 @@ export const CLIENT_COLLECTOR_REQ = async (varFunction: any, dataBody?: any) => 
 };
 //* COOKIES HANDLERS
 export const setCookie = (keyName: string, value: string) => {
-  document.cookie = `${keyName}=${value}; path=/; max-age=${15 * 60}; SameSite=Strict`;
+  Cookies.set(keyName, value);
 };
 export const getCookie = (keyName: string): string | null => {
-  const cookie = document.cookie.split("; ").find((row) => row.startsWith(`${keyName}=`));
+  const cookie = Cookies.get(keyName)
   return cookie ? cookie.split("=")[1] : null;
 };

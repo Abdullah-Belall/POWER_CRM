@@ -51,7 +51,6 @@ export default function SignInForm() {
         lang: LangsEnum.EN
       }
     })
-    console.log(res);
     if(res.done) {
       dispatch(openSnakeBar({
         type: SnakeBarTypeEnum.SUCCESS,
@@ -62,6 +61,7 @@ export default function SignInForm() {
           ...res.data,
         })
       );
+      console.log(res.data.access_token);
       setCookie("access_token", res.data.access_token);
       router.push(data.password === "123456789" ? "/profile" : "/");
     } else {
