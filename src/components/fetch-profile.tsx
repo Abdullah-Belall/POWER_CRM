@@ -19,7 +19,6 @@ export default function FetchProfile() {
     } else {
       router.push("/signin");
     }
-    await REFRESH_TOKEN_REQ()
   };
 
   useEffect(() => {

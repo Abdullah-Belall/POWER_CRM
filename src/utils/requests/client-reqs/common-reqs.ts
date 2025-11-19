@@ -182,14 +182,15 @@ export const CHANGE_PASSWORD = async ({ data }: any) => {
 };
 
 export const REFRESH_TOKEN_REQ = async () => {
-    console.log('one1');
+  console.log('CLIENT REFRESH TOKEN STARTED');
   const refresh_token =  getCookie(`refresh_token`);
+  console.log('CLIENT REFRESH refresh_token => ', refresh_token);
   try {
     const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
       headers: { cookie: `refresh_token=${refresh_token};` },
       withCredentials: true
     });
-    console.log('one2 => ', response);
+    console.log('CLIENT REFRESH response => ', response);
     if (response?.data?.access_token) {
       setCookie("access_token", response?.data?.access_token);
     }
@@ -197,7 +198,7 @@ export const REFRESH_TOKEN_REQ = async () => {
       ? { done: true }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
-    console.log('one3 => ', error);
+    console.log('CLIENT REFRESH error => ', error);
     let message = errMsg;
     if (error?.response?.status !== 400) {
     }
@@ -238,18 +239,27 @@ export const GET_USERS = async (data: { roleAttributes?: string }) => {
 
 //* MAIN FUNCTION (USED FOR ALL REQUESTS THAT NEED ACCESS_TOKEN)
 export const CLIENT_COLLECTOR_REQ = async (varFunction: any, dataBody?: any) => {
+  console.log('========== CLIENT COLLECTOR REQ ============');
   const access_token = getCookie("access_token");
+  console.log('CLIENT access_token => ', access_token);
   if (!access_token) {
+    console.log('CLIENT NO ACCESS_tOKEN');
     const refreshResponse = await REFRESH_TOKEN_REQ();
+    console.log('CLIENT refreshResponse => ', refreshResponse);
     if (!refreshResponse.done) return { done: false, message: "Unauthorized.", status: 401 };
   }
   const response = await varFunction(dataBody);
+  console.log('CLIENT response => ', response);
   if (!response.done && response.status === 401) {
+    console.log('CLIENT STATUS 401');
     const refreshResponse = await REFRESH_TOKEN_REQ();
+    console.log('CLIENT refreshResponse => ', refreshResponse);
     if (!refreshResponse.done) return { done: false, message: "Unauthorized.", status: 401 };
     const retryResponse = await varFunction(dataBody);
+    console.log('CLIENT retryResponse => ', retryResponse);
     return retryResponse;
   }
+  console.log(`============================`);
   return response;
 };
 //* COOKIES HANDLERS
