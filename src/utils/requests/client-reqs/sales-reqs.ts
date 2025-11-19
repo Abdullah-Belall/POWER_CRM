@@ -94,6 +94,29 @@ export const UPDATE_CUSTOMER_STATUS = async ({ customer_id, data }: any) => {
   }
 };
 
+export const UPDATE_CUSTOMER_OFFER_STATUS = async ({ contract_id, data }: any) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/contracts/${contract_id}`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.done
+      ? { done: true }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
+
 export const CREATE_DISCUSSION = async ({ data }: any) => {
   try {
     const response = await axios.post(`${BASE_URL}/discussions`, data, {
@@ -120,6 +143,30 @@ export const CREATE_DISCUSSION = async ({ data }: any) => {
 export const CREATE_CONTRACT = async ({ data }: any) => {
   try {
     const response = await axios.post(`${BASE_URL}/contracts`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.done
+      ? { done: true }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
+
+
+export const CREATE_SYSTEM = async ({ data }: any) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/systems`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

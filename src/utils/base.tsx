@@ -109,7 +109,7 @@ export const StatusViewer = ({
       );
     case ComplaintStatusEnum.IN_PROGRESS:
     case PotentialCustomerStatusEnum.PRICE_DISCUSSIONS:
-    case ContractStatusEnum.ACCEPTED:
+    case ContractStatusEnum.OFFERED:
     case DiscussionStatusEnum.NORMAL:
       return (
         <button className="p-1 text-xs text-nowrap bg-sky-900 text-sky-300 rounded-md border-2 border-sky-300">
@@ -118,7 +118,7 @@ export const StatusViewer = ({
       );
     case ComplaintStatusEnum.PENDING:
     case PotentialCustomerStatusEnum.PENDING:
-    case ContractStatusEnum.OFFERED:
+    case ContractStatusEnum.PENDING:
       return (
         <button className="p-1 text-xs text-nowrap bg-orange-900 text-orange-300 rounded-md border-2 border-orange-300">
           {status}
@@ -126,6 +126,7 @@ export const StatusViewer = ({
       );
     case ComplaintStatusEnum.CLIENT_CANCELLED:
     case PotentialCustomerStatusEnum.DISCUSSION:
+    case ContractStatusEnum.ACCEPTED:
       return (
         <button className="p-1 text-xs text-nowrap bg-slate-900 text-slate-300 rounded-md border-2 border-slate-300">
           {status}

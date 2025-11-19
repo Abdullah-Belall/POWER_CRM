@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks/dispatch";
 import { ContractInterface } from "@/types/interfaces/sales-interface";
 import NormalMainTable from "../../normal-main-table";
+import { openPopup } from "@/store/slices/popups-slice";
+import { TbStatusChange } from "react-icons/tb";
 
 export default function CustomerOffersTable({data}: {data: {contracts: ContractInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('customerOffersTable'))
@@ -23,15 +25,14 @@ export default function CustomerOffersTable({data}: {data: {contracts: ContractI
       created_at: formatDate(e.created_at),
       discount: checkNull(e.discount, '-', '%'),
       vat: checkNull(e.vat, '-', '%'),
-      total_price: e.total_price + ' EGP'
-      // actions:(<div className="flex items-center gap-1">
-      //             <button onClick={() => dispatch(openPopup({popup: 'assignSalerFormPopup',
-      //               data: {
-      //                 customer_id: e.id
-      //               }
-      //             }))} className={`text-white duration-200`}><MdAssignmentTurnedIn /></button>
-      //             <Link href={`/sales/inputs/potential-customers/${e.id}`} className={`text-white hover:text-brand-500 duration-200`}><BiSolidDetail /></Link>
-      //         </div>)
+      total_price: e.total_price + ' EGP',
+      actions:(<div className="flex items-center justify-center gap-1">
+                  <button onClick={() => dispatch(openPopup({popup: 'updateOfferStatus',
+                    data: {
+                      contract_id: e.id
+                    }
+                  }))} className={`dark:text-white text-black hover:text-brand-500!  duration-200`}><TbStatusChange className="text-lg" /></button>
+              </div>)
     })
   });
   const columns = [
@@ -54,12 +55,12 @@ export default function CustomerOffersTable({data}: {data: {contracts: ContractI
       minWidth: 'w-[120px]',
       hideSearch: true
     },
-    // {
-    //   id: "actions",
-    //   label: 'Actions',
-    //   hideSearch: true,
-    //   hideSort: true
-    // },
+    {
+      id: "actions",
+      label: 'Actions',
+      hideSearch: true,
+      hideSort: true
+    },
   ];
   return (
     <NormalMainTable columns={columns} data={formateData} />

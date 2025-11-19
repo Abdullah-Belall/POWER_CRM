@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { RoleInterface, UserInterface } from "@/types/interfaces/common-interfaces";
 import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager-interfaces";
-import { ContractInterface, DiscussionInterface, PotentialCustomerInterface } from "@/types/interfaces/sales-interface";
+import { ContractInterface, DiscussionInterface, PotentialCustomerInterface, SystemInterface } from "@/types/interfaces/sales-interface";
 import { ClientComplaintInterface } from "@/types/interfaces/complaints-clients-interface";
 
 interface TablesDataState {
@@ -38,6 +38,10 @@ interface TablesDataState {
     total: number;
     data: DiscussionInterface[];
   };
+  systemsTable: {
+    total: number;
+    data: SystemInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -70,6 +74,10 @@ const initialState: TablesDataState = {
     data: [],
   },
   customerDiscutionsTable: {
+    total: 0,
+    data: [],
+  },
+  systemsTable: {
     total: 0,
     data: [],
   }

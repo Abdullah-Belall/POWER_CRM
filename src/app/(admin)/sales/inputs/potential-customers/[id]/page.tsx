@@ -1,6 +1,7 @@
 import AddDiscussionBtn from "@/components/form/customers/actions/add-discussion-btn";
 import AddOfferBtn from "@/components/form/customers/actions/add-offer-btn";
 import UpdateCustomerStatusBtn from "@/components/form/customers/actions/update-customer-status-btn";
+import CustomerOfferStatusFormPopup from "@/components/form/customers/customer-offer-status-form";
 import CustomerStatusFormPopup from "@/components/form/customers/customer-status-form";
 import CustomerDisussionFormPopup from "@/components/form/customers/discussion-form";
 import CustomerOfferFormPopup from "@/components/form/customers/offer-form";
@@ -280,6 +281,7 @@ export default async function CustomerPage({params}: {params: Promise<{id: strin
     <CustomerStatusFormPopup />
     <CustomerDisussionFormPopup />
     <CustomerOfferFormPopup type={'offer'} />
+    <CustomerOfferStatusFormPopup />
     </>
   )
   }

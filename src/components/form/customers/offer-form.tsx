@@ -104,7 +104,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
     setLoading(true);
     const res = await CLIENT_COLLECTOR_REQ(CREATE_CONTRACT, {
       data: {
-        systems: JSON.stringify(selectedSystems?.map((e: any) => e.id)),
+        systems: JSON.stringify(selectedSystems?.map((e: any) => ({id: e.id, price: Number(e.price)}))),
         services: JSON.stringify(selectedServices?.map((e: any) => e.id)),
         customer_id: popup.data?.customer_id,
         discount: data.discount !== "" ? Number(data.discount) : undefined,
@@ -124,6 +124,8 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
           message: 'Successfully Created Offer',
         })
       );
+      setSelectedSystems([])
+      setSelectedServices([])
       router.push(window.location.pathname + `?forRefresh=${Math.random()}`)
     } else {
       dispatch(
@@ -147,7 +149,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
             </button>
           </div>
       </div>
-      <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-70px)] overflow-y-scroll custom-scrollbar">
+      <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar">
         <div className="space-y-6">
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -167,6 +169,25 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
                   }}
                 />
               </div>
+              <div className="col-span-full flex flex-col gap-2">
+                {selectedSystems.map((e, i) => 
+                <div key={i} className="flex gap-1"><Input
+                value={e.name}
+                disabled
+              /><Input
+              value={e.price.toString()}
+              onChange={(ePrice) => {
+                const index = selectedSystems.findIndex((sys) => sys.id === e.id)
+                const filterdSelected = selectedSystems.filter((sys) => sys.id !== e.id)
+                filterdSelected.splice(index, 0, {...e, price: !isNaN(Number(ePrice.target.value)) &&
+                  Number(ePrice.target.value) > 0
+                  ? Number(ePrice.target.value)
+                  : e.price})
+                setSelectedSystems(filterdSelected)
+              }}
+            /></div>
+                )}
+              </div>
               <div className="col-span-full">
                 <MultiSelect 
                   options={services.map((serv: any) => ({
@@ -183,6 +204,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
                   }}
                 />
               </div>
+
               <div>
                 <Label>Discount (%)</Label>
                 <Input

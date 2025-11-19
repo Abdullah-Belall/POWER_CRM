@@ -76,6 +76,16 @@ interface PopupState {
       customer_id: string
     }
   };
+  systemFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  updateOfferStatus: {
+    isOpen: boolean;
+    data?: {
+      contract_id: string
+    }
+  };
 }
 
 type OpenPopupPayload = {
@@ -114,6 +124,12 @@ const initialState: PopupState = {
     isOpen: false,
   },
   discussionFormPopup: {
+    isOpen: false,
+  },
+  systemFormPopup: {
+    isOpen: false,
+  },
+  updateOfferStatus: {
     isOpen: false,
   }
 };
