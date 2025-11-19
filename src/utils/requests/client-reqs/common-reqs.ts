@@ -1,6 +1,6 @@
+"use client"
 import { BASE_URL, errMsg } from "@/utils/base";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export const SIGN_OUT = async () => {
   try {
@@ -262,9 +262,9 @@ export const CLIENT_COLLECTOR_REQ = async (varFunction: any, dataBody?: any) => 
 };
 //* COOKIES HANDLERS
 export const setCookie = (keyName: string, value: string) => {
-  Cookies.set(keyName, value);
+  document.cookie = `${keyName}=${value}; path=/; max-age=${15 * 60}; SameSite=Strict`;
 };
 export const getCookie = (keyName: string): string | null => {
-  const cookie = Cookies.get(keyName)
+  const cookie = document.cookie.split("; ").find((row) => row.startsWith(`${keyName}=`));
   return cookie ? cookie.split("=")[1] : null;
 };
