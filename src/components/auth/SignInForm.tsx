@@ -58,7 +58,7 @@ export default function SignInForm() {
       }))
       dispatch(
         setUser({
-          ...res.data,
+          ...res.data.user,
         })
       );
       console.log(res.data.access_token);

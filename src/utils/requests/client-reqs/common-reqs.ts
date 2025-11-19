@@ -34,7 +34,7 @@ export const SIGN_IN = async ({ data }: any) => {
     });
   console.log('SIGN IN RESPONSE => ',response);
     return response?.data?.done
-      ? { done: true, data: response.data.user }
+      ? { done: true, data: response.data }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
     console.log('SIGN IN error => ',error);
