@@ -26,7 +26,7 @@ export default function DiscussionsTable({data}: {data: {discussions: Discussion
       //               data: {
       //                 customer_id: e.id
       //               }
-      //             }))} className={`text-white ${!!false ? 'opacity-[.2]' :'hover:text-brand-500'} duration-200`}><MdAssignmentTurnedIn /></button>
+      //             }))} className={`text-white ${!!false ? 'opacity-[.4]' :'hover:text-brand-500'} duration-200`}><MdAssignmentTurnedIn /></button>
       //             <Link href={`/sales/inputs/potential-customers/${e.id}`} className={`text-white hover:text-brand-500 duration-200`}><BiSolidDetail /></Link>
       //         </div>)
     })

@@ -54,7 +54,7 @@ export default function ClientsComplaintsTable({data}: {data: {complaints: Clien
             })
           )
         }
-        className={`text-white hover:text-brand-500 duration-200`}
+        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
       >
         <FaEye />
       </button>

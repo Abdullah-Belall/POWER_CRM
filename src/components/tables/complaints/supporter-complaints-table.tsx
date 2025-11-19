@@ -31,7 +31,7 @@ export default function SupportersComplaintsTable({data}: {data: {complaints: Ma
     details: e.details?.trim()?.length > 40 ? e.details?.slice(0, 40)?.trim() + "..." : e.details,
     screen_viewer_password: checkNull(e.screen_viewer_password, "-"),
     actions:(<div className="flex items-center gap-1">
-                <button className={`text-white hover:text-brand-500 duration-200`}><VscReferences /></button>
+                <button className={`dark:text-white text-black hover:text-brand-500! duration-200`}><VscReferences /></button>
                 <button
                   onClick={() =>
                     dispatch(
@@ -61,7 +61,7 @@ export default function SupportersComplaintsTable({data}: {data: {complaints: Ma
                       })
                     )
                   }
-                  className={`text-white hover:text-brand-500 duration-200`}
+                  className={`dark:text-white text-black hover:text-brand-500! duration-200`}
                 >
                   <FaEye />
                 </button>
@@ -74,7 +74,7 @@ export default function SupportersComplaintsTable({data}: {data: {complaints: Ma
                           status: e.status
                         },
                       })
-                    )} className={`text-white hover:text-brand-500 duration-200`}><IoCheckmarkDoneCircle /></button>
+                    )} className={`dark:text-white text-black hover:text-brand-500! duration-200`}><IoCheckmarkDoneCircle /></button>
             </div>)
   }));
   const columns = [

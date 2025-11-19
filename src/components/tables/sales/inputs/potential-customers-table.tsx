@@ -41,8 +41,8 @@ export default function PotentialCustomersTable({data}: {data: {customers: Poten
                     data: {
                       customer_id: e.id
                     }
-                  }))} className={`text-white ${!!e.saler ? 'opacity-[.2]' :'hover:text-brand-500'} duration-200`}><MdAssignmentTurnedIn /></button>
-                  <Link href={`/sales/inputs/potential-customers/${e.id}`} className={`text-white hover:text-brand-500 duration-200`}><BiSolidDetail /></Link>
+                  }))} className={`dark:text-white text-black ${!!e.saler ? 'opacity-[.4]' :'hover:text-brand-500!'} duration-200`}><MdAssignmentTurnedIn /></button>
+                  <Link href={`/sales/inputs/potential-customers/${e.id}`} className={`text-black dark:text-white hover:text-brand-500! duration-200`}><BiSolidDetail /></Link>
               </div>)
     })
   });

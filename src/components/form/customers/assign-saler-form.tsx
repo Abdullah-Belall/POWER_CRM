@@ -49,7 +49,7 @@ export default function AssignSalerFormPopup() {
       !data.saler_id ||
       data.saler_id?.length === 0
     ) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Select supporter to assign");
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Select Saler to assign");
       return false;
     }
     if(!popup.data || !popup.data?.customer_id) {
@@ -115,7 +115,7 @@ export default function AssignSalerFormPopup() {
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="col-span-full">
-                <Select options={salers.map((e) => ({value: e.id, label: e.index+ ' | ' + e.user_name}))} placeholder="Select Supporter" value={data.saler_id} onChange={(e) => handleData(setData, 'saler_id', e.target.value)} />
+                <Select options={salers.map((e) => ({value: e.id, label: e.index+ ' | ' + e.user_name}))} placeholder="Select Saler" value={data.saler_id} onChange={(e) => handleData(setData, 'saler_id', e.target.value)} />
               </div>
               <div className="col-span-full flex justify-center">
                 <button onClick={handleAssign} className="w-fit inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">

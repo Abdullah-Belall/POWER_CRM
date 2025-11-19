@@ -46,7 +46,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
     details: e.details?.trim()?.length > 40 ? e.details?.slice(0, 40)?.trim() + "..." : e.details,
     screen_viewer_password: checkNull(e.screen_viewer_password, "-"),
     actions: <div className="flex items-center gap-2">
-      <button disabled={e.status !== ComplaintStatusEnum.PENDING} onClick={() => dispatch(openPopup({popup: 'assignComplaintFormPopup', data: {complaint_id: e.id}}))} className={`text-lg text-white ${e.status !== ComplaintStatusEnum.PENDING ? 'opacity-[.2]' :'hover:text-brand-500'} duration-200`}><MdAssignmentTurnedIn /></button>
+      <button disabled={e.status !== ComplaintStatusEnum.PENDING} onClick={() => dispatch(openPopup({popup: 'assignComplaintFormPopup', data: {complaint_id: e.id}}))} className={`text-lg dark:text-white text-black ${e.status !== ComplaintStatusEnum.PENDING ? 'opacity-[.4]' :'hover:text-brand-500!'} duration-200`}><MdAssignmentTurnedIn /></button>
       <button
         onClick={() =>
           dispatch(
@@ -76,7 +76,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
             })
           )
         }
-        className={`text-white hover:text-brand-500 duration-200`}
+        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
       >
         <FaEye />
       </button>
@@ -108,7 +108,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
               message: res.message
             }))
           }
-      }} disabled={e.status !== ComplaintStatusEnum.PENDING} className={`text-white ${e.status !== ComplaintStatusEnum.PENDING ? 'opacity-[.2]' :'hover:text-brand-500'} duration-200`}><GiAutoRepair /></button>
+      }} disabled={e.status !== ComplaintStatusEnum.PENDING} className={`dark:text-white text-black ${e.status !== ComplaintStatusEnum.PENDING ? 'opacity-[.4]' :'hover:text-brand-500!'} duration-200`}><GiAutoRepair /></button>
       <button onClick={() =>{
           dispatch(
             openPopup({
@@ -121,7 +121,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
           )
         }} 
           disabled={!canFinishComplaint}
-          className={`text-white ${!canFinishComplaint ? 'opacity-[.2]' : 'hover:text-brand-500'} duration-200`}><IoCheckmarkDoneCircle /></button>
+          className={`dark:text-white text-black ${!canFinishComplaint ? 'opacity-[.4]' : 'hover:text-brand-500!'} duration-200`}><IoCheckmarkDoneCircle /></button>
       </div>
   })});
   const columns = [
