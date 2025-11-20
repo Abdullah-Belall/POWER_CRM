@@ -48,9 +48,15 @@ interface PopupState {
       status: ComplaintStatusEnum
     }
   };
-  addCustomerFormPopup: {
+  customerFormPopup: {
     isOpen: boolean;
-    data?: any
+    data?: {
+      id: string;
+      name: string;
+      company: string;
+      note: string;
+      phone: string
+    }
   };
   assignSalerFormPopup: {
     isOpen: boolean;
@@ -80,10 +86,29 @@ interface PopupState {
     isOpen: boolean;
     data?: any
   };
+  roleForm: {
+    isOpen: boolean;
+    data?: {
+      id: string,
+      code: number;
+      name: string,
+      roles: string[]
+    }
+  };
   updateOfferStatus: {
     isOpen: boolean;
     data?: {
       contract_id: string
+    }
+  };
+  userForm: {
+    isOpen: boolean;
+    data?: {
+      id: string,
+      user_name: string,
+      email: string;
+      phone: string,
+      role_id: string
     }
   };
 }
@@ -111,7 +136,7 @@ const initialState: PopupState = {
   finishComplaintFormPopup: {
     isOpen: false,
   },
-  addCustomerFormPopup: {
+  customerFormPopup: {
     isOpen: false,
   },
   assignSalerFormPopup: {
@@ -130,6 +155,12 @@ const initialState: PopupState = {
     isOpen: false,
   },
   updateOfferStatus: {
+    isOpen: false,
+  },
+  roleForm: {
+    isOpen: false,
+  },
+  userForm: {
     isOpen: false,
   }
 };

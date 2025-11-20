@@ -4,27 +4,33 @@ import { closePopup, selectPopup } from "@/store/slices/popups-slice"
 import BlackLayer from "../black-layer"
 import { useAppDispatch } from "@/store/hooks/dispatch"
 import { MdOutlineClose  } from "react-icons/md";
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Input from "../input/InputField"
 import { handleData } from "@/utils/base"
 import TextArea from "../input/TextArea"
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
-import { ADD_POTENTIAL_CUSTOMER, GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs"
+import { ADD_POTENTIAL_CUSTOMER, EDIT_POTENTIAL_CUSTOMER, GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs"
 import { fillTable } from "@/store/slices/tables-slice"
 
 export default function CustomerFormPopup() {
-  const popup = useAppSelector(selectPopup('addCustomerFormPopup'))
+  const popup = useAppSelector(selectPopup('customerFormPopup'))
   const dispatch = useAppDispatch()
   const handleClose = useCallback(() => dispatch(closePopup({
-    popup: 'addCustomerFormPopup'
+    popup: 'customerFormPopup'
   })),[])
   const [data, setData] = useState({
     name: "",
+    company: "",
     phone: "+20",
     note: "",
   });
+  useEffect(() => {
+    if(popup.data) {
+      setData(popup.data)
+    }
+  }, [popup.isOpen])
   const handleOpenSnakeBar = (type: SnakeBarTypeEnum, message: string) => {
     dispatch(
       openSnakeBar({
@@ -57,12 +63,16 @@ export default function CustomerFormPopup() {
     const submitData: any = {
       ...data,
       phone: data.phone === "+20" ? undefined : data.phone,
+      company: data.company.trim().length === 0 ? undefined: data.company,
+      note: data.note.trim().length === 0 ? undefined: data.note,
     };
+    delete submitData.id
     setLoading(true);
-    const res = await CLIENT_COLLECTOR_REQ(ADD_POTENTIAL_CUSTOMER, {data: submitData});
+    const res = await CLIENT_COLLECTOR_REQ(popup.data ? EDIT_POTENTIAL_CUSTOMER : ADD_POTENTIAL_CUSTOMER, { data: submitData, id: popup.data?.id });
     if (res.done) {
       const res2 = await CLIENT_COLLECTOR_REQ(GET_ALL_POTENTIAL_CUSTOMERS)
       if(res2.done) {
+        handleOpenSnakeBar(SnakeBarTypeEnum.SUCCESS, popup.data ? 'Successfully updated customer' : 'Successfully added customer')
         dispatch(fillTable({
           tableName: 'potentialCustomerTable',
           obj: {
@@ -73,13 +83,14 @@ export default function CustomerFormPopup() {
       }
       dispatch(
         closePopup({
-          popup: "addCustomerFormPopup",
+          popup: "customerFormPopup",
         })
       );
       setData({
         name: '',
+        company: '',
         note: '',
-        phone: ''
+        phone: '+20'
       })
     } else {
       dispatch(
@@ -107,8 +118,11 @@ export default function CustomerFormPopup() {
     <div className="space-y-6">
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="col-span-full">
+            <Input placeholder="Customer Company Name" value={data.company} onChange={(e) => handleData(setData, 'company', e.target.value)} />
+          </div>
           <div>
-              <Input placeholder="Customer Name" value={data.name} onChange={(e) => handleData(setData, 'name', e.target.value)} />
+            <Input placeholder="Customer Name" value={data.name} onChange={(e) => handleData(setData, 'name', e.target.value)} />
           </div>
           <div>
             <Input placeholder="Custome Phone" value={data.phone} onChange={(e) => handleData(setData, 'phone', e.target.value)} />

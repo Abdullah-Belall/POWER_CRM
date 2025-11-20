@@ -400,6 +400,30 @@
 .flatpickr-months .flatpickr-next-month.flatpickr-next-month {
   @apply !right-7;
 }
+
+.crm-picker {
+  @apply w-full;
+}
+
+.crm-picker .MuiInputBase-root {
+  @apply h-11 w-full rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 shadow-theme-xs transition focus-within:border-brand-300 focus-within:ring-3 focus-within:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus-within:border-brand-800;
+}
+
+.crm-picker .MuiInputBase-root.Mui-focused {
+  @apply border-brand-300 ring-3 ring-brand-500/15 dark:border-brand-800;
+}
+
+.crm-picker .MuiOutlinedInput-notchedOutline {
+  @apply border-0;
+}
+
+.crm-picker .MuiSvgIcon-root {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+.crm-picker .MuiInputBase-input {
+  @apply text-sm text-gray-800 placeholder:text-gray-400 dark:text-white/90 dark:placeholder:text-white/40;
+}
 .flatpickr-days {
   @apply !border-0;
 }

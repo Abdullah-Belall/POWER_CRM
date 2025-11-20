@@ -42,6 +42,14 @@ interface TablesDataState {
     total: number;
     data: SystemInterface[];
   };
+  rolesTable: {
+    total: number;
+    data: RoleInterface[];
+  };
+  usersTable: {
+    total: number;
+    data: UserInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -77,7 +85,15 @@ const initialState: TablesDataState = {
     total: 0,
     data: [],
   },
+  rolesTable: {
+    total: 0,
+    data: [],
+  },
   systemsTable: {
+    total: 0,
+    data: [],
+  },
+  usersTable: {
     total: 0,
     data: [],
   }

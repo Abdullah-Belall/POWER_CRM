@@ -48,6 +48,29 @@ export const ADD_POTENTIAL_CUSTOMER = async ({ data }: any) => {
   }
 };
 
+export const EDIT_POTENTIAL_CUSTOMER = async ({ data, id }: any) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/potential-customers/${id}/edit`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.done
+      ? { done: true }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
+
 export const ASSIGN_SALER = async ({ customer_id, saler_id }: any) => {
   try {
     const response = await axios.post(`${BASE_URL}/potential-customers/${customer_id}/assign/${saler_id}`, {}, {

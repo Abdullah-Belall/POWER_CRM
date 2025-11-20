@@ -85,8 +85,7 @@ const navItems: NavItem[] = [
             path: "/sales/inputs/potential-customers",
             roles: [],
           },
-          { name: "Services Data", path: "/gransdchild2", roles: [] },
-          { name: "Service Pricing", path: "/graandchaild2", roles: [] },
+          { name: "Systems Data", path: "/sales/inputs/systems", roles: [] },
         ],
       },
       {

@@ -199,7 +199,7 @@ export default function MainTable({
                         }`}
                       >
                         <div className="flex flex-col w-full items-center gap-1">
-                          <div className="flex items-center justify-between cursor-pointer">
+                          <div className="flex items-center gap-2 justify-between cursor-pointer">
                             <div className={`${col.minWidth} flex gap-3`}>
                               {col.showCheckbox && (
                                 <label className="flex items-center space-x-3 group cursor-pointer">

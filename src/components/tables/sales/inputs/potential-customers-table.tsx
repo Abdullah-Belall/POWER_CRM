@@ -10,6 +10,7 @@ import { openPopup } from "@/store/slices/popups-slice";
 import { MdAssignmentTurnedIn } from "react-icons/md";
 import { BiSolidDetail } from "react-icons/bi";
 import Link from "next/link";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function PotentialCustomersTable({data}: {data: {customers: PotentialCustomerInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('potentialCustomerTable'))
@@ -43,6 +44,15 @@ export default function PotentialCustomersTable({data}: {data: {customers: Poten
                     }
                   }))} className={`dark:text-white text-black ${!!e.saler ? 'opacity-[.4]' :'hover:text-brand-500!'} duration-200`}><MdAssignmentTurnedIn /></button>
                   <Link href={`/sales/inputs/potential-customers/${e.id}`} className={`text-black dark:text-white hover:text-brand-500! duration-200`}><BiSolidDetail /></Link>
+                  <button onClick={() => dispatch(openPopup({popup: 'customerFormPopup',
+                    data: {
+                      id: e.id,
+                      company: checkNull(e.company, ''),
+                      name: checkNull(e.name, ''),
+                      note: checkNull(e.note, ''),
+                      phone: checkNull(e.phone, '')
+                    }
+                  }))} className={`dark:text-white text-black hover:text-brand-500! duration-200`}><FaRegEdit /></button>
               </div>)
     })
   });

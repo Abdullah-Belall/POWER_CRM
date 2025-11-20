@@ -12,7 +12,8 @@ interface SelectProps {
   onChange: ChangeEventHandler<HTMLSelectElement>;
   className?: string;
   defaultValue?: string;
-  value: string
+  value: string;
+  disabled?: boolean
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -21,6 +22,7 @@ const Select: React.FC<SelectProps> = ({
   onChange,
   className = "",
   value = '',
+  disabled = false
 }) => {
   return (
     <div className="relative group">
@@ -30,9 +32,10 @@ const Select: React.FC<SelectProps> = ({
         value && value !== ''
           ? "text-gray-800 dark:text-white/90"
           : "text-gray-400 dark:text-gray-400"
-      } ${className}`}
+      } ${className} ${disabled ? 'cursor-not-allowed' : ''}`}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     >
       <option
         value=""

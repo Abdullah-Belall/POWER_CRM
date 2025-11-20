@@ -11,7 +11,7 @@ export default function CheckboxComponents() {
     <ComponentCard title="Checkbox">
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3">
-          <Checkbox checked={isChecked} onChange={setIsChecked} />
+          <Checkbox checked={isChecked} />
           <span className="block text-sm font-medium text-gray-700 dark:text-gray-400">
             Default
           </span>
@@ -19,14 +19,12 @@ export default function CheckboxComponents() {
         <div className="flex items-center gap-3">
           <Checkbox
             checked={isCheckedTwo}
-            onChange={setIsCheckedTwo}
             label="Checked"
           />
         </div>
         <div className="flex items-center gap-3">
           <Checkbox
             checked={isCheckedDisabled}
-            onChange={setIsCheckedDisabled}
             disabled
             label="Disabled"
           />
