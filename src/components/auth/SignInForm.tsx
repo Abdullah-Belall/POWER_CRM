@@ -18,7 +18,7 @@ export default function SignInForm() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked] = useState(false);
   const [userNameError, setUserNameError] = useState<[boolean, string]>([false, ''])
   const [passwordError, setPasswordError] = useState<[boolean, string]>([false, ''])
   const [data,setData] =useState({
@@ -118,7 +118,7 @@ export default function SignInForm() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Checkbox checked={isChecked} onChange={setIsChecked} />
+                    <Checkbox checked={isChecked} />
                     <span className="block font-normal text-gray-700 text-theme-sm dark:text-gray-400">
                       Keep me logged in
                     </span>

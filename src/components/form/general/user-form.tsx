@@ -62,42 +62,34 @@ export default function UserFormPopup() {
       fetchRoles()
     }
   }, [popup.isOpen])
-  const handleOpenSnakeBar = (type: SnakeBarTypeEnum, message: string) => {
-    dispatch(
-      openSnakeBar({
-        type,
-        message,
-      })
-    );
-  };
-  const vaildation = () => {
-    const { role_id, user_name, phone, email, password } = data;
-    if (user_name.trim().length < 4) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "User Name must be more than 3 character");
-      return false;
-    }
-    if (email.trim().length > 0) {
-      const re =
-        /^(?!.*\.\.)(?!\.)[a-zA-Z0-9._%+-]+(?<!\.)@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[A-Za-z]{2,}$/;
-      if (!re.test(email)) {
-        handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Invaild email address");
-        return false;
-      }
-    }
-    if (phone.trim() !== "+20" && phone.trim().length !== 13) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Invaild phone number");
-      return false;
-    }
-    if (!popup.data && password.trim().length < 7) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Password must be more than 7 character");
-      return false;
-    }
-    if (role_id.trim() === "") {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "You must pick role to confirm");
-      return false;
-    }
-    return true;
-  };
+  // const vaildation = () => {
+  //   const { role_id, user_name, phone, email, password } = data;
+  //   if (user_name.trim().length < 4) {
+  //     handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "User Name must be more than 3 character");
+  //     return false;
+  //   }
+  //   if (email.trim().length > 0) {
+  //     const re =
+  //       /^(?!.*\.\.)(?!\.)[a-zA-Z0-9._%+-]+(?<!\.)@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[A-Za-z]{2,}$/;
+  //     if (!re.test(email)) {
+  //       handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Invaild email address");
+  //       return false;
+  //     }
+  //   }
+  //   if (phone.trim() !== "+20" && phone.trim().length !== 13) {
+  //     handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Invaild phone number");
+  //     return false;
+  //   }
+  //   if (!popup.data && password.trim().length < 7) {
+  //     handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Password must be more than 7 character");
+  //     return false;
+  //   }
+  //   if (role_id.trim() === "") {
+  //     handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "You must pick role to confirm");
+  //     return false;
+  //   }
+  //   return true;
+  // };
   const [loading, setLoading] = useState(false);
   const handleConfirm: any = async () => {
     if (loading) return;

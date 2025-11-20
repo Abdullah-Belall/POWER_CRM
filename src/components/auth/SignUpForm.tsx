@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked] = useState(false);
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full overflow-y-auto no-scrollbar">
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
@@ -150,7 +150,6 @@ export default function SignUpForm() {
                   <Checkbox
                     className="w-5 h-5"
                     checked={isChecked}
-                    onChange={setIsChecked}
                   />
                   <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
                     By creating an account means you agree to the{" "}
