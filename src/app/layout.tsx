@@ -1,11 +1,18 @@
 import { Outfit } from 'next/font/google';
 import './globals.css';
-
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ReduxProvider } from '@/store/provider';
 import CustomSnackbar from '@/components/snake-bar/snake-bar';
 import FetchProfile from '@/components/fetch-profile';
+
+export const metadata = {
+  title: 'POWER SOFT CRM',
+  description: 'Dedicated To Your Success',
+  icons: {
+    icon: '/images/logo/LOGUP.png',
+  },
+};
 
 const outfit = Outfit({
   subsets: ["latin"],
