@@ -36,7 +36,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
           <Avatar src={''} alt="dd" />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">{currUser.user_name}</span>
+        <span className="block mr-1 font-medium text-theme-sm">{currUser?.user_name || ''}</span>
 
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
@@ -65,10 +65,10 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-          {currUser.user_name}
+          {currUser?.user_name || ''}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-          {checkNull(currUser.email, '-')}
+          {checkNull(currUser?.email, '-')}
           </span>
         </div>
 

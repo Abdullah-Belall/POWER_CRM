@@ -103,16 +103,16 @@ export default function RoleFormPopup() {
     "create-complaint",
     "read-complaint",
     "assign-complaint",
-    "assignable",
+    'complaint-assignable',
     "update-complaint",
   
+    "read-potential-customers",
     "potential-customers-assign",
     "potential-customers-assignable",
     "suitable_for_meeting",
-  
   ];
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
-    <div className="w-md rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
+    <div className="w-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
       <div className="px-6 py-5">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">

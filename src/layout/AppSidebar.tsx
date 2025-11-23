@@ -47,7 +47,7 @@ const navItems: NavItem[] = [
   {
     icon: <FaHeadset className={"text-xl"} />,
     name: "Complaints",
-    roles: ['read-complaint', 'create-complaint'],
+    roles: ['read-complaint', 'create-complaint', 'complaint-assignable'],
     subItems: [
       {
         name: "Complaints",
@@ -62,6 +62,12 @@ const navItems: NavItem[] = [
         roles: ['read-complaint'],
       },
       {
+        name: "Clients Complaints",
+        path: "/complaints/supporters",
+        pro: false,
+        roles: ['complaint-assignable'],
+      },
+      {
         name: "Employees Complaints",
         path: "/complaints/employees",
         pro: false,
@@ -72,29 +78,34 @@ const navItems: NavItem[] = [
   {
     name: "Sales System",
     icon: <FaMoneyBillTrendUp className={"text-xl"} />,
-    roles: ['potential-customers-assign', 'potential-customers-assignable'],
+    roles: ['potential-customers-assign', 'potential-customers-assignable', 'read-system', 'read-potential-customers'],
     subItems: [
       {
         name: "Inputs",
         roles: ['potential-customers-assign', 'potential-customers-assignable'],
         subItems: [
-          { name: "Salers Data", path: "/grandcshi34ld1", roles: [] },
-          { name: "Collectors' Data", path: "/gra45ndchsild2", roles: [] },
+          { name: "Salers Data", path: "/grandcshissssssss34ld1", roles: ['not-now'] },
+          { name: "Collectors' Data", path: "/gra45ndssschsilds2", roles: ['not-now'] },
           {
-            name: "Potential Customer Data",
+            name: "Potential Customers Data",
             path: "/sales/inputs/potential-customers",
-            roles: [],
+            roles: ['potential-customers-assign'],
           },
-          { name: "Systems Data", path: "/sales/inputs/systems", roles: [] },
+          {
+            name: "Potential Customers Data",
+            path: "/sales/inputs/all-potential-customers",
+            roles: ['read-potential-customers'],
+          },
+          { name: "Systems Data", path: "/sales/inputs/systems", roles: ['read-system'] },
         ],
       },
       {
         name: "Operations",
-        roles: [],
+        roles: ['not-nows' , 'read price'],
         subItems: [
-          { name: "Price Quote", path: "/gran23dchild1", roles: [] },
-          { name: "Customer Discussion", path: "/gran33dchild2", roles: [] },
-          { name: "Sales Contract", path: "/grandc123hild2", roles: [] },
+          { name: "Price Quote", path: "/gran23dcgggghild1", roles: ['read price'] },
+          { name: "Customer Discussion", path: "/gra2n33dchsild2", roles: ['read price'] },
+          { name: "Sales Contract", path: "/grsandc123shild2", roles: ['read price'] },
         ],
       },
     ],
@@ -105,59 +116,39 @@ const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
   const currentUserRoles = useAppSelector(selectCurrentUserRoles());
-  const currentUserRoleSet = useMemo(
-    () => new Set(currentUserRoles ?? []),
-    [currentUserRoles]
-  );
 
-  const filteredNavItems = useMemo(() => {
-    const hasRoleAccess = (itemRoles?: string[]) => {
-      if (!itemRoles || itemRoles.length === 0) return true;
-      if (currentUserRoleSet.size === 0) return false;
-      return itemRoles.some((role) => currentUserRoleSet.has(role));
-    };
+  
+const hasCommonRole = (userRoles: string[], itemRoles?: string[]) => {
+  if (!itemRoles || itemRoles.length === 0) return true;
+  return itemRoles.some(role => userRoles.includes(role));
+};
 
-    const filterSubItems = (items: SubItem[]): SubItem[] => {
-      return items.reduce<SubItem[]>((acc, item) => {
-        const filteredChildren = item.subItems
-          ? filterSubItems(item.subItems)
-          : undefined;
-        const itemHasAccess = hasRoleAccess(item.roles);
+const filterItemsByRoles = (items: (NavItem | SubItem)[], userRoles: string[]): any[] => {
+  return items
+    .map(item => {
+      const userHasAccess = hasCommonRole(userRoles, item.roles);
 
-        if (!itemHasAccess && (!filteredChildren || filteredChildren.length === 0)) {
-          return acc;
-        }
+      let filteredSubItems: any[] = [];
+      if (item.subItems) {
+        filteredSubItems = filterItemsByRoles(item.subItems, userRoles);
+      }
 
-        acc.push({
-          ...item,
-          subItems: filteredChildren,
-        });
+      if (!userHasAccess && filteredSubItems.length === 0) {
+        return null;
+      }
 
-        return acc;
-      }, []);
-    };
+      return {
+        ...item,
+        subItems: filteredSubItems.length > 0 ? filteredSubItems : item.subItems,
+      };
+    })
+    .filter(Boolean);
+};
 
-    const filterItems = (items: NavItem[]): NavItem[] =>
-      items.reduce<NavItem[]>((acc, item) => {
-        const filteredChildren = item.subItems
-          ? filterSubItems(item.subItems)
-          : undefined;
-        const itemHasAccess = hasRoleAccess(item.roles);
+const filteredNavItems = useMemo(() => {
+  return filterItemsByRoles(navItems, currentUserRoles || []);
+}, [currentUserRoles]);
 
-        if (!itemHasAccess && (!filteredChildren || filteredChildren.length === 0)) {
-          return acc;
-        }
-
-        acc.push({
-          ...item,
-          subItems: filteredChildren,
-        });
-
-        return acc;
-      }, []);
-
-    return filterItems(navItems);
-  }, [currentUserRoleSet]);
 
   const renderSubItems = (
     subItems: SubItem[],
@@ -172,7 +163,7 @@ const AppSidebar: React.FC = () => {
           const isSubmenuOpen = openSubmenu.has(itemKey);
 
           return (
-            <li key={subItem.name}>
+            <li key={subItem.path}>
               {hasNestedSubItems ? (
                 <>
                   <button
@@ -284,7 +275,7 @@ const AppSidebar: React.FC = () => {
         const isSubmenuOpen = openSubmenu.has(itemKey);
 
         return (
-          <li key={nav.name}>
+          <li key={nav.path}>
             {nav.subItems ? (
               <>
                 <button
@@ -373,10 +364,8 @@ const AppSidebar: React.FC = () => {
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
-  // Recursive function to find and open all parent submenus for a given path
   const findAndOpenSubmenus = useCallback(
     (
       items: NavItem[] | SubItem[],
@@ -386,7 +375,6 @@ const AppSidebar: React.FC = () => {
     ): string[] => {
     const keysToOpen: string[] = [];
 
-    // Recursive helper to check nested items
     const checkNested = (subItems: SubItem[], key: string): boolean => {
       let found = false;
       for (let i = 0; i < subItems.length; i++) {
@@ -425,7 +413,6 @@ const AppSidebar: React.FC = () => {
   );
 
   useEffect(() => {
-    // Check if the current path matches any submenu item (recursively)
     const keysToOpen = new Set<string>();
     const foundKeys = findAndOpenSubmenus(filteredNavItems, pathname, "", "main");
     foundKeys.forEach((key) => keysToOpen.add(key));
@@ -434,32 +421,24 @@ const AppSidebar: React.FC = () => {
   }, [pathname, findAndOpenSubmenus, filteredNavItems]);
 
   useEffect(() => {
-    // Set the height of all open submenu items
-    // Use multiple delays to ensure nested menus are fully rendered
     const updateHeights = () => {
       setSubMenuHeight((prevHeights) => {
         const newHeights: Record<string, number> = {};
         
-        // Calculate heights for all open menus only
         openSubmenu.forEach((key) => {
           if (subMenuRefs.current[key]) {
             const height = subMenuRefs.current[key]?.scrollHeight || 0;
             if (height > 0) {
               newHeights[key] = height;
             } else if (prevHeights[key]) {
-              // Keep previous height if current is 0 (menu might still be rendering)
               newHeights[key] = prevHeights[key];
             }
           }
         });
 
-        // Heights for closed menus are automatically excluded (not in newHeights)
         return newHeights;
       });
     };
-
-    // Use multiple requestAnimationFrame calls and setTimeout to ensure nested menus are fully rendered
-    // This is necessary because deeply nested menus need time to render
     
     let rafId2: number;
     let rafId3: number;
@@ -469,7 +448,6 @@ const AppSidebar: React.FC = () => {
       rafId2 = requestAnimationFrame(() => {
         rafId3 = requestAnimationFrame(() => {
           updateHeights();
-          // Also update after a small delay to catch any late-rendering nested menus
           timeoutId = setTimeout(() => {
             updateHeights();
           }, 50);
@@ -477,7 +455,6 @@ const AppSidebar: React.FC = () => {
       });
     });
 
-    // Use ResizeObserver to watch for size changes in nested menus
     const observers: ResizeObserver[] = [];
     
     openSubmenu.forEach((key) => {
@@ -513,7 +490,6 @@ const AppSidebar: React.FC = () => {
       const newSet = new Set(prevOpenSubmenu);
       if (newSet.has(itemKey)) {
         newSet.delete(itemKey);
-        // Also close all nested submenus
         Object.keys(subMenuRefs.current).forEach((key) => {
           if (key.startsWith(itemKey + "-")) {
             newSet.delete(key);

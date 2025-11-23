@@ -1,5 +1,6 @@
 import ManagerComplaintsTableActions from "@/components/complaints/managers-complaints-table-actions";
 import FinishComplaintFormPopup from "@/components/form/complaints/finish-complaint-form-popup";
+import RefereComplaintFormPopup from "@/components/form/complaints/refere-complaint";
 import ViewComplaintFormPopup from "@/components/form/complaints/view-complaint-form-popup";
 import SupportersComplaintsTable from "@/components/tables/complaints/supporter-complaints-table";
 import { SERVER_COLLECTOR_REQ } from "@/utils/requests/server-reqs/complaints-manager-reqs";
@@ -18,7 +19,6 @@ export default async function SupportersComplaints() {
           Clients Complaints
         </h3>
       </div>
-
     <ManagerComplaintsTableActions />
     </div>
     <div>
@@ -28,6 +28,7 @@ export default async function SupportersComplaints() {
     </div>
     <ViewComplaintFormPopup />
     <FinishComplaintFormPopup />
+    <RefereComplaintFormPopup />
     </>
   )}
   else {

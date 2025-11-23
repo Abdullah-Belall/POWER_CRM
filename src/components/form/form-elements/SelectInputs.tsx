@@ -7,17 +7,9 @@ import MultiSelect from "../MultiSelect";
 import { ChevronDownIcon } from "@/icons";
 
 export default function SelectInputs() {
-  // const options = [
-  //   { value: "marketing", label: "Marketing" },
-  //   { value: "template", label: "Template" },
-  //   { value: "development", label: "Development" },
-  // ];
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-  // const handleSelectChange = (value: string) => {
-  //   console.log("Selected value:", value);
-  // };
 
   const multiOptions = [
     { value: "1", text: "Option 1", selected: false },

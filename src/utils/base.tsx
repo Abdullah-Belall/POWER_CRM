@@ -138,6 +138,12 @@ export const StatusViewer = ({
           {status}
         </button>
       );
+    case ComplaintStatusEnum.DEVELOPMENT:
+      return (
+        <button className="p-1 text-xs text-nowrap bg-stone-900 text-stone-300 rounded-md border-2 border-stone-300">
+          {status}
+        </button>
+      );
     default:
       return null;
   }

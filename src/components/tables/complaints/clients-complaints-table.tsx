@@ -11,7 +11,6 @@ import { FaEye } from "react-icons/fa6";
 import { ClientComplaintInterface } from "@/types/interfaces/complaints-clients-interface";
 
 export default function ClientsComplaintsTable({data}: {data: {complaints: ClientComplaintInterface[], total: number}}) {
-  console.log(data);
   const tableData = useAppSelector(getTable('clientComplaintsTable'))
   const trans = useAppSelector(getPageTrans("managersComplaintsPage")).table;
   const dispatch = useAppDispatch()
@@ -43,6 +42,7 @@ export default function ClientsComplaintsTable({data}: {data: {complaints: Clien
                 details: e.details,
                 screen_viewer: e.screen_viewer,
                 screen_viewer_id: e.screen_viewer_id,
+                status: e.status,
                 screen_viewer_password: e.screen_viewer_password ?? "",
                 server_viewer: e.server_viewer ?? "",
                 server_viewer_id: e.server_viewer_id ?? "",

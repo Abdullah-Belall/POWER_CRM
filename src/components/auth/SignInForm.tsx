@@ -61,7 +61,6 @@ export default function SignInForm() {
           ...res.data.user,
         })
       );
-      console.log(res.data.access_token);
       setCookie("access_token", res.data.access_token);
       router.push(data.password === "123456789" ? "/profile" : "/");
     } else {

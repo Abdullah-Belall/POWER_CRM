@@ -30,6 +30,7 @@ interface PopupState {
       phone: string,
       title: string,
       details: string,
+      status: ComplaintStatusEnum,
       screen_viewer: ScreenViewerEnum,
       screen_viewer_id: string,
       screen_viewer_password: string,
@@ -111,6 +112,27 @@ interface PopupState {
       role_id: string
     }
   };
+  refereComplaintFormPopup: {
+    isOpen: boolean;
+    data?: {
+      complaint_id: string,
+    }
+  };
+  roleAttributeFormPopup: {
+    isOpen: boolean;
+    data?: {
+      user_id: string,
+      user_roles: string[],
+      user_name: string
+    }
+  };
+  uploadExcelFile: {
+    isOpen: boolean;
+    data?: {
+      onDone?: () => Promise<void>;
+      endPoint?: string;
+    }
+  };
 }
 
 type OpenPopupPayload = {
@@ -162,7 +184,16 @@ const initialState: PopupState = {
   },
   userForm: {
     isOpen: false,
-  }
+  },
+  refereComplaintFormPopup: {
+    isOpen: false,
+  },
+  roleAttributeFormPopup: {
+    isOpen: false,
+  },
+  uploadExcelFile: {
+    isOpen: false,
+  },
 };
 
 const popupSlice = createSlice({

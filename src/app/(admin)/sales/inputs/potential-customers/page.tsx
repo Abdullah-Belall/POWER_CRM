@@ -1,4 +1,5 @@
 "use client"
+import UploadExcelFilePopup from "@/components/form/common/upload-excel";
 import AssignSalerFormPopup from "@/components/form/customers/assign-saler-form";
 import CustomerFormPopup from "@/components/form/customers/customer-form";
 import CustomersTableActions from "@/components/sales/inputs/customers/customersTableActions";
@@ -40,6 +41,7 @@ export default function PotentialCustomers() {
     <CustomerFormPopup />
     <AssignSalerFormPopup />
     <AssignSalerFormPopup />
+    <UploadExcelFilePopup />
     </>
   )
 }

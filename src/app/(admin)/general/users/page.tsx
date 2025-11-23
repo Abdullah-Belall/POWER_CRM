@@ -1,4 +1,5 @@
 import UserFormPopup from "@/components/form/general/user-form";
+import RoleArrributeFormPopup from "@/components/form/users/role-atrribute-form";
 import UsersTableActions from "@/components/general/users-table-action";
 import UsersTable from "@/components/tables/general/users-table";
 import { SERVER_COLLECTOR_REQ } from "@/utils/requests/server-reqs/complaints-manager-reqs";
@@ -25,6 +26,7 @@ export default async function Users() {
       </div>
     </div>
     <UserFormPopup />
+    <RoleArrributeFormPopup />
     </>
   )}
   else {

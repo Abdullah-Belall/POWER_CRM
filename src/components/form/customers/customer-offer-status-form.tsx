@@ -52,7 +52,7 @@ export default function CustomerOfferStatusFormPopup() {
     }
   };
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
-    <div className="w-sm rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
+    <div className="w-sm border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
       <div className="px-6 py-5">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
@@ -63,7 +63,7 @@ export default function CustomerOfferStatusFormPopup() {
             </button>
           </div>
       </div>
-      <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-70px)] overflow-y-scroll custom-scrollbar">
+      <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar">
         <div className="space-y-6">
           <form onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

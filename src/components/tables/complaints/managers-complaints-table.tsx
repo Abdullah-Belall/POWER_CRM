@@ -20,7 +20,6 @@ import { openSnakeBar } from "@/store/slices/snake-bar-slice";
 import { selectCurrentUser } from "@/store/slices/user-slice";
 
 export default function ManagersComplaintsTable({data}: {data: {complaints: ManagerComplaintInterface[], total: number}}) {
-  console.log(data);
   const tableData = useAppSelector(getTable('managerComplaintsTable'))
   const trans = useAppSelector(getPageTrans("managersComplaintsPage")).table;
   const currUser = useAppSelector(selectCurrentUser())
@@ -37,7 +36,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
       (solvingRecord) => solvingRecord.supporter.id === currUser?.id
     );
     const canFinishComplaint =
-      e.status === ComplaintStatusEnum.IN_PROGRESS && isCurrentSupporterAssigned;
+      (e.status === ComplaintStatusEnum.IN_PROGRESS || e.status === ComplaintStatusEnum.DEVELOPMENT) && isCurrentSupporterAssigned;
     return ({
     ...e,
     created_at: formatDate(e.created_at),
@@ -61,6 +60,7 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
                 },
                 full_name: e.full_name,
                 phone: e.phone,
+                status: e.status,
                 title: e.title,
                 details: e.details,
                 screen_viewer: e.screen_viewer,

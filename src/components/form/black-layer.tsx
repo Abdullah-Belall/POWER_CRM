@@ -4,9 +4,11 @@ import { createPortal } from "react-dom";
 
 export default function BlackLayer({
   onClick,
+  transparent = false,
   children,
 }: {
   onClick: () => void;
+  transparent?: boolean
   children: React.ReactNode;
 }) {
   const isBrowser = typeof window !== "undefined";
@@ -39,7 +41,9 @@ export default function BlackLayer({
           }
         }
       }}
-      className="backdrop-blur-[1px] flex justify-center items-center w-full h-full fixed left-0 top-0 bg-[#00000066] !z-[99999]"
+      className={` flex justify-center items-center w-full h-full fixed left-0 top-0 !z-[99999]
+        ${transparent ? 'bg-transparent' : 'backdrop-blur-[1px] bg-[#00000066]'}
+        `}
     >
       {children}
     </div>,

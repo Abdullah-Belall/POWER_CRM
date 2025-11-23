@@ -15,6 +15,7 @@ import { openSnakeBar } from "@/store/slices/snake-bar-slice"
 import { ASSIGN_SUPPORTER } from "@/utils/requests/client-reqs/supporter-reqs"
 import { fillTable } from "@/store/slices/tables-slice"
 import { MANAGER_COMPLAINTS_REQ } from "@/utils/requests/client-reqs/managers-reqs"
+import TextArea from "../input/TextArea"
 
 export default function AssignComplaintFormPopup() {
   const popup = useAppSelector(selectPopup('assignComplaintFormPopup'))
@@ -31,7 +32,7 @@ export default function AssignComplaintFormPopup() {
   const fetchSupporters = async () => {
     if (supporters.length > 0) return;
     const res = await CLIENT_COLLECTOR_REQ(GET_USERS, {
-      roleAttributes: JSON.stringify(["assignable"]),
+      roleAttributes: JSON.stringify(["complaint-assignable"]),
     });
     if (res.done) {
       setSupporters(res.data.users);
@@ -113,7 +114,7 @@ export default function AssignComplaintFormPopup() {
     }
   };
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
-    <div className="w-full h-full border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
+    <div className="w-md h-fit border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
     <div className="px-6 py-5">
       <div className="flex items-center justify-between">
     <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
@@ -124,18 +125,23 @@ export default function AssignComplaintFormPopup() {
       </button>
     </div>
     </div>
-  <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 h-[calc(100dvh-70px)] overflow-y-scroll custom-scrollbar">
+  <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar">
     <div className="space-y-6">
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div className="col-span-full">
+        <div>
             <Select options={supporters.map((e) => ({value: e.id, label: e.index+ ' | ' + e.user_name}))} placeholder="Select Supporter" value={data.supporter_id} onChange={(e) => handleData(setData, 'supporter_id', e.target.value)} />
           </div>
           <div>
             <Input placeholder="Max Time To Solve" value={data.max_time_to_solve} onChange={(e) => handleData(setData, 'max_time_to_solve', e.target.value)} />
           </div>
-          <div>
-            <Input name={'Note'} placeholder="Complainant Phone" value={data.note} onChange={(e) => handleData(setData, 'note', e.target.value)} />
+          <div className="col-span-full">
+            <TextArea
+            placeholder="Note"
+            value={data.note}
+            onChange={(e) => handleData(setData, 'note', e.target.value)}
+            rows={4}
+            />
           </div>
           <div className="col-span-full flex justify-center">
             <button onClick={handleAssign} className="w-fit inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300">

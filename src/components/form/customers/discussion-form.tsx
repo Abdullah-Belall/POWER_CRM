@@ -129,7 +129,7 @@ export default function CustomerDisussionFormPopup() {
     }
   };
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
-    <div className="w-xl rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
+    <div className="w-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
       <div className="px-6 py-5">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
@@ -200,6 +200,10 @@ export default function CustomerDisussionFormPopup() {
                     {
                       value: MeetingEnum.AT_COMPANY,
                       label: MeetingEnum.AT_COMPANY,
+                    },
+                    {
+                      value: MeetingEnum.NEXT_FOLLOW_UP,
+                      label: MeetingEnum.NEXT_FOLLOW_UP,
                     },
                   ]} placeholder="Meeting" value={data.meeting} onChange={(e) => handleData(setData, 'meeting', e.target.value)} />
                   : ''

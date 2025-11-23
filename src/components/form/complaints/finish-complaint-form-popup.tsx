@@ -43,12 +43,13 @@ export default function FinishComplaintFormPopup() {
     }
     if (
       data.status !== ComplaintStatusEnum.COMPLETED &&
-      data.status !== ComplaintStatusEnum.CANCELLED
+      data.status !== ComplaintStatusEnum.CANCELLED &&
+      data.status !== ComplaintStatusEnum.DEVELOPMENT
     ) {
       dispatch(
         openSnakeBar({
           type: SnakeBarTypeEnum.WARNING,
-          message: "Complaint status must be Completed or Cancelled",
+          message: "Complaint status must be Completed, Cancelled or Development",
         })
       );
       return;
@@ -79,6 +80,10 @@ export default function FinishComplaintFormPopup() {
             total: res.data?.total
           }
         }))
+        setData({
+          complaint_id: '',
+          status: ''
+        })
       }
     } else {
       dispatch(
@@ -91,7 +96,7 @@ export default function FinishComplaintFormPopup() {
     setLoading(false);
   };
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
-    <div className="w-full h-full border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
+    <div className="w-sm h-fit border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
     <div className="px-6 py-5">
     <div className="flex items-center justify-between">
     <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
@@ -102,27 +107,18 @@ export default function FinishComplaintFormPopup() {
       </button>
     </div>
     </div>
-    <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 h-[calc(100dvh-70px)] overflow-y-scroll custom-scrollbar">
+    <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar">
       <div className="space-y-6">
         <div className="relative">
           <Select options={[{
-            value: ComplaintStatusEnum.PENDING,
-            label: ComplaintStatusEnum.PENDING
-          },{
-            value: ComplaintStatusEnum.IN_PROGRESS,
-            label: ComplaintStatusEnum.IN_PROGRESS
+            value: ComplaintStatusEnum.DEVELOPMENT,
+            label: ComplaintStatusEnum.DEVELOPMENT
           },{
             value: ComplaintStatusEnum.COMPLETED,
             label: ComplaintStatusEnum.COMPLETED
           },{
             value: ComplaintStatusEnum.CANCELLED,
             label: ComplaintStatusEnum.CANCELLED
-          },{
-            value: ComplaintStatusEnum.CLIENT_CANCELLED,
-            label: ComplaintStatusEnum.CLIENT_CANCELLED
-          },{
-            value: ComplaintStatusEnum.SUSPENDED,
-            label: ComplaintStatusEnum.SUSPENDED
           }
           ]} placeholder="Status" value={data.status || ''} onChange={(e) => handleData(setData, 'status', e.target.value)} />
         </div>

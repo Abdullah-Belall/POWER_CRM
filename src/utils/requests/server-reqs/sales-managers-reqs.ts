@@ -13,7 +13,6 @@ export const POTENTIAL_CUSTOMERS_SERVER_REQ = async ({access_token}: {access_tok
       ? { done: true, data: response?.data }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
-    console.log(error);
     return {
       done: false,
       message: error?.response?.data?.error?.message || errMsg,

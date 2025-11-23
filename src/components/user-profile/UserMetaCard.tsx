@@ -15,7 +15,6 @@ export default function UserMetaCard() {
   const currUser = useAppSelector(selectCurrentUser())
   const handleSave = () => {
     // Handle save logic here
-    console.log("Saving changes...");
     closeModal();
   };
   return (

@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/store/hooks/dispatch";
 import { UserInterface } from "@/types/interfaces/common-interfaces";
 import { openPopup } from "@/store/slices/popups-slice";
 import { FaRegEdit } from "react-icons/fa";
+import { TbFlagShare } from "react-icons/tb";
 
 export default function UsersTable({data}: {data: {users: UserInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('usersTable'))
@@ -25,6 +26,23 @@ export default function UsersTable({data}: {data: {users: UserInterface[], total
     phone: checkNull(e.phone, "-"),
     created_at: formatDate(e.created_at),
     actions: <div className="flex items-center gap-2">
+      <button
+        onClick={() =>
+          dispatch(
+            openPopup({
+              popup: 'roleAttributeFormPopup',
+              data: {
+                user_id: e.id,
+                user_name: e.user_name,
+                user_roles: e.role.roles || []
+              },
+            })
+          )
+        }
+        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
+      >
+        <TbFlagShare />
+      </button>
       <button
         onClick={() =>
           dispatch(

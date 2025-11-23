@@ -44,6 +44,20 @@ export default function CustomersTableActions() {
     </svg>
     Filter
   </button>
+  {/* <Button className="flex items-center" onClick={()=> dispatch(openPopup({popup: 'uploadExcelFile'
+    ,data: {
+      onDone: async () => {
+        const res = await CLIENT_COLLECTOR_REQ(MANAGER_COMPLAINTS_REQ)
+        dispatch(fillTable({
+          tableName: 'managerComplaintsTable',
+          obj: {
+            data: res.data.complaints,
+            total: res.data.total
+          }
+        }))
+      }
+    }
+  }))} variant={"outline"}>Import Data <TbFileImport className="text-lg" /></Button> */}
   <Button onClick={()=> dispatch(openPopup({popup: 'customerFormPopup'}))} variant={"primary"}>Add Customer</Button>
 </div>
 }
