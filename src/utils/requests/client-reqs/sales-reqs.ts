@@ -2,9 +2,32 @@ import { BASE_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
-export const GET_ALL_POTENTIAL_CUSTOMERS = async () => {
+export const GET_POTENTIAL_CUSTOMERS = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/potential-customers`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.customers
+      ? { done: true, data: response.data }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
+
+export const GET_ALL_POTENTIAL_CUSTOMERS = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/potential-customers/all`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

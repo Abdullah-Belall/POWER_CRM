@@ -1,4 +1,5 @@
 import { ComplaintStatusEnum, ScreenViewerEnum } from "@/types/enums/complaints-enums";
+import { ComplaintSolvingInterface } from "@/types/interfaces/complaints-manager-interfaces";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
@@ -133,6 +134,25 @@ interface PopupState {
       endPoint?: string;
     }
   };
+  viewComplaintSupportersHistoryPopup: {
+    isOpen: boolean;
+    data?: {
+      solving: ComplaintSolvingInterface[];
+      end_solve_at: Date | null
+    }
+  };
+  userConnectionsFormPopup: {
+    isOpen: boolean;
+    data?: {
+      user_id: string;
+      telegram_chat_id: string;
+      telegram_id: string;
+    }
+  };
+  tenantFormPopup: {
+    isOpen: boolean;
+    data?: any
+  }
 }
 
 type OpenPopupPayload = {
@@ -192,6 +212,15 @@ const initialState: PopupState = {
     isOpen: false,
   },
   uploadExcelFile: {
+    isOpen: false,
+  },
+  viewComplaintSupportersHistoryPopup: {
+    isOpen: false,
+  },
+  userConnectionsFormPopup: {
+    isOpen: false,
+  },
+  tenantFormPopup: {
     isOpen: false,
   },
 };

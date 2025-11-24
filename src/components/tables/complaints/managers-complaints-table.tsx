@@ -7,7 +7,7 @@ import { getPageTrans } from "@/store/slices/language-slice";
 import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager-interfaces";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/store/hooks/dispatch";
-import { MdAssignmentTurnedIn } from "react-icons/md";
+import { MdAssignmentTurnedIn, MdOutlineHistoryToggleOff } from "react-icons/md";
 import { openPopup } from "@/store/slices/popups-slice";
 import { ComplaintStatusEnum } from "@/types/enums/complaints-enums";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
@@ -79,6 +79,22 @@ export default function ManagersComplaintsTable({data}: {data: {complaints: Mana
         className={`dark:text-white text-black hover:text-brand-500! duration-200`}
       >
         <FaEye />
+      </button>
+      <button
+        onClick={() =>
+          dispatch(
+            openPopup({
+              popup: 'viewComplaintSupportersHistoryPopup',
+              data: {
+                solving: e.solving,
+                end_solve_at: e.end_solve_at
+              }
+            })
+          )
+        }
+        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
+      >
+        <MdOutlineHistoryToggleOff />
       </button>
       <button onClick={async () => {
           if (loading) return;

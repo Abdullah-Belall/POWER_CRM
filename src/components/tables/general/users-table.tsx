@@ -9,6 +9,7 @@ import { UserInterface } from "@/types/interfaces/common-interfaces";
 import { openPopup } from "@/store/slices/popups-slice";
 import { FaRegEdit } from "react-icons/fa";
 import { TbFlagShare } from "react-icons/tb";
+import { FaConnectdevelop } from "react-icons/fa6";
 
 export default function UsersTable({data}: {data: {users: UserInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('usersTable'))
@@ -25,6 +26,7 @@ export default function UsersTable({data}: {data: {users: UserInterface[], total
     email: checkNull(e.email, "-"),
     phone: checkNull(e.phone, "-"),
     created_at: formatDate(e.created_at),
+    chat_id: checkNull(e.chat_id?.chat_id, "-"),
     actions: <div className="flex items-center gap-2">
       <button
         onClick={() =>
@@ -42,6 +44,23 @@ export default function UsersTable({data}: {data: {users: UserInterface[], total
         className={`dark:text-white text-black hover:text-brand-500! duration-200`}
       >
         <TbFlagShare />
+      </button>
+      <button
+        onClick={() =>
+          dispatch(
+            openPopup({
+              popup: 'userConnectionsFormPopup',
+              data: {
+                user_id: e.id,
+                telegram_chat_id: e.chat_id?.chat_id || '',
+                telegram_id: e.chat_id?.id
+              },
+            })
+          )
+        }
+        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
+      >
+        <FaConnectdevelop />
       </button>
       <button
         onClick={() =>
@@ -69,6 +88,10 @@ export default function UsersTable({data}: {data: {users: UserInterface[], total
     { id: "user_name", label: 'User Name' },
     { id: "email", label: 'User Email' },
     { id: "role.name", label: 'User Role' },
+    { id: "chat_id", label: 'Telegram Chat ID',
+      hideSearch: true,
+      hideSort: true
+    },
     {
       id: "created_at",
       label: 'Created At',

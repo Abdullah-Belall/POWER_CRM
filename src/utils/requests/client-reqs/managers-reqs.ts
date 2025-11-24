@@ -105,6 +105,51 @@ export const UPDATE_ROLE = async ({ data, role_id }: any) => {
     };
   }
 };
+export const ADD_TELEGRAM_CHAT_ID = async ({ data,user_id }: any) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/telegram/${user_id}/add-chat-id`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.done
+      ? { done: true }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
+
+export const UPDATE_TELEGRAM_CHAT_ID = async ({ data, telegram_id }: any) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/telegram/${telegram_id}`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.done
+      ? { done: true }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
 
 export const ROLE_TOGGLE = async ({ data, user_id }: any) => {
   try {

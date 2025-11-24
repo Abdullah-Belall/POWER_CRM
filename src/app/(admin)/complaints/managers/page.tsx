@@ -1,5 +1,6 @@
 import ManagerComplaintsTableActions from "@/components/complaints/managers-complaints-table-actions";
 import AssignComplaintFormPopup from "@/components/form/complaints/assign-complaint-form-popup";
+import ComplaintSupportersHistoryPopup from "@/components/form/complaints/complaint-supporters-history-popup";
 import FinishComplaintFormPopup from "@/components/form/complaints/finish-complaint-form-popup";
 import ManagerComplaintFormPopup from "@/components/form/complaints/manager-complaint-form-popup";
 import ViewComplaintFormPopup from "@/components/form/complaints/view-complaint-form-popup";
@@ -32,6 +33,7 @@ export default async function ManagersComplaints() {
     <AssignComplaintFormPopup />
     <ViewComplaintFormPopup />
     <FinishComplaintFormPopup />
+    <ComplaintSupportersHistoryPopup />
     </>
   )}
   else {

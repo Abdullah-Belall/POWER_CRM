@@ -5,14 +5,14 @@ import CustomerFormPopup from "@/components/form/customers/customer-form";
 import CustomersTableActions from "@/components/sales/inputs/customers/customersTableActions";
 import PotentialCustomersTable from "@/components/tables/sales/inputs/potential-customers-table";
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
-import { GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs";
+import { GET_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs";
 import { useEffect, useState } from "react";
 
 export default function PotentialCustomers() {
   const [data, setData] = useState()
 
   const fetchData = async () => {
-  const res= await CLIENT_COLLECTOR_REQ(GET_ALL_POTENTIAL_CUSTOMERS)
+  const res= await CLIENT_COLLECTOR_REQ(GET_POTENTIAL_CUSTOMERS)
     if(res.done) {
       setData(res.data)
     }

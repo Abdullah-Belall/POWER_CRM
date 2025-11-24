@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -9,6 +9,7 @@ import autoTable from "jspdf-autotable";
 import BlackLayer from "../form/black-layer";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { RiFileExcel2Line } from "react-icons/ri";
+import Select from "../form/Select";
 
 type Column = {
   id: string;
@@ -21,13 +22,23 @@ type Column = {
   hideSearch?: boolean,
   hideSort?: boolean,
 };
+export type MenuActionItem = {
+  label: string;
+  action: () => Promise<void>;
+};
 
+export type MenuGroup = {
+  label: string;
+  data: MenuActionItem[];
+};
 export default function MainTable({
   columns,
   data,
+  list
 }: {
   columns: Column[];
   data: any[];
+  list?: MenuGroup
 }) {
   const [search
   ] = useState("");
@@ -152,12 +163,22 @@ export default function MainTable({
     doc.save(`exported-data-${new Date().toISOString().slice(0, 10)}.pdf`);
   };
   const [openMenu, setOpenMenu] = useState(false)
+  const [filterSelect, setFilterSelect] = useState('')
+  useEffect(() => {
+    if(filterSelect !== '') {list?.data.find((e) => filterSelect === e.label)?.action()
+      setCurrentPage(1)
+    }
+  }, [filterSelect])
   return (
     <>
     <div className="space-y-6">
       <div className="rounded-xl bg-white dark:bg-white/[0.03]">
         <div className="py-4 pl-[18px] pr-4 flex items-center justify-between">
-          <div></div>
+          <div>
+            {list ? 
+              <Select options={list.data.map((e) => ({value: e.label, label: e.label}))} placeholder={list.label} value={filterSelect} onChange={(e) => setFilterSelect(e.target.value)} />
+            : ""}
+          </div>
           <div className="relative">
           <button 
             onClick={() => setOpenMenu(!openMenu)}

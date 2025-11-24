@@ -86,13 +86,14 @@ export const complaintStatuses = [
 export const StatusViewer = ({
   status,
 }: {
-  status: ContractStatusEnum | ComplaintStatusEnum | PotentialCustomerStatusEnum | DiscussionStatusEnum;
+  status: ContractStatusEnum | ComplaintStatusEnum | PotentialCustomerStatusEnum | DiscussionStatusEnum | boolean;
 }) => {
   switch (status) {
     case ComplaintStatusEnum.COMPLETED:
     case PotentialCustomerStatusEnum.CONTRACTED:
     case ContractStatusEnum.SIGNED:
     case DiscussionStatusEnum.GOOD:
+    case true:
       return (
         <button className="p-1 text-xs text-nowrap bg-green-900 text-green-300 rounded-md border-2 border-green-300">
           {status}
@@ -133,6 +134,7 @@ export const StatusViewer = ({
         </button>
       );
     case ComplaintStatusEnum.SUSPENDED:
+    case false:
       return (
         <button className="p-1 text-xs text-nowrap bg-red-900 text-red-300 rounded-md border-2 border-red-300">
           {status}
@@ -193,4 +195,16 @@ export const handleData = <T extends Record<string, any>>(
   value: T[keyof T]
 ) => {
   setState((prev) => ({...prev, [key]: value}))
+}
+
+export function diffHoursMinutes(start: string | Date, end?: string | Date) {
+  const startDate = new Date(start)
+  const endDate = end ? new Date(end) : new Date()
+
+  const diffMs = Math.abs(endDate.getTime() - startDate.getTime())
+  const diffMinutes = Math.floor(diffMs / 1000 / 60)
+  const hours = Math.floor(diffMinutes / 60)
+  const minutes = diffMinutes % 60
+
+  return `${hours}h ${minutes}m`
 }

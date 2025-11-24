@@ -2,7 +2,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import React, { ChangeEventHandler} from "react";
 
 interface Option {
-  value: string;
+  value: (() => Promise<void>) | string ;
   label: string;
 }
 
@@ -45,10 +45,10 @@ const Select: React.FC<SelectProps> = ({
         {placeholder}
       </option>
       {/* Map over options */}
-      {options.map((option) => (
+      {options.map((option, i) => (
         <option
-          key={option.value}
-          value={option.value}
+          key={i}
+          value={option.value as any}
           className="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
         >
           {option.label}

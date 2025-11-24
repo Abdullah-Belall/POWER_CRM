@@ -8,6 +8,10 @@ export interface UserInterface {
   phone: string;
   email: string;
   role: RoleInterface;
+  chat_id: {
+    id: string;
+    chat_id: string;
+  };
   lang: LangsEnum;
   created_at: Date;
 }

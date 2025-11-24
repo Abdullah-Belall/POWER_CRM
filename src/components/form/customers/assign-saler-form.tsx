@@ -12,7 +12,7 @@ import { UserInterface } from "@/types/interfaces/common-interfaces"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
 import { fillTable } from "@/store/slices/tables-slice"
-import { ASSIGN_SALER, GET_ALL_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs"
+import { ASSIGN_SALER, GET_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs"
 
 export default function AssignSalerFormPopup() {
   const popup = useAppSelector(selectPopup('assignSalerFormPopup'))
@@ -76,7 +76,7 @@ export default function AssignSalerFormPopup() {
           type: SnakeBarTypeEnum.SUCCESS,
         })
       );
-      const refetch = await CLIENT_COLLECTOR_REQ(GET_ALL_POTENTIAL_CUSTOMERS)
+      const refetch = await CLIENT_COLLECTOR_REQ(GET_POTENTIAL_CUSTOMERS)
       if(refetch.done) {
         dispatch(fillTable({
           tableName: 'potentialCustomerTable',

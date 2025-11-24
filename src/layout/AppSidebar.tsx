@@ -10,6 +10,8 @@ import { IoMdSettings } from "react-icons/io";
 import { FaHeadset, FaMoneyBillTrendUp } from "react-icons/fa6";
 import { useAppSelector } from "@/store/hooks/selector";
 import { selectCurrentUserRoles } from "@/store/slices/user-slice";
+import { BiTask } from "react-icons/bi";
+import { TbContract } from "react-icons/tb";
 
 type SubItem = {
   name: string;
@@ -34,6 +36,14 @@ const navItems: NavItem[] = [
     icon: <GrOverview className={"text-xl"} />,
     path: "/",
     roles: [],
+  },
+  {
+    icon: <TbContract className={"text-xl"} />,
+    name: "Tenants",
+    roles: ['read-tenant'],
+    subItems: [
+      { name: "Tenants", path: "/tenants", pro: false, roles: ['read-tenant'] },
+    ],
   },
   {
     icon: <IoMdSettings className={"text-xl"} />,
@@ -84,19 +94,14 @@ const navItems: NavItem[] = [
         name: "Inputs",
         roles: ['potential-customers-assign', 'potential-customers-assignable'],
         subItems: [
-          { name: "Salers Data", path: "/grandcshissssssss34ld1", roles: ['not-now'] },
-          { name: "Collectors' Data", path: "/gra45ndssschsilds2", roles: ['not-now'] },
+          { name: "Salers", path: "/grandcshissssssss34ld1", roles: ['not-now'] },
+          { name: "Collectors'", path: "/gra45ndssschsilds2", roles: ['not-now'] },
           {
-            name: "Potential Customers Data",
+            name: "Potential Customers",
             path: "/sales/inputs/potential-customers",
             roles: ['potential-customers-assign'],
           },
-          {
-            name: "Potential Customers Data",
-            path: "/sales/inputs/all-potential-customers",
-            roles: ['read-potential-customers'],
-          },
-          { name: "Systems Data", path: "/sales/inputs/systems", roles: ['read-system'] },
+          { name: "Systems", path: "/sales/inputs/systems", roles: ['read-system'] },
         ],
       },
       {
@@ -108,6 +113,14 @@ const navItems: NavItem[] = [
           { name: "Sales Contract", path: "/grsandc123shild2", roles: ['read price'] },
         ],
       },
+    ],
+  },
+  {
+    icon: <BiTask className={"text-xl"} />,
+    name: "Activities",
+    roles: ['read-task'],
+    subItems: [
+      { name: "Tasks", path: "/activities/tasks", pro: false, roles: ['read-task'] },
     ],
   },
 ];

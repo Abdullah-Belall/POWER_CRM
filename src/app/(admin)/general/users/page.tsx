@@ -1,3 +1,4 @@
+import UserConnectionsFormPopup from "@/components/form/general/connections-form-popup";
 import UserFormPopup from "@/components/form/general/user-form";
 import RoleArrributeFormPopup from "@/components/form/users/role-atrribute-form";
 import UsersTableActions from "@/components/general/users-table-action";
@@ -27,6 +28,7 @@ export default async function Users() {
     </div>
     <UserFormPopup />
     <RoleArrributeFormPopup />
+    <UserConnectionsFormPopup />
     </>
   )}
   else {

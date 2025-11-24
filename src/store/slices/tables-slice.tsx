@@ -4,6 +4,7 @@ import { RoleInterface, UserInterface } from "@/types/interfaces/common-interfac
 import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager-interfaces";
 import { ContractInterface, DiscussionInterface, PotentialCustomerInterface, SystemInterface } from "@/types/interfaces/sales-interface";
 import { ClientComplaintInterface } from "@/types/interfaces/complaints-clients-interface";
+import { TenantInterface } from "@/types/interfaces/tenants-interface";
 
 interface TablesDataState {
   managerComplaintsTable: {
@@ -50,6 +51,10 @@ interface TablesDataState {
     total: number;
     data: UserInterface[];
   };
+  tenantsTable: {
+    total: number;
+    data: TenantInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -94,6 +99,10 @@ const initialState: TablesDataState = {
     data: [],
   },
   usersTable: {
+    total: 0,
+    data: [],
+  },
+  tenantsTable: {
     total: 0,
     data: [],
   }

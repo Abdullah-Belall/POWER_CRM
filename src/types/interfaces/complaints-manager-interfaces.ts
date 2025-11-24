@@ -10,16 +10,19 @@ export interface ManagerComplaintInterface extends ClientComplaintInterface {
     user_name: string;
     index: number
   };
-  solving: {
+  solving: ComplaintSolvingInterface[];
+}
+
+export interface ComplaintSolvingInterface {
+  id: string;
+  index: number;
+  supporter: {
     id: string;
     index: number;
-    supporter: {
-      id: string;
-      user_name: string;
-    };
-    accept_status: string;
-    intervention_date: Date | null;
-    choice_taked_at: Date;
-    created_at: Date;
-  }[];
+    user_name: string;
+  };
+  accept_status: string;
+  intervention_date: Date | null;
+  choice_taked_at: Date;
+  created_at: Date;
 }

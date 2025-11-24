@@ -11,6 +11,9 @@ import { MdAssignmentTurnedIn } from "react-icons/md";
 import { BiSolidDetail } from "react-icons/bi";
 import Link from "next/link";
 import { FaRegEdit } from "react-icons/fa";
+import { selectCurrentUserRoles } from "@/store/slices/user-slice";
+import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
+import { GET_ALL_POTENTIAL_CUSTOMERS, GET_POTENTIAL_CUSTOMERS } from "@/utils/requests/client-reqs/sales-reqs";
 
 export default function PotentialCustomersTable({data}: {data: {customers: PotentialCustomerInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('potentialCustomerTable'))
@@ -21,7 +24,7 @@ export default function PotentialCustomersTable({data}: {data: {customers: Poten
       total: data?.total || 0
     }}))
   }, [data])
-
+  const currUserRoles = useAppSelector(selectCurrentUserRoles())
   const formateData = tableData?.data?.map((e) => {
     return ({
       ...e,
@@ -97,7 +100,36 @@ export default function PotentialCustomersTable({data}: {data: {customers: Poten
       hideSort: true
     },
   ];
+  const list = {
+    label: 'Filtering',
+    data: [
+      {
+        label: 'All Records',
+        action: async () => {
+          const res= await CLIENT_COLLECTOR_REQ(GET_ALL_POTENTIAL_CUSTOMERS)
+          if(res.done) {
+            dispatch(fillTable({tableName: 'potentialCustomerTable', obj: {
+              data: res.data?.customers || [],
+              total: res.data?.total || 0
+            }}))
+          }
+        }
+      },
+      {
+        label: 'My Records',
+        action: async () => {
+          const res= await CLIENT_COLLECTOR_REQ(GET_POTENTIAL_CUSTOMERS)
+          if(res.done) {
+            dispatch(fillTable({tableName: 'potentialCustomerTable', obj: {
+              data: res.data?.customers || [],
+              total: res.data?.total || 0
+            }}))
+          }
+        }
+      },
+    ]
+  }
   return (
-    <MainTable columns={columns} data={formateData} />
+    <MainTable columns={columns} data={formateData} list={currUserRoles?.includes("read-potential-customers") ? list : undefined} />
   )
 }

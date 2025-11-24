@@ -110,6 +110,8 @@ export default function RoleFormPopup() {
     "potential-customers-assign",
     "potential-customers-assignable",
     "suitable_for_meeting",
+
+    'read-task'
   ];
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
     <div className="w-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
