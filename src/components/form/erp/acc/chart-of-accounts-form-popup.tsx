@@ -10,52 +10,25 @@ import { handleData } from "@/utils/base"
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
-import { ADD_CHART_OF_ACCOUNT_CREQ, GET_CHARTS_OF_ACCOUNTS_CREQ, GET_FLAGS_FOR_CREATE_ACCOUNT_CREQ } from "@/utils/erp-requests/clients-reqs/accounts-reqs"
+import { ADD_CHART_OF_ACCOUNT_CREQ, GET_CHARTS_OF_ACCOUNTS_CREQ, GET_FLAGS_FOR_CREATE_ACCOUNT_CREQ, GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ } from "@/utils/erp-requests/clients-reqs/accounts-reqs"
 import { fillTable } from "@/store/slices/tables-slice"
 import Select from "../../Select"
 import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface"
 import TreeView from "@/components/acc/tree-view/tree-view"
+import { AccAnalyticEnum, AccNatureEnum, AccReportEnum, AccTypeEnum } from "@/types/enums/erp/acc-enums"
 
 const createInitialFormState = () => ({
-  code: "",
   ar_name: "",
   en_name: "",
   parent_id: "",
+  acc_analy: '',
+  acc_type: '',
+  acc_rep: '',
+  acc_nat: '',
 })
 
 type ChartOfAccountFormState = ReturnType<typeof createInitialFormState>
-interface FlagsInterface {
-  account_types: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-  report_types: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-  account_nature: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-  account_class: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-  account_group: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-  account_analy: {
-      id: string;
-      ar_name: string;
-      en_name: string;
-  }[];
-}
+
 export default function ChartOfAccountsFormPopup() {
   const popup = useAppSelector(selectPopup("chartOfAccountsFormPopup"))
   const dispatch = useAppDispatch()
@@ -63,21 +36,13 @@ export default function ChartOfAccountsFormPopup() {
   const [loading, setLoading] = useState(false)
   const [accounts, setAccounts] = useState<ChartOfAccountsInterface[]>([])
   const [selectedParent, setSelectedParent] = useState<ChartOfAccountsInterface | null>(null)
-  const [flags, setFlags] = useState<FlagsInterface>({
-    account_types: [],
+  const [flags, setFlags] = useState<any>({
     account_class: [],
     account_group: [],
-    account_nature: [],
-    account_analy: [],
-    report_types: []
   })
   const [flagsData, setFlagsData] = useState({
-    acc_type: '',
     acc_class: '',
     acc_group: '',
-    acc_analy: '',
-    acc_nature: '',
-    rep_type: '',
   })
   const handleClose = () =>{
     dispatch(
@@ -94,7 +59,7 @@ export default function ChartOfAccountsFormPopup() {
     }
   }
   const fetchAccounts = async () => {
-    const res = await CLIENT_COLLECTOR_REQ(GET_CHARTS_OF_ACCOUNTS_CREQ)
+    const res = await CLIENT_COLLECTOR_REQ(GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ)
     console.log(res);
     if(res.done) {
       setAccounts(res.data.accounts)
@@ -102,7 +67,7 @@ export default function ChartOfAccountsFormPopup() {
   }
   useEffect(() => {
     setSelectedParent(accounts.find((e) => e.id === data.parent_id) ?? null)
-  }, [data.parent_id])
+  }, [accounts, data.parent_id])
   useEffect(() => {
     if (!popup.isOpen) {
       setData(createInitialFormState())
@@ -110,10 +75,13 @@ export default function ChartOfAccountsFormPopup() {
     }
     if (popup.data) {
       setData({
-        code: popup.data?.code || "",
         ar_name: popup.data?.ar_name || "",
         en_name: popup.data?.en_name || "",
         parent_id: popup.data?.parent_id || "",
+        acc_analy: popup.data?.acc_analy || "",
+        acc_nat: popup.data?.acc_nat || "",
+        acc_rep: popup.data?.acc_rep || "",
+        acc_type: popup.data?.acc_type || "",
       })
     }
     if(popup.isOpen) {
@@ -122,6 +90,20 @@ export default function ChartOfAccountsFormPopup() {
     }
   }, [popup.isOpen, popup.data])
 
+  useEffect(() => {
+    window.HSStaticMethods?.autoInit?.();
+  }, []);
+  console.log(selectedParent);
+  useEffect(() => {
+    if(selectedParent) {
+      setData({...data,
+        acc_analy: selectedParent.acc_analy,
+        acc_nat: selectedParent.acc_nat,
+        acc_rep: selectedParent.acc_rep,
+        acc_type: selectedParent.acc_type,
+      })
+    }
+  }, [selectedParent])
   const handleOpenSnakeBar = (type: SnakeBarTypeEnum, message: string) => {
     dispatch(
       openSnakeBar({
@@ -132,12 +114,24 @@ export default function ChartOfAccountsFormPopup() {
   }
 
   const isValid = () => {
-    const { code, ar_name } = data
-    if (!code.trim()) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Code is required")
+    const { ar_name, en_name, acc_analy, acc_nat, acc_rep, acc_type } = data
+    if (ar_name.trim()?.length === 0) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
       return false
     }
-    if (!ar_name.trim()) {
+    if (en_name.trim()?.length === 0) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+      return false
+    }
+    if (!acc_rep) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+      return false
+    }
+    if (!acc_type) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+      return false
+    }
+    if (!acc_nat) {
       handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
       return false
     }
@@ -147,13 +141,16 @@ export default function ChartOfAccountsFormPopup() {
   const handleSubmit = async () => {
     if (loading) return
     if (!isValid()) return
-    const {acc_analy,acc_class,acc_group,acc_nature,acc_type,rep_type} = flagsData
+    const {acc_class, acc_group} = flagsData
+
     const payload: any = {
-      code: data.code.trim(),
       ar_name: data.ar_name.trim(),
       en_name: data.en_name.trim() || undefined,
       parent_id: data.parent_id.trim() || undefined,
-      flags: JSON.stringify([acc_analy,acc_class,acc_group,acc_nature,acc_type,rep_type].filter((e) => e !== ''))
+      acc_analy: data.acc_analy !== '' ? data.acc_analy : undefined,
+      acc_type: data.acc_type,
+      acc_rep: data.acc_rep,
+      acc_nat: data.acc_nat,
     }
 
     setLoading(true)
@@ -205,28 +202,15 @@ export default function ChartOfAccountsFormPopup() {
             </button>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div className="p-4 border-t border-gray-100 dark:border-gray-800 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar">
+        <div className="flex justify-between border-t border-gray-100 dark:border-gray-800 p-4 sm:p-6 max-h-[calc(100dvh-120px)] overflow-y-scroll custom-scrollbar gap-[50px]">
+          <div>
             <div className="space-y-6">
               <form onSubmit={(e) => e.preventDefault()}>
                 <div className="space-y-8">
                   <div className="space-y-3">
                     <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">Basic Info</p>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div>
-                        <Input
-                          placeholder="Code"
-                          value={data.code}
-                          onChange={(e) => handleData(setData, "code", !isNaN(Number(e.target.value)) &&
-                            Number(e.target.value) >= 0
-                            ? e.target.value
-                            : "")}
-                        />
-                      </div>
-                      <div>
-                        <Select options={accounts ? (accounts?.map((e) => ({label: e.ar_name, value: e.id}))) : []} placeholder="Main Account" value={data.parent_id} onChange={(e) => handleData(setData, 'parent_id', e.target.value)} />
-                      </div>
-                      <div>
+                    <div>
                         <Input
                           placeholder="Arabic Name"
                           value={data.ar_name}
@@ -239,6 +223,12 @@ export default function ChartOfAccountsFormPopup() {
                           value={data.en_name}
                           onChange={(e) => handleData(setData, "en_name", e.target.value)}
                         />
+                      </div>
+                      <div className="col-span-full">
+                        <Select options={accounts ? ([{
+                          label: '',
+                          value: ''
+                        }, ...accounts?.map((e) => ({label: e.en_name, value: e.id}))]) : []} placeholder="Main Account" value={data.parent_id} onChange={(e) => handleData(setData, 'parent_id', e.target.value)} />
                       </div>
                     </div>
                     <div className="ml-auto w-fit">
@@ -253,16 +243,90 @@ export default function ChartOfAccountsFormPopup() {
                     <p className="text-sm font-semibold text-gray-600 dark:text-gray-300 mt-[40px]">Flags</p>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div>
-                        <Select options={fixArrToSelect(flags.account_types)} placeholder="Account Type" value={flagsData.acc_type} onChange={(e) => handleData(setFlagsData, 'acc_type', e.target.value)} />
+                        <Select options={[{
+                          label: AccTypeEnum.MAIN,
+                          value: AccTypeEnum.MAIN,
+                        },
+                        {
+                          label: AccTypeEnum.SUB,
+                          value: AccTypeEnum.SUB,
+                        }]} placeholder="Account Type" value={data.acc_type} onChange={(e) => handleData(setData, 'acc_type', e.target.value)} />
                       </div>
                       <div>
-                        <Select options={fixArrToSelect(flags.report_types)} placeholder="Account Report Type" value={flagsData.rep_type} onChange={(e) => handleData(setFlagsData, 'rep_type', e.target.value)} />
+                        <Select options={[
+                          {
+                            label: AccReportEnum.BALANCE_SHEET,
+                            value: AccReportEnum.BALANCE_SHEET,
+                          },
+                          {
+                            label: AccReportEnum.B_AND_L,
+                            value: AccReportEnum.B_AND_L,
+                          },
+                        ]} placeholder="Account Report Type" value={data.acc_rep} onChange={(e) => handleData(setData, 'acc_rep', e.target.value)} />
                       </div>
                       <div>
-                        <Select options={fixArrToSelect(flags.account_nature)} placeholder="Account Nature" value={flagsData.acc_nature} onChange={(e) => handleData(setFlagsData, 'acc_nature', e.target.value)} />
+                        <Select options={[
+                          {
+                            label: AccNatureEnum.DEPIT,
+                            value: AccNatureEnum.DEPIT,
+                          },
+                          {
+                            label: AccNatureEnum.CREDIT,
+                            value: AccNatureEnum.CREDIT,
+                          },
+                        ]} placeholder="Account Nature" value={data.acc_nat} onChange={(e) => handleData(setData, 'acc_nat', e.target.value)} />
                       </div>
                       <div>
-                        <Select options={fixArrToSelect(flags.account_analy)} placeholder="Account Analy" value={flagsData.acc_analy} onChange={(e) => handleData(setFlagsData, 'acc_analy', e.target.value)} />
+                        <Select options={[
+                          {
+                            label: AccAnalyticEnum.GENERAL,
+                            value: AccAnalyticEnum.GENERAL,
+                          },
+                          {
+                            label: AccAnalyticEnum.CASH_HAND,
+                            value: AccAnalyticEnum.CASH_HAND,
+                          },
+                          {
+                            label: AccAnalyticEnum.BANKS,
+                            value: AccAnalyticEnum.BANKS,
+                          },
+                          {
+                            label: AccAnalyticEnum.CUSTOMERS,
+                            value: AccAnalyticEnum.CUSTOMERS,
+                          },
+                          {
+                            label: AccAnalyticEnum.SUPPLIERS,
+                            value: AccAnalyticEnum.SUPPLIERS,
+                          },
+                          {
+                            label: AccAnalyticEnum.EMPLOYEE,
+                            value: AccAnalyticEnum.EMPLOYEE,
+                          },
+                          {
+                            label: AccAnalyticEnum.CON_CUSTOMER,
+                            value: AccAnalyticEnum.CON_CUSTOMER,
+                          },
+                          {
+                            label: AccAnalyticEnum.CON_SUPPLIERS,
+                            value: AccAnalyticEnum.CON_SUPPLIERS,
+                          },
+                          {
+                            label: AccAnalyticEnum.CON_EMP,
+                            value: AccAnalyticEnum.CON_EMP,
+                          },
+                          {
+                            label: AccAnalyticEnum.DEPIT_GROUP,
+                            value: AccAnalyticEnum.DEPIT_GROUP,
+                          },
+                          {
+                            label: AccAnalyticEnum.CREDIT_GROUP,
+                            value: AccAnalyticEnum.CREDIT_GROUP,
+                          },
+                          {
+                            label: AccAnalyticEnum.EX,
+                            value: AccAnalyticEnum.EX,
+                          },
+                        ]} placeholder="Account Analy" value={data.acc_analy} onChange={(e) => handleData(setData, 'acc_analy', e.target.value)} />
                       </div>
                       <div>
                         <Select options={fixArrToSelect(flags.account_class)} placeholder="Account Class" value={flagsData.acc_class} onChange={(e) => handleData(setFlagsData, 'acc_class', e.target.value)} />
@@ -286,7 +350,7 @@ export default function ChartOfAccountsFormPopup() {
               </form>
             </div>
           </div>
-          <div className="min-w-[700px]">
+          <div className=" min-w-[400px]">
           <TreeView
           />
           </div>

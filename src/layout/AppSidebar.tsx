@@ -11,6 +11,7 @@ import { FaHeadset, FaMoneyBillTrendUp } from "react-icons/fa6";
 import { useAppSelector } from "@/store/hooks/selector";
 import { selectCurrentUserRoles } from "@/store/slices/user-slice";
 import { TbContract } from "react-icons/tb";
+import { LuNotebookText } from "react-icons/lu";
 
 type SubItem = {
   name: string;
@@ -51,9 +52,9 @@ const navItems: NavItem[] = [
     subItems: [
       {
         name: "General Settings",
-        roles: ['cancel'],
+        roles: ['general-ladger'],
         subItems: [
-          { name: "Currency", path: "/acc/currency", pro: false, roles: ['cancel'] },
+          { name: "Currency", path: "/acc/currency", pro: false, roles: ['general-ladger'] },
         ],
       },
       {
@@ -68,57 +69,57 @@ const navItems: NavItem[] = [
   },
   {
     name: "General Ledger",
-    icon: <FaMoneyBillTrendUp className={"text-xl"} />,
-    roles: ['cancel'],
+    icon: <LuNotebookText className={"text-xl"} />,
+    roles: ['general-ladger'],
     subItems: [
       {
         name: "Setting Accounts",
-        roles: ['cancel'],
+        roles: ['general-ladger'],
         subItems: [
-          { name: "Account Setup", path: "/grandcshissssshhssss34ld1", roles: ['cancel'] },
-          { name: "Account Classification", path: "/acc/flags", roles: ['cancel'] },
-          { name: "Depet Group", path: "/grandcshisss22ssssshhs34ld1", roles: ['cancel'] },
-          { name: "Credit Group", path: "/grass34ld1", roles: ['cancel'] },
+          { name: "Account Setup", path: "/grandcshissssshhssss34ld1", roles: ['general-ladger'] },
+          { name: "Account Classification", path: "/acc/flags", roles: ['general-ladger'] },
+          { name: "Depet Group", path: "/grandcshisss22ssssshhs34ld1", roles: ['general-ladger'] },
+          { name: "Credit Group", path: "/grass34ld1", roles: ['general-ladger'] },
         ],
       },
       {
         name: "Inputs Accounts",
-        roles: ['cancel'],
+        roles: ['general-ladger'],
         subItems: [
-          { name: "Chart of Accounts", path: "/acc/inputs/chart-of-accounts", roles: ['cancel'] },
-          { name: "Cost Centers", path: "/gra2n33dchsild2", roles: ['cancel'] },
-          { name: "Projects", path: "/grsans9568hild2", roles: ['cancel'] },
-          { name: "Cash in Hand", path: "/grsan9679sh22ild2", roles: ['cancel'] },
-          { name: "Cash at Bank", path: "/grsans222vvvhild2", roles: ['cancel'] },
-          { name: "Personal Covenant", path: "/grsans222svvvhild2", roles: ['cancel'] },
-          { name: "Depts Accounts", path: "/grsans22672vvvhild2", roles: ['cancel'] },
-          { name: "Credit Accounts", path: "/grsans222vvv66hild2", roles: ['cancel'] },
+          { name: "Chart of Accounts", path: "/acc/inputs/chart-of-accounts", roles: ['general-ladger'] },
+          { name: "Cost Centers", path: "/gra2n33dchsild2", roles: ['general-ladger'] },
+          { name: "Projects", path: "/grsans9568hild2", roles: ['general-ladger'] },
+          { name: "Cash in Hand", path: "/grsan9679sh22ild2", roles: ['general-ladger'] },
+          { name: "Cash at Bank", path: "/grsans222vvvhild2", roles: ['general-ladger'] },
+          { name: "Personal Covenant", path: "/grsans222svvvhild2", roles: ['general-ladger'] },
+          { name: "Depts Accounts", path: "/grsans22672vvvhild2", roles: ['general-ladger'] },
+          { name: "Credit Accounts", path: "/grsans222vvv66hild2", roles: ['general-ladger'] },
         ],
       },
       {
         name: "Transactions",
-        roles: ['cancel'],
+        roles: ['general-ladger'],
         subItems: [
-          { name: "General Journal", path: "/granggsssghild1", roles: ['cancel'] },
-          { name: "Receit Vouchers", path: "/grangfjkgghild1", roles: ['cancel'] },
-          { name: "Payment Vouchers", path: "/granggglllhild1", roles: ['cancel'] },
+          { name: "General Journal", path: "/granggsssghild1", roles: ['general-ladger'] },
+          { name: "Receit Vouchers", path: "/grangfjkgghild1", roles: ['general-ladger'] },
+          { name: "Payment Vouchers", path: "/granggglllhild1", roles: ['general-ladger'] },
         ],
       },
       {
         name: "Report Accounts",
-        roles: ['cancel'],
+        roles: ['general-ladger'],
         subItems: [
-          { name: "Opening Balances", path: "/granggsssghild1", roles: ['cancel'] },
-          { name: "Payment Bond", path: "/granggglllhi2ld1", roles: ['cancel'] },
-          { name: "Receipt Bond", path: "/granggglllh3ild1", roles: ['cancel'] },
-          { name: "Account Statement", path: "/grangg4glllhild1", roles: ['cancel'] },
-          { name: "Balance Review", path: "/grangggl5llhild1", roles: ['cancel'] },
-          { name: "Balance Sheet", path: "/grangggll6lhild1", roles: ['cancel'] },
-          { name: "Profit and Loss", path: "/granggg7lllhild1", roles: ['cancel'] },
-          { name: "Daily Bonds", path: "/granggglll8hild1", roles: ['cancel'] },
-          { name: "General Daily", path: "/grangggll9lhild1", roles: ['cancel'] },
-          { name: "Accounting Guide", path: "/granggg0lllhild1", roles: ['cancel'] },
-          { name: "Cost Centers Report", path: "/grangdgglllhild1", roles: ['cancel'] },
+          { name: "Opening Balances", path: "/granggsssghild1", roles: ['general-ladger'] },
+          { name: "Payment Bond", path: "/granggglllhi2ld1", roles: ['general-ladger'] },
+          { name: "Receipt Bond", path: "/granggglllh3ild1", roles: ['general-ladger'] },
+          { name: "Account Statement", path: "/grangg4glllhild1", roles: ['general-ladger'] },
+          { name: "Balance Review", path: "/grangggl5llhild1", roles: ['general-ladger'] },
+          { name: "Balance Sheet", path: "/grangggll6lhild1", roles: ['general-ladger'] },
+          { name: "Profit and Loss", path: "/granggg7lllhild1", roles: ['general-ladger'] },
+          { name: "Daily Bonds", path: "/granggglll8hild1", roles: ['general-ladger'] },
+          { name: "General Daily", path: "/grangggll9lhild1", roles: ['general-ladger'] },
+          { name: "Accounting Guide", path: "/granggg0lllhild1", roles: ['general-ladger'] },
+          { name: "Cost Centers Report", path: "/grangdgglllhild1", roles: ['general-ladger'] },
         ],
       },
     ],
@@ -175,12 +176,12 @@ const navItems: NavItem[] = [
       },
       {
         name: "Operations",
-        roles: ['cancel'],
+        roles: ['not-now'],
         subItems: [
-          { name: "Price Quote", path: "/gran23dcgggghild1", roles: ['cancel'] },
-          { name: "Customer Discussion", path: "/gra2n33dchsild2", roles: ['cancel'] },
-          { name: "Sales Contract", path: "/grsandc123shild2", roles: ['cancel'] },
-          { name: "Tasks", path: "/activities/tasks", pro: false, roles: ['cancel'] },
+          { name: "Price Quote", path: "/gran23dcgggghild1", roles: ['not-now'] },
+          { name: "Customer Discussion", path: "/gra2n33dchsild2", roles: ['not-now'] },
+          { name: "Sales Contract", path: "/grsandc123shild2", roles: ['not-now'] },
+          { name: "Tasks", path: "/activities/tasks", pro: false, roles: ['not-now'] },
         ],
       },
     ],

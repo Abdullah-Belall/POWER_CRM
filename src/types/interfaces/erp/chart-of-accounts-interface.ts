@@ -1,3 +1,4 @@
+import { AccAnalyticEnum, AccNatureEnum, AccReportEnum, AccTypeEnum } from "@/types/enums/erp/acc-enums";
 import { FlagInterface } from "./flag-interface";
 
 export interface ChartOfAccountsInterface {
@@ -14,6 +15,10 @@ export interface ChartOfAccountsInterface {
   children: ChartOfAccountsInterface[];
   path: string;
   is_stoped: boolean;
+  acc_analy: AccAnalyticEnum;
+  acc_type: AccTypeEnum;
+  acc_rep: AccReportEnum;
+  acc_nat: AccNatureEnum;
   created_at: Date;
   updated_at: Date;
 }

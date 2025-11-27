@@ -33,6 +33,7 @@ export default function RootLayout({
             <SidebarProvider>{children}</SidebarProvider>
           </ThemeProvider>
         </ReduxProvider>
+        <script src="/assets/preline.js" defer></script>
       </body>
     </html>
   );
