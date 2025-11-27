@@ -85,13 +85,13 @@ export default function RecentCustomers({data}: {data: {complaints: ClientCompla
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Title
+                Complaintant Phone
               </TableCell>
               <TableCell
                 isHeader
                 className="py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
               >
-                Details
+                Title
               </TableCell>
               <TableCell
                 isHeader
@@ -108,22 +108,13 @@ export default function RecentCustomers({data}: {data: {complaints: ClientCompla
             {data.complaints.map((complaint) => (
               <TableRow key={complaint.id} className="">
                 <TableCell className="py-3">
-                  <div className="flex items-center gap-3">
-                    <div>
-                      <p className="font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                        {complaint.full_name}
-                      </p>
-                      <span className="text-gray-500 text-theme-xs dark:text-gray-400">
-                        {complaint.phone}
-                      </span>
-                    </div>
-                  </div>
+                  {complaint.full_name}
+                </TableCell>
+                <TableCell className="py-3">
+                  {complaint.phone}
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   {complaint.title}
-                </TableCell>
-                <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                  {complaint.details?.slice(0, 30)}...
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   <StatusViewer status={complaint.status} />
