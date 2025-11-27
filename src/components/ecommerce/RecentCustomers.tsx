@@ -107,10 +107,10 @@ export default function RecentCustomers({data}: {data: {complaints: ClientCompla
           <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
             {data.complaints.map((complaint) => (
               <TableRow key={complaint.id} className="">
-                <TableCell className="py-3">
+                <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   {complaint.full_name}
                 </TableCell>
-                <TableCell className="py-3">
+                <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   {complaint.phone}
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
