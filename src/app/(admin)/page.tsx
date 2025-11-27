@@ -21,7 +21,7 @@ export default async function Overview() {
       </div>
 
       <div className="col-span-12 xl:col-span-5">
-        <MonthlyTarget data={{avg_resolution_percentage: (res.data?.avg_resolution_percentage ? Number(Number(res.data?.avg_resolution_percentage).toFixed(2)) : 0)}} />
+        <MonthlyTarget data={{ avg: Number(Number(((res.data?.total_completed_complaints || 0) / (res.data?.total_complaints || 1)) * 100).toFixed(2))}} />
       </div>
 
       {/* <div className="col-span-12">

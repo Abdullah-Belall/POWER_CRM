@@ -12,8 +12,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export default function MonthlyTarget({data}: {data: {avg_resolution_percentage: number}}) {
-  const series = [data.avg_resolution_percentage];
+export default function MonthlyTarget({data}: {data: {avg: number}}) {
+  const series = [data.avg];
   const options: ApexOptions = {
     colors: ["#465FFF"],
     chart: {

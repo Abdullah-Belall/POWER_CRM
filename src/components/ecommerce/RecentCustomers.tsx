@@ -14,7 +14,7 @@ import { selectCurrentUserRoles } from "@/store/slices/user-slice";
 
 
 
-export default function RecentCustomers({data}: {data: {complaints: ClientComplaintInterface[]}}) {
+export default function RecentCustomers({ data }: {data: {complaints: ClientComplaintInterface[]}}) {
   const router = useRouter()
   const currUserRoles = useAppSelector(selectCurrentUserRoles())
   return (
