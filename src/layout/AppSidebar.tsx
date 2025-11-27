@@ -10,7 +10,6 @@ import { IoMdSettings } from "react-icons/io";
 import { FaHeadset, FaMoneyBillTrendUp } from "react-icons/fa6";
 import { useAppSelector } from "@/store/hooks/selector";
 import { selectCurrentUserRoles } from "@/store/slices/user-slice";
-import { BiTask } from "react-icons/bi";
 import { TbContract } from "react-icons/tb";
 
 type SubItem = {
@@ -50,13 +49,83 @@ const navItems: NavItem[] = [
     name: "General",
     roles: ['read-user', 'read-role'],
     subItems: [
-      { name: "Roles", path: "/general/roles", pro: false, roles: ['read-role'] },
-      { name: "Users", path: "/general/users", pro: false, roles: ['read-user'] },
+      {
+        name: "General Settings",
+        roles: ['cancel'],
+        subItems: [
+          { name: "Currency", path: "/acc/currency", pro: false, roles: ['cancel'] },
+        ],
+      },
+      {
+        name: "Users Management",
+        roles: [],
+        subItems: [
+          { name: "Roles", path: "/general/roles", pro: false, roles: ['read-role'] },
+          { name: "Users", path: "/general/users", pro: false, roles: ['read-user'] },
+        ],
+      },
+    ],
+  },
+  {
+    name: "General Ledger",
+    icon: <FaMoneyBillTrendUp className={"text-xl"} />,
+    roles: ['cancel'],
+    subItems: [
+      {
+        name: "Setting Accounts",
+        roles: ['cancel'],
+        subItems: [
+          { name: "Account Setup", path: "/grandcshissssshhssss34ld1", roles: ['cancel'] },
+          { name: "Account Classification", path: "/acc/flags", roles: ['cancel'] },
+          { name: "Depet Group", path: "/grandcshisss22ssssshhs34ld1", roles: ['cancel'] },
+          { name: "Credit Group", path: "/grass34ld1", roles: ['cancel'] },
+        ],
+      },
+      {
+        name: "Inputs Accounts",
+        roles: ['cancel'],
+        subItems: [
+          { name: "Chart of Accounts", path: "/acc/inputs/chart-of-accounts", roles: ['cancel'] },
+          { name: "Cost Centers", path: "/gra2n33dchsild2", roles: ['cancel'] },
+          { name: "Projects", path: "/grsans9568hild2", roles: ['cancel'] },
+          { name: "Cash in Hand", path: "/grsan9679sh22ild2", roles: ['cancel'] },
+          { name: "Cash at Bank", path: "/grsans222vvvhild2", roles: ['cancel'] },
+          { name: "Personal Covenant", path: "/grsans222svvvhild2", roles: ['cancel'] },
+          { name: "Depts Accounts", path: "/grsans22672vvvhild2", roles: ['cancel'] },
+          { name: "Credit Accounts", path: "/grsans222vvv66hild2", roles: ['cancel'] },
+        ],
+      },
+      {
+        name: "Transactions",
+        roles: ['cancel'],
+        subItems: [
+          { name: "General Journal", path: "/granggsssghild1", roles: ['cancel'] },
+          { name: "Receit Vouchers", path: "/grangfjkgghild1", roles: ['cancel'] },
+          { name: "Payment Vouchers", path: "/granggglllhild1", roles: ['cancel'] },
+        ],
+      },
+      {
+        name: "Report Accounts",
+        roles: ['cancel'],
+        subItems: [
+          { name: "Opening Balances", path: "/granggsssghild1", roles: ['cancel'] },
+          { name: "Payment Bond", path: "/granggglllhi2ld1", roles: ['cancel'] },
+          { name: "Receipt Bond", path: "/granggglllh3ild1", roles: ['cancel'] },
+          { name: "Account Statement", path: "/grangg4glllhild1", roles: ['cancel'] },
+          { name: "Balance Review", path: "/grangggl5llhild1", roles: ['cancel'] },
+          { name: "Balance Sheet", path: "/grangggll6lhild1", roles: ['cancel'] },
+          { name: "Profit and Loss", path: "/granggg7lllhild1", roles: ['cancel'] },
+          { name: "Daily Bonds", path: "/granggglll8hild1", roles: ['cancel'] },
+          { name: "General Daily", path: "/grangggll9lhild1", roles: ['cancel'] },
+          { name: "Accounting Guide", path: "/granggg0lllhild1", roles: ['cancel'] },
+          { name: "Cost Centers Report", path: "/grangdgglllhild1", roles: ['cancel'] },
+        ],
+      },
     ],
   },
   {
     icon: <FaHeadset className={"text-xl"} />,
-    name: "Complaints",
+    name: "Support",
     roles: ['read-complaint', 'create-complaint', 'complaint-assignable'],
     subItems: [
       {
@@ -106,21 +175,14 @@ const navItems: NavItem[] = [
       },
       {
         name: "Operations",
-        roles: ['not-nows' , 'read price'],
+        roles: ['cancel'],
         subItems: [
-          { name: "Price Quote", path: "/gran23dcgggghild1", roles: ['read price'] },
-          { name: "Customer Discussion", path: "/gra2n33dchsild2", roles: ['read price'] },
-          { name: "Sales Contract", path: "/grsandc123shild2", roles: ['read price'] },
+          { name: "Price Quote", path: "/gran23dcgggghild1", roles: ['cancel'] },
+          { name: "Customer Discussion", path: "/gra2n33dchsild2", roles: ['cancel'] },
+          { name: "Sales Contract", path: "/grsandc123shild2", roles: ['cancel'] },
+          { name: "Tasks", path: "/activities/tasks", pro: false, roles: ['cancel'] },
         ],
       },
-    ],
-  },
-  {
-    icon: <BiTask className={"text-xl"} />,
-    name: "Activities",
-    roles: ['read-task'],
-    subItems: [
-      { name: "Tasks", path: "/activities/tasks", pro: false, roles: ['read-task'] },
     ],
   },
 ];
@@ -172,11 +234,13 @@ const filteredNavItems = useMemo(() => {
       <ul className={`mt-2 space-y-1 ${level === 0 ? "ml-9" : "ml-6"}`}>
         {subItems.map((subItem, subIndex) => {
           const itemKey = `${parentKey}-${subIndex}`;
+          const listItemKey =
+            subItem.path || `${itemKey}-${subItem.name || "subitem"}`;
           const hasNestedSubItems = subItem.subItems && subItem.subItems.length > 0;
           const isSubmenuOpen = openSubmenu.has(itemKey);
 
           return (
-            <li key={subItem.path}>
+            <li key={listItemKey}>
               {hasNestedSubItems ? (
                 <>
                   <button
@@ -285,10 +349,11 @@ const filteredNavItems = useMemo(() => {
     <ul className="flex flex-col gap-4">
       {navItems.map((nav, index) => {
         const itemKey = `${menuType}-${index}`;
+        const listItemKey = nav.path || `${itemKey}-${nav.name || "nav"}`;
         const isSubmenuOpen = openSubmenu.has(itemKey);
 
         return (
-          <li key={nav.path}>
+          <li key={listItemKey}>
             {nav.subItems ? (
               <>
                 <button
@@ -537,7 +602,7 @@ const filteredNavItems = useMemo(() => {
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <h1 className="font-[600] text-2xl flex items-center gap-2 dark:text-white"><Image width={35} height={35} src={'/images/logo/LOGUP.png'} alt="t" /> POWER SOFT</h1>
+            <h1 className="font-[600] text-2xl flex items-center gap-2 dark:text-white text-nowrap"><Image width={35} height={35} src={'/images/logo/LOGUP.png'} alt="t" /> POWER SOFT</h1>
             // <>
             //   <Image
             //     className="dark:hidden"
@@ -570,19 +635,21 @@ const filteredNavItems = useMemo(() => {
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-4 text-xs uppercase flex leading-[20px] !text-[16px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  "ERP"
                 ) : (
                   <HorizontaLDots />
                 )}
               </h2>
               {renderMenuItems(filteredNavItems)}
+              {/* <h1 className="mb-4 text-xs uppercase flex leading-[20px] text-gray-400 !text-[16px] mt-[14px]">CRM</h1>
+              {renderMenuItems(filteredNavItems.slice(4))} */}
             </div>
           </div>
         </nav>

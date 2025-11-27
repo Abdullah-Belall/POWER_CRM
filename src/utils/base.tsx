@@ -1,12 +1,16 @@
 import { ComplaintPriorityStatusEnum, ComplaintStatusEnum, ScreenViewerEnum } from "@/types/enums/complaints-enums";
 import { ContractStatusEnum } from "@/types/enums/contract-status-enum";
 import { DiscussionStatusEnum } from "@/types/enums/discussion-status-enums";
+import { FlagsTypesEnum } from "@/types/enums/erp/flags-enum";
 import { PotentialCustomerStatusEnum } from "@/types/enums/potential-customers-enums";
 import { SiAnydesk, SiTeamviewer } from "react-icons/si";
 
-export const BASE_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000") + "/api";
+export const BASE_CRM_URL = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000") + "/api";
+export const BASE_ERP_URL = (process.env.NEXT_PUBLIC_ERP_BACKEND_URL || "http://localhost:4000") + "/api";
 export const errMsg = "There is problem, please try again later.";
 
+
+export const affectedFlagsTypesArr = [FlagsTypesEnum.PROJECT_TYPE, FlagsTypesEnum.COST_CENTER_TYPE, FlagsTypesEnum.ACCOUNT_TYPE]
 export const formatDate = (input: string | Date) => {
   let date: Date;
 

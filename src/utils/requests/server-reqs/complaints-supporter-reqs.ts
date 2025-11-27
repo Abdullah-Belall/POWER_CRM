@@ -1,10 +1,10 @@
 'use server'
 import axios from "axios";
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 
 export const SUPPORTER_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/complaints`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/complaints`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },

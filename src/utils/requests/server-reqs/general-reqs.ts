@@ -1,9 +1,9 @@
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 
 export const ROLES_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/roles`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/roles`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -22,7 +22,7 @@ export const ROLES_SERVER_REQ = async ({access_token}: {access_token: string}) =
 
 export const USERS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/users`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/users`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },

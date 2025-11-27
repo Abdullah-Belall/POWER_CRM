@@ -1,10 +1,10 @@
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
 export const CLIENT_COMPLAINTS = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/complaints/clients`, {
+    const response = await axios.get(`${BASE_CRM_URL}/complaints/clients`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

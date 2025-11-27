@@ -3,17 +3,18 @@
 import { ApexOptions } from "apexcharts";
 
 import dynamic from "next/dynamic";
-import { Dropdown } from "../ui/dropdown/Dropdown";
-import { MoreDotIcon } from "@/icons";
-import { useState } from "react";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
+// import { Dropdown } from "../ui/dropdown/Dropdown";
+// import { MoreDotIcon } from "@/icons";
+// import { useState } from "react";
+// import { DropdownItem } from "../ui/dropdown/DropdownItem";
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
 
-export default function MonthlyTarget() {
-  const series = [75.55];
+export default function MonthlyTarget({data}: {data: {avg_resolution_percentage: number}}) {
+  console.log(data.avg_resolution_percentage);
+  const series = [data.avg_resolution_percentage];
   const options: ApexOptions = {
     colors: ["#465FFF"],
     chart: {
@@ -62,15 +63,15 @@ export default function MonthlyTarget() {
     labels: ["Progress"],
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
+  // function toggleDropdown() {
+  //   setIsOpen(!isOpen);
+  // }
 
-  function closeDropdown() {
-    setIsOpen(false);
-  }
+  // function closeDropdown() {
+  //   setIsOpen(false);
+  // }
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-white/[0.03]">
@@ -84,7 +85,7 @@ export default function MonthlyTarget() {
               Target you’ve set for each month
             </p>
           </div>
-          <div className="relative inline-block">
+          {/* <div className="relative inline-block">
             <button onClick={toggleDropdown} className="dropdown-toggle">
               <MoreDotIcon className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" />
             </button>
@@ -108,7 +109,7 @@ export default function MonthlyTarget() {
                 Delete
               </DropdownItem>
             </Dropdown>
-          </div>
+          </div> */}
         </div>
         <div className="relative ">
           <div className="max-h-[330px]">
@@ -130,8 +131,8 @@ export default function MonthlyTarget() {
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5">
-        <div>
+      <div className="flex items-center justify-center gap-5 px-6 py-3.5 sm:gap-8 sm:py-5 h-[95px]">
+        {/* <div>
           <p className="mb-1 text-center text-gray-500 text-theme-xs dark:text-gray-400 sm:text-sm">
             Target
           </p>
@@ -202,7 +203,7 @@ export default function MonthlyTarget() {
               />
             </svg>
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

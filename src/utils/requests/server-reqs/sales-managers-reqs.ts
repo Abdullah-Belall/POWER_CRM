@@ -1,10 +1,10 @@
 'use server'
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 
 export const POTENTIAL_CUSTOMERS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/potential-customers`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/potential-customers`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -23,7 +23,7 @@ export const POTENTIAL_CUSTOMERS_SERVER_REQ = async ({access_token}: {access_tok
 
 export const GET_CONTRACT_SERVER_REQ = async ({access_token, id}: {access_token: string, id: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/contracts/${id}`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/contracts/${id}`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -42,7 +42,7 @@ export const GET_CONTRACT_SERVER_REQ = async ({access_token, id}: {access_token:
 
 export const CUSTOMER_PROFILE_SERVER_REQ = async ({access_token, id}: {access_token: string, id: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/potential-customers/${id}`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/potential-customers/${id}`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -61,7 +61,7 @@ export const CUSTOMER_PROFILE_SERVER_REQ = async ({access_token, id}: {access_to
 
 export const SYSTEMS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/systems`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/systems`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },

@@ -8,20 +8,22 @@ interface InputProps {
   defaultValue?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  slug?: string
   min?: string;
   max?: string;
   step?: number;
   disabled?: boolean;
   success?: boolean;
   error?: boolean;
-  hint?: string; // Optional hint text
-  value?: string
+  hint?: string;
+  value?: string;
 }
 
 const Input: FC<InputProps> = ({
   type = "text",
   id,
   name,
+  slug,
   placeholder,
   defaultValue,
   onChange,
@@ -33,7 +35,7 @@ const Input: FC<InputProps> = ({
   success = false,
   error = false,
   hint,
-  value= ''
+  value= '',
 }) => {
   // Determine input styles based on state (disabled, success, error)
   let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 ${className}`;
@@ -51,6 +53,8 @@ const Input: FC<InputProps> = ({
 
   return (
     <div className="relative">
+      <div className="w-full flex items-center gap-5">
+      {slug && <h1 className="text-gray-600 dark:text-gray-300">{slug}</h1>}
       <input
         type={type}
         id={id}
@@ -64,8 +68,9 @@ const Input: FC<InputProps> = ({
         disabled={disabled}
         className={inputClasses}
         value= {value}
-      />
+        />
 
+        </div>
       {/* Optional Hint Text */}
       {hint && (
         <p

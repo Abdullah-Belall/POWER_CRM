@@ -1,10 +1,10 @@
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
 export const GET_TASKS_REQ = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/tasks`, {
+    const response = await axios.get(`${BASE_CRM_URL}/tasks`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -27,7 +27,7 @@ export const GET_TASKS_REQ = async () => {
 
 export const ADD_TASK_REQ = async ({data}: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/tasks/create`,data, {
+    const response = await axios.post(`${BASE_CRM_URL}/tasks/create`,data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -50,7 +50,7 @@ export const ADD_TASK_REQ = async ({data}: any) => {
 
 export const EDIT_TASK_REQ = async ({data , id}: any) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/tasks/${id}`,data, {
+    const response = await axios.patch(`${BASE_CRM_URL}/tasks/${id}`,data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

@@ -1,10 +1,10 @@
 "use client"
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 
 export const SIGN_OUT = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/auth/sign-out`, {
+    const response = await axios.get(`${BASE_CRM_URL}/auth/sign-out`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -28,7 +28,7 @@ export const SIGN_OUT = async () => {
 
 export const SIGN_IN = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/sign-in`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/auth/sign-in`, data, {
       withCredentials: true,
     });
     return response?.data?.done
@@ -47,9 +47,9 @@ export const SIGN_IN = async ({ data }: any) => {
   }
 };
 
-export const CURR_USER_PROFILE = async () => {
+export const CURR_USER_PROFILE = async ({domain}: any) => {
   try {
-    const response = await axios.get(`${BASE_URL}/users/profile`, {
+    const response = await axios.get(`${BASE_CRM_URL}/users/profile?domain=${domain}`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -72,7 +72,7 @@ export const CURR_USER_PROFILE = async () => {
 
 export const GET_ANALYTICS = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/complaints/analytics`, {
+    const response = await axios.get(`${BASE_CRM_URL}/complaints/analytics`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -112,7 +112,7 @@ export const COMMON_SEARCH = async ({
     }
   }
   try {
-    const response = await axios.post(`${BASE_URL}/common/common-search?${mainQuery}`, body, {
+    const response = await axios.post(`${BASE_CRM_URL}/common/common-search?${mainQuery}`, body, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -135,7 +135,7 @@ export const COMMON_SEARCH = async ({
 
 export const CREATE_COMPLAINT = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/complaints/create`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/complaints/create`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -158,7 +158,7 @@ export const CREATE_COMPLAINT = async ({ data }: any) => {
 
 export const CHANGE_PASSWORD = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/auth/change-password`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/auth/change-password`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -181,7 +181,7 @@ export const CHANGE_PASSWORD = async ({ data }: any) => {
 
 export const REFRESH_TOKEN_REQ = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
+    const response = await axios.get(`${BASE_CRM_URL}/auth/refresh-token`, {
       withCredentials: true
     });
     if (response?.data?.access_token) {
@@ -206,7 +206,7 @@ export const REFRESH_TOKEN_REQ = async () => {
 export const GET_USERS = async (data: { roleAttributes?: string }) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/users?${data?.roleAttributes ? `roleAttributes=` + data?.roleAttributes : ""}`,
+      `${BASE_CRM_URL}/users?${data?.roleAttributes ? `roleAttributes=` + data?.roleAttributes : ""}`,
       {
         headers: {
           Authorization: `Bearer ${getCookie("access_token")}`,

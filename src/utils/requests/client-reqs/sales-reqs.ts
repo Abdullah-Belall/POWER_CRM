@@ -1,10 +1,10 @@
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
 export const GET_POTENTIAL_CUSTOMERS = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/potential-customers`, {
+    const response = await axios.get(`${BASE_CRM_URL}/potential-customers`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -27,7 +27,7 @@ export const GET_POTENTIAL_CUSTOMERS = async () => {
 
 export const GET_ALL_POTENTIAL_CUSTOMERS = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/potential-customers/all`, {
+    const response = await axios.get(`${BASE_CRM_URL}/potential-customers/all`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -50,7 +50,7 @@ export const GET_ALL_POTENTIAL_CUSTOMERS = async () => {
 
 export const ADD_POTENTIAL_CUSTOMER = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/potential-customers`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/potential-customers`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -73,7 +73,7 @@ export const ADD_POTENTIAL_CUSTOMER = async ({ data }: any) => {
 
 export const EDIT_POTENTIAL_CUSTOMER = async ({ data, id }: any) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/potential-customers/${id}/edit`, data, {
+    const response = await axios.patch(`${BASE_CRM_URL}/potential-customers/${id}/edit`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -96,7 +96,7 @@ export const EDIT_POTENTIAL_CUSTOMER = async ({ data, id }: any) => {
 
 export const ASSIGN_SALER = async ({ customer_id, saler_id }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/potential-customers/${customer_id}/assign/${saler_id}`, {}, {
+    const response = await axios.post(`${BASE_CRM_URL}/potential-customers/${customer_id}/assign/${saler_id}`, {}, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -119,7 +119,7 @@ export const ASSIGN_SALER = async ({ customer_id, saler_id }: any) => {
 
 export const UPDATE_CUSTOMER_STATUS = async ({ customer_id, data }: any) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/potential-customers/${customer_id}`, data, {
+    const response = await axios.patch(`${BASE_CRM_URL}/potential-customers/${customer_id}`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -142,7 +142,7 @@ export const UPDATE_CUSTOMER_STATUS = async ({ customer_id, data }: any) => {
 
 export const UPDATE_CUSTOMER_OFFER_STATUS = async ({ contract_id, data }: any) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/contracts/${contract_id}`, data, {
+    const response = await axios.patch(`${BASE_CRM_URL}/contracts/${contract_id}`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -165,7 +165,7 @@ export const UPDATE_CUSTOMER_OFFER_STATUS = async ({ contract_id, data }: any) =
 
 export const CREATE_DISCUSSION = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/discussions`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/discussions`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -188,7 +188,7 @@ export const CREATE_DISCUSSION = async ({ data }: any) => {
 
 export const CREATE_CONTRACT = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/contracts`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/contracts`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -212,7 +212,7 @@ export const CREATE_CONTRACT = async ({ data }: any) => {
 
 export const CREATE_SYSTEM = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/systems`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/systems`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

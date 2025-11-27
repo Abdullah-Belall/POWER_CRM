@@ -1,10 +1,10 @@
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
 export const SUPPORTER_NOTIFI = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/complaints/supporter-notifi`, {
+    const response = await axios.get(`${BASE_CRM_URL}/complaints/supporter-notifi`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -27,7 +27,7 @@ export const SUPPORTER_NOTIFI = async () => {
 
 export const SUPPORTER_COMPLAINTS = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/complaints`, {
+    const response = await axios.get(`${BASE_CRM_URL}/complaints`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -51,7 +51,7 @@ export const SUPPORTER_COMPLAINTS = async () => {
 export const FINISH_SOLVE = async ({ data }: any) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/complaints/${data?.id}/finish`,
+      `${BASE_CRM_URL}/complaints/${data?.id}/finish`,
       { status: data?.status },
       {
         headers: {
@@ -77,7 +77,7 @@ export const FINISH_SOLVE = async ({ data }: any) => {
 
 export const ASSIGN_SUPPORTER = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/complaints-assigner/assign`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/complaints-assigner/assign`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -100,7 +100,7 @@ export const ASSIGN_SUPPORTER = async ({ data }: any) => {
 
 export const REFERE_COMPLAINT = async ({ complaint_id, supporter_id }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/complaints-solving/${complaint_id}/refer-to/${supporter_id}`, {}, {
+    const response = await axios.post(`${BASE_CRM_URL}/complaints-solving/${complaint_id}/refer-to/${supporter_id}`, {}, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -123,7 +123,7 @@ export const REFERE_COMPLAINT = async ({ complaint_id, supporter_id }: any) => {
 
 export const REFERE_RESPONED = async ({ solvingId, data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/complaints-solving/${solvingId}/refer-response`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/complaints-solving/${solvingId}/refer-response`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

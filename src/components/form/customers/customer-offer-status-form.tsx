@@ -41,7 +41,8 @@ export default function CustomerOfferStatusFormPopup() {
           type: SnakeBarTypeEnum.SUCCESS,
         })
       );
-      router.push(window.location.pathname + `?forRefresh=${Math.random()}`)
+      const searchParams = res.data?.client_id ? `client_id=${res.data?.client_id}` : ''
+      router.push(`/sales/inputs/potential-customers/contract/${popup.data?.contract_id}?${searchParams}`)
     } else {
       dispatch(
         openSnakeBar({

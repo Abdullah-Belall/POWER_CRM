@@ -5,6 +5,9 @@ import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager
 import { ContractInterface, DiscussionInterface, PotentialCustomerInterface, SystemInterface } from "@/types/interfaces/sales-interface";
 import { ClientComplaintInterface } from "@/types/interfaces/complaints-clients-interface";
 import { TenantInterface } from "@/types/interfaces/tenants-interface";
+import { CurrencyInterface } from "@/types/interfaces/erp/currencies-interface";
+import { FlagInterface } from "@/types/interfaces/erp/flag-interface";
+import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface";
 
 interface TablesDataState {
   managerComplaintsTable: {
@@ -55,6 +58,18 @@ interface TablesDataState {
     total: number;
     data: TenantInterface[];
   };
+  currenciesTable: {
+    total: number;
+    data: CurrencyInterface[];
+  };
+  flagsTable: {
+    total: number;
+    data: FlagInterface[];
+  };
+  chartOfAccountsTable: {
+    total: number;
+    data: ChartOfAccountsInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -103,6 +118,18 @@ const initialState: TablesDataState = {
     data: [],
   },
   tenantsTable: {
+    total: 0,
+    data: [],
+  },
+  currenciesTable: {
+    total: 0,
+    data: [],
+  },
+  flagsTable: {
+    total: 0,
+    data: [],
+  },
+  chartOfAccountsTable: {
     total: 0,
     data: [],
   }

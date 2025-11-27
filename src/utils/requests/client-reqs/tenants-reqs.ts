@@ -1,11 +1,11 @@
 "use client";
-import { BASE_URL, errMsg } from "@/utils/base";
+import { BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { getCookie } from "./common-reqs";
 
 export const GET_TENANTS_REQ = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/tenants`, {
+    const response = await axios.get(`${BASE_CRM_URL}/tenants`, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -28,7 +28,7 @@ export const GET_TENANTS_REQ = async () => {
 
 export const ADD_TENANT_REQ = async ({ data }: any) => {
   try {
-    const response = await axios.post(`${BASE_URL}/tenants`, data, {
+    const response = await axios.post(`${BASE_CRM_URL}/tenants`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },
@@ -51,7 +51,7 @@ export const ADD_TENANT_REQ = async ({ data }: any) => {
 
 export const UPDATE_TENANT_REQ = async ({ data, tenant_id }: any) => {
   try {
-    const response = await axios.patch(`${BASE_URL}/tenants/${tenant_id}`, data, {
+    const response = await axios.patch(`${BASE_CRM_URL}/tenants/${tenant_id}`, data, {
       headers: {
         Authorization: `Bearer ${getCookie("access_token")}`,
       },

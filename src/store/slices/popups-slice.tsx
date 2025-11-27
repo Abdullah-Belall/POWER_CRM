@@ -152,6 +152,18 @@ interface PopupState {
   tenantFormPopup: {
     isOpen: boolean;
     data?: any
+  },
+  currencyFormPopup: {
+    isOpen: boolean;
+    data?: any
+  },
+  flagsFormPopup: {
+    isOpen: boolean;
+    data?: any
+  },
+  chartOfAccountsFormPopup: {
+    isOpen: boolean;
+    data?: any
   }
 }
 
@@ -223,6 +235,15 @@ const initialState: PopupState = {
   tenantFormPopup: {
     isOpen: false,
   },
+  currencyFormPopup: {
+    isOpen: false,
+  },
+  flagsFormPopup: {
+    isOpen: false,
+  },
+  chartOfAccountsFormPopup: {
+    isOpen: false,
+  }
 };
 
 const popupSlice = createSlice({

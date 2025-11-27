@@ -1,12 +1,12 @@
 "use server";
-import {  BASE_URL, errMsg } from "@/utils/base";
+import {  BASE_CRM_URL, errMsg } from "@/utils/base";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { getCookie } from "../client-reqs/common-reqs";
 
 export const MANAGER_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/complaints/managers`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/complaints/managers`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -24,7 +24,7 @@ export const MANAGER_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_toke
 };
 export const CLIENT_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_token: string}) => {
   try {
-    const response: any = await axios.get(`${BASE_URL}/complaints/clients`, {
+    const response: any = await axios.get(`${BASE_CRM_URL}/complaints/clients`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -43,7 +43,7 @@ export const CLIENT_COMPLAINTS_SERVER_REQ = async ({access_token}: {access_token
 const REFRESH_TOKEN_REQ = async () => {
   const refresh_token = await getCookieServer(`refresh_token`);
   try {
-    const response = await axios.get(`${BASE_URL}/auth/refresh-token`, {
+    const response = await axios.get(`${BASE_CRM_URL}/auth/refresh-token`, {
       headers: { cookie: `refresh_token=${refresh_token};` },
     });
     return response?.data?.done
@@ -79,7 +79,7 @@ export const UPLOAD_EXCEL_REQ = async ({ data, endPoint }: any) => {
   console.log('started');
   try {
     const response = await axios.post(
-      `${BASE_URL}/${endPoint}/upload-excel`,
+      `${BASE_CRM_URL}/${endPoint}/upload-excel`,
       data,
       {
         headers: {
@@ -88,12 +88,14 @@ export const UPLOAD_EXCEL_REQ = async ({ data, endPoint }: any) => {
         },
       }
     );
-    console.log(response);
+    // Only log serializable response data to avoid circular JSON issues
+    console.log(response?.data);
     return response?.data?.done
       ? { done: true }
       : { done: false, message: errMsg, status: response.status };
   } catch (error: any) {
-    console.log(error);
+    // Avoid logging the full Axios error object (it contains circular references)
+    console.error(error?.response?.data || error?.message || "Unknown error in UPLOAD_EXCEL_REQ");
     let message = errMsg;
     if (error?.response?.status !== 400) {
     }

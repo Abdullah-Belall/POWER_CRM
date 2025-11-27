@@ -6,7 +6,6 @@ import { ALL_TENANTS_SERVER_REQ } from "@/utils/requests/server-reqs/tenants-req
 
 export default async function AllTenants() {
   const res= await SERVER_COLLECTOR_REQ(ALL_TENANTS_SERVER_REQ)
-  console.log(res);
   if(res.done){
   return (
     <>
