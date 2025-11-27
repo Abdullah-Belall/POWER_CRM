@@ -58,7 +58,7 @@ const navItems: NavItem[] = [
       },
       {
         name: "Users Management",
-        roles: [],
+        roles: ['read-role', 'read-user'],
         subItems: [
           { name: "Roles", path: "/general/roles", pro: false, roles: ['read-role'] },
           { name: "Users", path: "/general/users", pro: false, roles: ['read-user'] },
