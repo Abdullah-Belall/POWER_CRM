@@ -122,8 +122,7 @@ export default function MonthlyTarget({data}: {data: {avg_resolution_percentage:
 
         </div>
         <p className="mx-auto mt-10 w-full max-w-[380px] text-center text-xs text-gray-500 sm:text-xs">
-          Closed a solid batch of tickets today and performance is ahead of last
-          month. Keep the momentum!
+        The ratio between the date the complaint was created and the date it was resolved within 24 hours.
         </p>
       </div>
 
