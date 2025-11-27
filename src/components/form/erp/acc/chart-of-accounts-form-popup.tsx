@@ -114,7 +114,7 @@ export default function ChartOfAccountsFormPopup() {
   }
 
   const isValid = () => {
-    const { ar_name, en_name, acc_analy, acc_nat, acc_rep, acc_type } = data
+    const { ar_name, en_name, acc_nat, acc_rep, acc_type } = data
     if (ar_name.trim()?.length === 0) {
       handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
       return false
@@ -141,7 +141,6 @@ export default function ChartOfAccountsFormPopup() {
   const handleSubmit = async () => {
     if (loading) return
     if (!isValid()) return
-    const {acc_class, acc_group} = flagsData
 
     const payload: any = {
       ar_name: data.ar_name.trim(),

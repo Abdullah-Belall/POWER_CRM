@@ -13,9 +13,6 @@ export type TreeNode = {
   children?: TreeNode[];
 };
 
-interface TreeViewProps {
-  data: TreeNode[];
-}
 
 const hasChildren = (node: TreeNode) => Boolean(node.children && node.children.length);
 
