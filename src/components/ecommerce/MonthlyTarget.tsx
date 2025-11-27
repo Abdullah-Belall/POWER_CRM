@@ -13,7 +13,6 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function MonthlyTarget({data}: {data: {avg_resolution_percentage: number}}) {
-  console.log(data.avg_resolution_percentage);
   const series = [data.avg_resolution_percentage];
   const options: ApexOptions = {
     colors: ["#465FFF"],
@@ -78,11 +77,11 @@ export default function MonthlyTarget({data}: {data: {avg_resolution_percentage:
       <div className="px-5 pt-5 bg-white shadow-default rounded-2xl pb-11 dark:bg-gray-900 sm:px-6 sm:pt-6">
         <div className="flex justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-              Monthly Target
+            <h3 className=" font-semibold text-gray-800 dark:text-white/90">
+              Ticket Resolution Rate
             </h3>
-            <p className="mt-1 font-normal text-gray-500 text-theme-sm dark:text-gray-400">
-              Target you’ve set for each month
+            <p className="mt-1 text-xs max-w-[240px] font-normal text-gray-500 text-theme-sm dark:text-gray-400">
+              Monthly overview of how much the support team has completed
             </p>
           </div>
           {/* <div className="relative inline-block">
@@ -121,13 +120,10 @@ export default function MonthlyTarget({data}: {data: {avg_resolution_percentage:
             />
           </div>
 
-          <span className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-[95%] rounded-full bg-success-50 px-3 py-1 text-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-            +10%
-          </span>
         </div>
-        <p className="mx-auto mt-10 w-full max-w-[380px] text-center text-sm text-gray-500 sm:text-base">
-          You earn $3287 today, it&apos;s higher than last month. Keep up your
-          good work!
+        <p className="mx-auto mt-10 w-full max-w-[380px] text-center text-xs text-gray-500 sm:text-xs">
+          Closed a solid batch of tickets today and performance is ahead of last
+          month. Keep the momentum!
         </p>
       </div>
 
