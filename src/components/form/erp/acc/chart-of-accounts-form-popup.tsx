@@ -10,12 +10,15 @@ import { handleData } from "@/utils/base"
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
-import { ADD_CHART_OF_ACCOUNT_CREQ, GET_CHARTS_OF_ACCOUNTS_CREQ, GET_FLAGS_FOR_CREATE_ACCOUNT_CREQ, GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ } from "@/utils/erp-requests/clients-reqs/accounts-reqs"
-import { fillTable } from "@/store/slices/tables-slice"
+import { ADD_CHART_OF_ACCOUNT_CREQ, EDIT_ACCOUNT_CREQ, GET_CHARTS_OF_ACCOUNTS_CREQ, GET_FLAGS_FOR_CREATE_ACCOUNT_CREQ, GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ } from "@/utils/erp-requests/clients-reqs/accounts-reqs"
+import { fillTable, getTable } from "@/store/slices/tables-slice"
 import Select from "../../Select"
 import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface"
-import TreeView from "@/components/acc/tree-view/tree-view"
+import ChartAccountsTreeView from "@/components/acc/tree-view/chart-accounts-tree-view"
 import { AccAnalyticEnum, AccNatureEnum, AccReportEnum, AccTypeEnum } from "@/types/enums/erp/acc-enums"
+import { CurrencyInterface } from "@/types/interfaces/erp/currencies-interface"
+import { GET_CURRENCIES_CREQ } from "@/utils/erp-requests/clients-reqs/currency-reqs"
+import MultiSelect from "../../MultiSelect"
 
 const createInitialFormState = () => ({
   ar_name: "",
@@ -31,11 +34,14 @@ type ChartOfAccountFormState = ReturnType<typeof createInitialFormState>
 
 export default function ChartOfAccountsFormPopup() {
   const popup = useAppSelector(selectPopup("chartOfAccountsFormPopup"))
+  const updatePopup = useAppSelector(selectPopup("updateAccFormPopup"))
   const dispatch = useAppDispatch()
   const [data, setData] = useState<ChartOfAccountFormState>(createInitialFormState())
   const [loading, setLoading] = useState(false)
   const [accounts, setAccounts] = useState<ChartOfAccountsInterface[]>([])
   const [selectedParent, setSelectedParent] = useState<ChartOfAccountsInterface | null>(null)
+  const [currencies, setCurrencies] = useState<CurrencyInterface[]>([])
+  const [selectedCurrencies, setSelectedCurrencies] = useState<CurrencyInterface[]>([])
   const [flags, setFlags] = useState<any>({
     account_class: [],
     account_group: [],
@@ -44,12 +50,19 @@ export default function ChartOfAccountsFormPopup() {
     acc_class: '',
     acc_group: '',
   })
+  const tableData = useAppSelector(getTable('chartOfAccountsTable'))
   const handleClose = () =>{
     dispatch(
       closePopup({
         popup: "chartOfAccountsFormPopup",
       })
-    )}
+    )
+    dispatch(
+      closePopup({
+        popup: "updateAccFormPopup",
+      })
+    )
+  }
 
   const fetchFlags = async () => {
     const res = await CLIENT_COLLECTOR_REQ(GET_FLAGS_FOR_CREATE_ACCOUNT_CREQ)
@@ -59,43 +72,39 @@ export default function ChartOfAccountsFormPopup() {
     }
   }
   const fetchAccounts = async () => {
-    const res = await CLIENT_COLLECTOR_REQ(GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ)
+    const res = await CLIENT_COLLECTOR_REQ(GET_MAIN_ACCOUNTS_SELECT_LIST_CREQ, {acc_type: AccTypeEnum.MAIN})
+    console.log(`-------------`);
     console.log(res);
     if(res.done) {
       setAccounts(res.data.accounts)
     }
   }
+  const fetchCurrencies = async () => {
+    const res = await CLIENT_COLLECTOR_REQ(GET_CURRENCIES_CREQ)
+    if(res.done) {
+      setCurrencies(res.data.currencies)
+    }
+  }
+  useEffect(() => {
+    if(popup.isOpen) {
+      fetchAccounts()
+      fetchFlags()
+    }
+  }, [popup.isOpen, tableData])
+  //* Fetch Currencies
+  useEffect(() => {
+    if(data.acc_type === AccTypeEnum.SUB && popup.isOpen) {
+      fetchCurrencies()
+    }
+  }, [data.acc_type, popup.isOpen])
+  //* Set Selected Parent
   useEffect(() => {
     setSelectedParent(accounts.find((e) => e.id === data.parent_id) ?? null)
   }, [accounts, data.parent_id])
-  useEffect(() => {
-    if (!popup.isOpen) {
-      setData(createInitialFormState())
-      return
-    }
-    if (popup.data) {
-      setData({
-        ar_name: popup.data?.ar_name || "",
-        en_name: popup.data?.en_name || "",
-        parent_id: popup.data?.parent_id || "",
-        acc_analy: popup.data?.acc_analy || "",
-        acc_nat: popup.data?.acc_nat || "",
-        acc_rep: popup.data?.acc_rep || "",
-        acc_type: popup.data?.acc_type || "",
-      })
-    }
-    if(popup.isOpen) {
-      fetchFlags()
-      fetchAccounts()
-    }
-  }, [popup.isOpen, popup.data])
 
+  //* Render Selected Parent
   useEffect(() => {
-    window.HSStaticMethods?.autoInit?.();
-  }, []);
-  console.log(selectedParent);
-  useEffect(() => {
-    if(selectedParent) {
+    if(selectedParent && updatePopup.data?.parent?.id !== selectedParent?.id) {
       setData({...data,
         acc_analy: selectedParent.acc_analy,
         acc_nat: selectedParent.acc_nat,
@@ -104,6 +113,28 @@ export default function ChartOfAccountsFormPopup() {
       })
     }
   }, [selectedParent])
+
+  //* Render Selected From The Tree
+  useEffect(() => {
+    if (!updatePopup.isOpen) {
+      setData(createInitialFormState())
+      return
+    }
+    console.log(updatePopup.data?.parent?.id);
+    if (updatePopup.data) {
+      setData({
+        ar_name: updatePopup.data?.ar_name || "",
+        en_name: updatePopup.data?.en_name || "",
+        parent_id: (updatePopup.data?.parent?.id as string) || "",
+        acc_analy: updatePopup.data?.acc_analy || "",
+        acc_nat: updatePopup.data?.acc_nat || "",
+        acc_rep: updatePopup.data?.acc_rep || "",
+        acc_type: updatePopup.data?.acc_type || "",
+      })
+      setSelectedCurrencies(updatePopup.data.currencies)
+      setCurrencies([...currencies])
+    }
+  }, [updatePopup.isOpen, updatePopup.data])
   const handleOpenSnakeBar = (type: SnakeBarTypeEnum, message: string) => {
     dispatch(
       openSnakeBar({
@@ -112,55 +143,36 @@ export default function ChartOfAccountsFormPopup() {
       })
     )
   }
-
   const isValid = () => {
-    const { ar_name, en_name, acc_nat, acc_rep, acc_type } = data
+    const { ar_name, acc_nat, acc_rep, acc_type } = data
     if (ar_name.trim()?.length === 0) {
       handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
       return false
     }
-    if (en_name.trim()?.length === 0) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+    // if (en_name.trim()?.length === 0) {
+    //   handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "English name is required")
+    //   return false
+    // }
+    if (!acc_type) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Account Type is required")
       return false
     }
     if (!acc_rep) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
-      return false
-    }
-    if (!acc_type) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Account Report is required")
       return false
     }
     if (!acc_nat) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Arabic name is required")
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Account Nature is required")
+      return false
+    }
+    if(acc_type === AccTypeEnum.SUB && selectedCurrencies.length === 0) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Currencies is requierd at Sub Accounts")
       return false
     }
     return true
   }
-
-  const handleSubmit = async () => {
-    if (loading) return
-    if (!isValid()) return
-
-    const payload: any = {
-      ar_name: data.ar_name.trim(),
-      en_name: data.en_name.trim() || undefined,
-      parent_id: data.parent_id.trim() || undefined,
-      acc_analy: data.acc_analy !== '' ? data.acc_analy : undefined,
-      acc_type: data.acc_type,
-      acc_rep: data.acc_rep,
-      acc_nat: data.acc_nat,
-    }
-
-    setLoading(true)
-    const res = await CLIENT_COLLECTOR_REQ(ADD_CHART_OF_ACCOUNT_CREQ, { data: payload })
-    setLoading(false)
-
-    if (res.done) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.SUCCESS, "Account created successfully")
-      handleClose()
-      setData(createInitialFormState())
-      const refreshed = await CLIENT_COLLECTOR_REQ(GET_CHARTS_OF_ACCOUNTS_CREQ)
+  const refetchData = async () => {
+    const refreshed = await CLIENT_COLLECTOR_REQ(GET_CHARTS_OF_ACCOUNTS_CREQ)
       if (refreshed?.done) {
         dispatch(
           fillTable({
@@ -172,18 +184,81 @@ export default function ChartOfAccountsFormPopup() {
           })
         )
       }
+  }
+  const handleSubmit = async () => {
+    if (loading) return
+    if (!isValid()) return
+
+    const payload: any = {
+      ar_name: data.ar_name.trim(),
+      en_name: data.en_name.trim()?.length > 0 ? data.en_name : undefined,
+      parent_id: data.parent_id.trim() || undefined,
+      acc_analy: data.acc_analy !== '' ? data.acc_analy : undefined,
+      acc_type: data.acc_type,
+      acc_rep: data.acc_rep,
+      acc_nat: data.acc_nat,
+      currencies_ids: data.acc_type === AccTypeEnum.SUB ? JSON.stringify(selectedCurrencies.map((e) => e.id)) : undefined
+    }
+
+    setLoading(true)
+    const res = await CLIENT_COLLECTOR_REQ(ADD_CHART_OF_ACCOUNT_CREQ, { data: payload })
+    setLoading(false)
+
+    if (res.done) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.SUCCESS, "Account created successfully")
+      setData(createInitialFormState())
+      setSelectedCurrencies([])
+      setFlagsData({
+        acc_class: '',
+        acc_group: ""
+      })
+      await refetchData()
       return
     }
 
     handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, res.message || "Failed to create account")
   }
+  const handleUpdate = async () => {
+    if(loading) return;
+    if (!isValid()) return
 
+    const payload: any = {
+      ar_name: data.ar_name.trim(),
+      en_name: data.en_name.trim() || undefined,
+      acc_rep: data.acc_rep,
+      currencies_ids: data.acc_type === AccTypeEnum.SUB ? JSON.stringify(selectedCurrencies.map((e) => e.id)) : undefined
+    }
+    
+    setLoading(true)
+    const res = await CLIENT_COLLECTOR_REQ(EDIT_ACCOUNT_CREQ, { data: payload, id: updatePopup.data?.id })
+    setLoading(false)
+    if(res.done) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.SUCCESS, "Account updated successfully")
+      setData(createInitialFormState())
+      setSelectedCurrencies([])
+      setFlagsData({
+        acc_class: '',
+        acc_group: ""
+      })
+      dispatch(closePopup({
+        popup: 'updateAccFormPopup'
+      }))
+      await refetchData()
+      return
+    }
+  }
+  useEffect(() => {
+    window.HSStaticMethods?.autoInit?.();
+  }, []);
   if (!popup.isOpen) {
     return null
   }
+
   const fixArrToSelect = (arr: any[]) => {
     return arr.map((e: any) => ({label: e.en_name ?? e.ar_name, value: e.id}))
   }
+
+  console.log(selectedCurrencies);
   return (
     <BlackLayer onClick={handleClose}>
       <div
@@ -224,10 +299,12 @@ export default function ChartOfAccountsFormPopup() {
                         />
                       </div>
                       <div className="col-span-full">
-                        <Select options={accounts ? ([{
+                        <Select 
+                        disabled={updatePopup.isOpen}
+                        options={accounts ? ([{
                           label: '',
                           value: ''
-                        }, ...accounts?.map((e) => ({label: e.en_name, value: e.id}))]) : []} placeholder="Main Account" value={data.parent_id} onChange={(e) => handleData(setData, 'parent_id', e.target.value)} />
+                        }, ...accounts?.map((e) => ({label: e.en_name || e.ar_name, value: e.id}))]) : []} placeholder="Main Account" value={data.parent_id} onChange={(e) => handleData(setData, 'parent_id', e.target.value)} />
                       </div>
                     </div>
                     <div className="ml-auto w-fit">
@@ -249,7 +326,9 @@ export default function ChartOfAccountsFormPopup() {
                         {
                           label: AccTypeEnum.SUB,
                           value: AccTypeEnum.SUB,
-                        }]} placeholder="Account Type" value={data.acc_type} onChange={(e) => handleData(setData, 'acc_type', e.target.value)} />
+                        }]} 
+                        disabled={updatePopup.isOpen}
+                        placeholder="Account Type" value={data.acc_type} onChange={(e) => handleData(setData, 'acc_type', e.target.value)} />
                       </div>
                       <div>
                         <Select options={[
@@ -273,7 +352,9 @@ export default function ChartOfAccountsFormPopup() {
                             label: AccNatureEnum.CREDIT,
                             value: AccNatureEnum.CREDIT,
                           },
-                        ]} placeholder="Account Nature" value={data.acc_nat} onChange={(e) => handleData(setData, 'acc_nat', e.target.value)} />
+                        ]} 
+                        disabled={updatePopup.isOpen}
+                        placeholder="Account Nature" value={data.acc_nat} onChange={(e) => handleData(setData, 'acc_nat', e.target.value)} />
                       </div>
                       <div>
                         <Select options={[
@@ -282,12 +363,20 @@ export default function ChartOfAccountsFormPopup() {
                             value: AccAnalyticEnum.GENERAL,
                           },
                           {
+                            label: AccAnalyticEnum.ASSITS,
+                            value: AccAnalyticEnum.ASSITS,
+                          },
+                          {
                             label: AccAnalyticEnum.CASH_HAND,
                             value: AccAnalyticEnum.CASH_HAND,
                           },
                           {
                             label: AccAnalyticEnum.BANKS,
                             value: AccAnalyticEnum.BANKS,
+                          },
+                          {
+                            label: AccAnalyticEnum.INCOME,
+                            value: AccAnalyticEnum.INCOME,
                           },
                           {
                             label: AccAnalyticEnum.CUSTOMERS,
@@ -325,7 +414,9 @@ export default function ChartOfAccountsFormPopup() {
                             label: AccAnalyticEnum.EX,
                             value: AccAnalyticEnum.EX,
                           },
-                        ]} placeholder="Account Analy" value={data.acc_analy} onChange={(e) => handleData(setData, 'acc_analy', e.target.value)} />
+                        ]} 
+                        disabled={updatePopup.isOpen}
+                        placeholder="Account Analy" value={data.acc_analy} onChange={(e) => handleData(setData, 'acc_analy', e.target.value)} />
                       </div>
                       <div>
                         <Select options={fixArrToSelect(flags.account_class)} placeholder="Account Class" value={flagsData.acc_class} onChange={(e) => handleData(setFlagsData, 'acc_class', e.target.value)} />
@@ -333,16 +424,31 @@ export default function ChartOfAccountsFormPopup() {
                       <div>
                         <Select options={fixArrToSelect(flags.account_group)} placeholder="Account Group" value={flagsData.acc_group} onChange={(e) => handleData(setFlagsData, 'acc_group', e.target.value)} />
                       </div>
+                      {
+                        data.acc_type === AccTypeEnum.SUB ? 
+                        <div className="col-span-full">
+                          <MultiSelect defaultSelected={selectedCurrencies.map((e) => e.id)} options={currencies?.map((e: any) => ({
+                            text: (e.en_name || e.ar_name),
+                            value: e.id,
+                            selected: e.selected
+                          }))} label="Currencies" onChange={(selectedIds) => {
+                            const selected = currencies?.filter((curr: any) => 
+                              selectedIds.includes(String(curr.id))
+                            );
+                            setSelectedCurrencies(selected);
+                          }} />
+                        </div> : ""
+                      }
                     </div>
                   </div>
 
-                  <div className="col-span-full flex justify-center">
+                  <div className="col-span-full flex justify-center mb-3">
                     <button
-                      onClick={handleSubmit}
+                      onClick={updatePopup.isOpen ? handleUpdate : handleSubmit}
                       className="w-fit inline-flex items-center justify-center font-medium gap-2 rounded-lg transition px-4 py-3 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300"
                       disabled={loading}
                     >
-                      {loading ? "Saving..." : "Submit"}
+                      {loading ? "Saving..." : updatePopup.isOpen ? 'Edit' :"Submit"}
                     </button>
                   </div>
                 </div>
@@ -350,7 +456,7 @@ export default function ChartOfAccountsFormPopup() {
             </div>
           </div>
           <div className=" min-w-[400px]">
-          <TreeView
+          <ChartAccountsTreeView
           />
           </div>
         </div>

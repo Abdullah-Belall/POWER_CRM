@@ -6,7 +6,8 @@ import MainTable from "../main-table";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks/dispatch";
 import { TenantInterface } from "@/types/interfaces/tenants-interface";
-import { FaRegEdit } from "react-icons/fa";
+import Link from "next/link";
+import { CiSquareMore } from "react-icons/ci";
 
 export default function TenantsTable({data}: {data: {tenants: TenantInterface[], total: number}}) {
   const tableData = useAppSelector(getTable('tenantsTable'))
@@ -23,22 +24,25 @@ export default function TenantsTable({data}: {data: {tenants: TenantInterface[],
     created_at: formatDate(e.created_at),
     company_logo: checkNull(e.company_logo, '-'),
     phone: checkNull(e.phone, '-'),
-    actions: <div className="flex items-center gap-2">
-      <button
-        className={`dark:text-white text-black hover:text-brand-500! duration-200`}
-      >
-        <FaRegEdit />
-      </button>
-      </div>
+    actions: (<div className="flex items-center gap-2">
+              <Link href={`tenants/${e.tenant_id}`}>
+                <button
+                  className={`dark:text-white text-lg text-black hover:text-brand-500! duration-200`}
+                >
+                  <CiSquareMore />
+                </button>
+              </Link>
+            </div>)
   })});
   const columns = [
-    { id: "index", label: "#" , minWidth: 'w-[20px]'},
+    { id: "index", label: "#" , minWidth: 'w-[20px]', hideSearch: true },
     { id: "domain", label: 'Domain' },
+    { id: "branches_count", label: 'Branches Count', hideSearch: true },
     { id: "company_title", label: 'Company Title' },
     { id: "company_logo", label: 'Company Logo' },
     {
       id: "phone",
-      label: 'Phone',
+      label: 'Phone', hideSearch: true 
     },
     {
       id: "is_active",
@@ -53,12 +57,12 @@ export default function TenantsTable({data}: {data: {tenants: TenantInterface[],
       minWidth: 'w-[120px]',
       hideSearch: true
     },
-    // {
-    //   id: "actions",
-    //   label: 'Actions',
-    //   hideSearch: true,
-    //   hideSort: true
-    // },
+    {
+      id: "actions",
+      label: 'Actions',
+      hideSearch: true,
+      hideSort: true
+    },
   ];
   return (
     <MainTable columns={columns} data={formateData} />

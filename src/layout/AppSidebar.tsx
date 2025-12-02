@@ -39,10 +39,10 @@ const navItems: NavItem[] = [
   },
   {
     icon: <TbContract className={"text-xl"} />,
-    name: "Tenants",
+    name: "Domains",
     roles: ['read-tenant'],
     subItems: [
-      { name: "Tenants", path: "/tenants", pro: false, roles: ['read-tenant'] },
+      { name: "Domains", path: "/tenants", pro: false, roles: ['read-tenant'] },
     ],
   },
   {
@@ -54,7 +54,8 @@ const navItems: NavItem[] = [
         name: "General Settings",
         roles: ['general-ladger'],
         subItems: [
-          { name: "Currency", path: "/acc/currency", pro: false, roles: ['general-ladger'] },
+          { name: "Company Branches", path: "/general/branches", pro: false, roles: ['general-ladger'] },
+          { name: "Currency", path: "/general-ladger/acc/currency", pro: false, roles: ['general-ladger'] },
         ],
       },
       {
@@ -77,18 +78,26 @@ const navItems: NavItem[] = [
         roles: ['general-ladger'],
         subItems: [
           { name: "Account Setup", path: "/grandcshissssshhssss34ld1", roles: ['general-ladger'] },
-          { name: "Account Classification", path: "/acc/flags", roles: ['general-ladger'] },
-          { name: "Depet Group", path: "/grandcshisss22ssssshhs34ld1", roles: ['general-ladger'] },
-          { name: "Credit Group", path: "/grass34ld1", roles: ['general-ladger'] },
+          { name: "Account Classification", path: "/general-ladger/acc/flags", roles: ['general-ladger'] },
+          { name: "Cash Group", path: "/general-ladger/setting/cash-group", roles: ['general-ladger'] },
+          { name: "Customers Group", path: "/general-ladger/setting/customers-group", roles: ['general-ladger'] },
+          { name: "Suppliers Group", path: "/general-ladger/setting/supliers-group", roles: ['general-ladger'] },
+          { name: "Employee Group", path: "/general-ladger/setting/employee-group", roles: ['general-ladger'] },
+          { name: "Expensess Group", path: "/general-ladger/setting/expensess-group", roles: ['general-ladger'] },
+          { name: "Income Group", path: "/general-ladger/setting/income-group", roles: ['general-ladger'] },
+          { name: "Assits Group", path: "/general-ladger/setting/assits-group", roles: ['general-ladger'] },
+          { name: "Depet Group", path: "/general-ladger/setting/depets-group", roles: ['general-ladger'] },
+          { name: "Credit Group", path: "/general-ladger/setting/credit-group", roles: ['general-ladger'] },
         ],
       },
       {
         name: "Inputs Accounts",
         roles: ['general-ladger'],
         subItems: [
-          { name: "Chart of Accounts", path: "/acc/inputs/chart-of-accounts", roles: ['general-ladger'] },
-          { name: "Cost Centers", path: "/gra2n33dchsild2", roles: ['general-ladger'] },
-          { name: "Projects", path: "/grsans9568hild2", roles: ['general-ladger'] },
+          { name: "Chart of Accounts", path: "/general-ladger/acc/inputs/chart-of-accounts", roles: ['general-ladger'] },
+          { name: "Cost Centers", path: "/general-ladger/acc/inputs/cost-center", roles: ['general-ladger'] },
+          { name: "Projects", path: "/general-ladger/acc/inputs/projects", roles: ['general-ladger'] },
+          { name: "Activity", path: "/general-ladger/acc/inputs/activities", roles: ['general-ladger'] },
           { name: "Cash in Hand", path: "/grsan9679sh22ild2", roles: ['general-ladger'] },
           { name: "Cash at Bank", path: "/grsans222vvvhild2", roles: ['general-ladger'] },
           { name: "Personal Covenant", path: "/grsans222svvvhild2", roles: ['general-ladger'] },

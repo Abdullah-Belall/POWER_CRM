@@ -1,7 +1,10 @@
 "use client";
+import { useAppDispatch } from "@/store/hooks/dispatch";
 import { useAppSelector } from "@/store/hooks/selector";
+import { openPopup } from "@/store/slices/popups-slice";
 import { getTable } from "@/store/slices/tables-slice";
-import { GET_TREE_VIEW_CREQ } from "@/utils/erp-requests/clients-reqs/accounts-reqs";
+import { AccTypeEnum } from "@/types/enums/erp/acc-enums";
+import { GET_PROJECTS_TREE_VIEW_CREQ } from "@/utils/erp-requests/clients-reqs/projects-reqs";
 import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
 import { useMemo, useState, useCallback, useEffect } from "react";
 
@@ -11,16 +14,18 @@ export type TreeNode = {
   en_name?: string;
   code?: number
   children?: TreeNode[];
+  parent?: TreeNode;
+  acc_type: AccTypeEnum;
 };
 
 
 const hasChildren = (node: TreeNode) => Boolean(node.children && node.children.length);
 
-export default function ChartTreeView() {
-  const tableData = useAppSelector(getTable('chartOfAccountsTable'))
+export default function ProjectTreeView() {
+  const tableData = useAppSelector(getTable('projectsTable'))
   const [data, setData] = useState<TreeNode[]>([])
   const fetchData = async () => {
-    const res = await CLIENT_COLLECTOR_REQ(GET_TREE_VIEW_CREQ)
+    const res = await CLIENT_COLLECTOR_REQ(GET_PROJECTS_TREE_VIEW_CREQ)
     setData(res.data?.roots)
   }
 useEffect(() => {
@@ -29,7 +34,7 @@ useEffect(() => {
   const initiallyExpanded = useMemo(() => {
     const ids: Array<string | number> = [];
     const collect = (nodes: TreeNode[]) => {
-      nodes.forEach((node) => {
+      nodes?.forEach((node) => {
         if (hasChildren(node)) {
           ids.push(node.id);
           collect(node.children!);
@@ -59,6 +64,7 @@ useEffect(() => {
       return next;
     });
   }, []);
+  const dispatch = useAppDispatch()
 
   const renderNode = (node: TreeNode, depth = 0) => {
     const nodeHasChildren = hasChildren(node);
@@ -78,10 +84,18 @@ useEffect(() => {
           ) : (
             <span className="inline-flex h-5 w-5 items-center justify-center text-gray-400">•</span>
           )}
-          <span className="flex items-center gap-2">
+          <span onClick={() => {
+            dispatch(openPopup({
+              popup: 'projectFormPopup',
+            }))
+            dispatch(openPopup({
+              popup: 'updateProjectFormPopup',
+              data: node as any
+            }))
+          }} className="flex items-center gap-2">
             <span className="text-brand-500">{node.code}</span>
             <span>|</span>
-            <span>{node.en_name || node.ar_name}</span>
+            <span className="text-nowrap">{node.en_name || node.ar_name}</span>
           </span>
         </div>
         {nodeHasChildren && isExpanded && (
@@ -96,7 +110,7 @@ useEffect(() => {
   if (!data?.length) {
     return (
       <div className="w-full rounded border border-dashed border-gray-200 p-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
-        لا توجد حسابات متاحة حاليًا
+        No projects are currently available.
       </div>
     );
   }
@@ -107,3 +121,4 @@ useEffect(() => {
     </div>
   );
 }
+

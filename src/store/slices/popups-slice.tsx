@@ -1,9 +1,13 @@
+import { TreeNode } from "@/components/acc/tree-view/chart-accounts-tree-view";
 import { ComplaintStatusEnum, ScreenViewerEnum } from "@/types/enums/complaints-enums";
 import { ComplaintSolvingInterface } from "@/types/interfaces/complaints-manager-interfaces";
+import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface";
+import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
+import { TenantBranchInterface } from "@/types/interfaces/tenants-interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
-interface PopupState {
+export interface PopupState {
   managerComplaintFormPopup: {
     isOpen: boolean;
     data?: any
@@ -163,8 +167,99 @@ interface PopupState {
   },
   chartOfAccountsFormPopup: {
     isOpen: boolean;
-    data?: any
+    data?: TreeNode
+  };
+  deleteAccAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
+  deleteGroupAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
+  updateAccFormPopup: {
+    isOpen: boolean;
+    data?: ChartOfAccountsInterface
   }
+  updateCostCenterFormPopup: {
+    isOpen: boolean;
+    data?: CSAPInterface
+  }
+  deleteCostCenterAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
+  costCenterFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  updateActivityFormPopup: {
+    isOpen: boolean;
+    data?: CSAPInterface
+  }
+  deleteActivityAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
+  activityFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  updateProjectFormPopup: {
+    isOpen: boolean;
+    data?: CSAPInterface
+  }
+  deleteProjectAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
+  projectFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  groupSettingFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  updateGroupSettingFormPopup: {
+    isOpen: boolean;
+    data?: {
+      id: string;
+      ar_name: string;
+      en_name: string;
+      account_id: string;
+      is_stopped: boolean;
+      notes: string;
+    }
+  };
+  tenantBranchesFormPopup: {
+    isOpen: boolean;
+    data?: any
+  };
+  updateTenantBranchesFormPopup: {
+    isOpen: boolean;
+    data?: TenantBranchInterface
+  };
+  viewTenantBranchesFormPopup: {
+    isOpen: boolean;
+    data?: TenantBranchInterface
+  };
+  viewImagePopup: {
+    isOpen: boolean;
+    data?: {
+      src: string
+    }
+  };
 }
 
 type OpenPopupPayload = {
@@ -242,6 +337,64 @@ const initialState: PopupState = {
     isOpen: false,
   },
   chartOfAccountsFormPopup: {
+    isOpen: false,
+  },
+  deleteAccAlert: {
+    isOpen: false,
+  },
+  updateAccFormPopup: {
+    isOpen: false,
+  },
+  deleteCostCenterAlert: {
+    isOpen: false,
+  },
+  costCenterFormPopup: {
+    isOpen: false,
+  },
+  updateCostCenterFormPopup: {
+    isOpen: false,
+  }
+  ,
+  deleteActivityAlert: {
+    isOpen: false,
+  },
+  activityFormPopup: {
+    isOpen: false,
+  },
+  updateActivityFormPopup: {
+    isOpen: false,
+  },
+  updateProjectFormPopup: {
+    isOpen: false,
+  },
+  deleteProjectAlert: {
+    isOpen: false,
+  },
+  projectFormPopup: {
+    isOpen: false,
+  },
+  groupSettingFormPopup: {
+    isOpen: false,
+  }
+  ,
+  updateGroupSettingFormPopup: {
+    isOpen: false,
+  }
+  ,
+  deleteGroupAlert: {
+    isOpen: false,
+  },
+  tenantBranchesFormPopup: {
+    isOpen: false,
+  },
+  updateTenantBranchesFormPopup: {
+    isOpen: false,
+  }
+  ,
+  viewTenantBranchesFormPopup: {
+    isOpen: false,
+  },
+  viewImagePopup: {
     isOpen: false,
   }
 };

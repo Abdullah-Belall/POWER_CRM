@@ -4,12 +4,14 @@ import { RoleInterface, UserInterface } from "@/types/interfaces/common-interfac
 import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager-interfaces";
 import { ContractInterface, DiscussionInterface, PotentialCustomerInterface, SystemInterface } from "@/types/interfaces/sales-interface";
 import { ClientComplaintInterface } from "@/types/interfaces/complaints-clients-interface";
-import { TenantInterface } from "@/types/interfaces/tenants-interface";
+import { TenantBranchInterface, TenantInterface } from "@/types/interfaces/tenants-interface";
 import { CurrencyInterface } from "@/types/interfaces/erp/currencies-interface";
 import { FlagInterface } from "@/types/interfaces/erp/flag-interface";
 import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface";
+import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
+import { GroupSettingInterface } from "@/types/interfaces/erp/group-interface";
 
-interface TablesDataState {
+export interface TablesDataState {
   managerComplaintsTable: {
     total: number;
     data: ManagerComplaintInterface[];
@@ -69,6 +71,58 @@ interface TablesDataState {
   chartOfAccountsTable: {
     total: number;
     data: ChartOfAccountsInterface[];
+  };
+  costCenterTable: {
+    total: number;
+    data: CSAPInterface[];
+  };
+  activitiesTable: {
+    total: number;
+    data: CSAPInterface[];
+  };
+  projectsTable: {
+    total: number;
+    data: CSAPInterface[];
+  };
+  cashGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  customersGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  suppliersGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  employeeGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  expensessGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  incomeGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  assitsGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  depetsGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  creditGroupTable: {
+    total: number;
+    data: GroupSettingInterface[];
+  };
+  tenantBranchesTable: {
+    total: number;
+    data: TenantBranchInterface[];
   };
 }
 
@@ -130,6 +184,58 @@ const initialState: TablesDataState = {
     data: [],
   },
   chartOfAccountsTable: {
+    total: 0,
+    data: [],
+  },
+  costCenterTable: {
+    total: 0,
+    data: [],
+  },
+  activitiesTable: {
+    total: 0,
+    data: [],
+  },
+  projectsTable: {
+    total: 0,
+    data: [],
+  },
+  cashGroupTable: {
+    total: 0,
+    data: [],
+  },
+  customersGroupTable: {
+    total: 0,
+    data: [],
+  },
+  suppliersGroupTable: {
+    total: 0,
+    data: [],
+  },
+  employeeGroupTable: {
+    total: 0,
+    data: [],
+  },
+  expensessGroupTable: {
+    total: 0,
+    data: [],
+  },
+  incomeGroupTable: {
+    total: 0,
+    data: [],
+  },
+  assitsGroupTable: {
+    total: 0,
+    data: [],
+  },
+  depetsGroupTable: {
+    total: 0,
+    data: [],
+  },
+  creditGroupTable: {
+    total: 0,
+    data: [],
+  },
+  tenantBranchesTable: {
     total: 0,
     data: [],
   }

@@ -1,9 +1,9 @@
 'use client'
 import Button from "@/components/ui/button/Button";
 import { useAppDispatch } from "@/store/hooks/dispatch";
-import { openPopup } from "@/store/slices/popups-slice";
+import { openPopup, PopupState } from "@/store/slices/popups-slice";
 
-export default function TableActions({popup, btn}: {popup: string, btn: string}) {
+export default function TableActions({popup, btn}: {popup: keyof PopupState, btn: string}) {
   const dispatch = useAppDispatch()
   return <div className="flex items-center gap-3">
   <button className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">

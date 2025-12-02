@@ -17,6 +17,7 @@ export enum AccAnalyticEnum {
   GENERAL = 'General',
   CASH_HAND = 'Cash In Hand',
   BANKS = 'Banks',
+  ASSITS = 'Assits',
   CUSTOMERS = 'Customers',
   SUPPLIERS = 'Suppliers',
   EMPLOYEE = 'Employee',
@@ -26,4 +27,5 @@ export enum AccAnalyticEnum {
   DEPIT_GROUP = 'Depit Group',
   CREDIT_GROUP = 'Credit Group',
   EX = 'Expensess',
+  INCOME = 'Income',
 }

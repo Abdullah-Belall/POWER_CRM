@@ -1,4 +1,5 @@
 import ManagerComplaintsTableActions from "@/components/complaints/managers-complaints-table-actions";
+import { ViewImage } from "@/components/form/common/view-image";
 import AssignComplaintFormPopup from "@/components/form/complaints/assign-complaint-form-popup";
 import ComplaintSupportersHistoryPopup from "@/components/form/complaints/complaint-supporters-history-popup";
 import FinishComplaintFormPopup from "@/components/form/complaints/finish-complaint-form-popup";
@@ -34,6 +35,7 @@ export default async function ManagersComplaints() {
     <ViewComplaintFormPopup />
     <FinishComplaintFormPopup />
     <ComplaintSupportersHistoryPopup />
+    <ViewImage />
     </>
   )}
   else {

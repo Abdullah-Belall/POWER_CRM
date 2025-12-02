@@ -3,7 +3,7 @@ import Image from "next/image";
 import BlackLayer from "../black-layer";
 import { MdOutlineClose } from "react-icons/md";
 import { useAppSelector } from "@/store/hooks/selector";
-import { closePopup, selectPopup } from "@/store/slices/popups-slice";
+import { closePopup, openPopup, selectPopup } from "@/store/slices/popups-slice";
 import { useAppDispatch } from "@/store/hooks/dispatch";
 import { useCallback, useState } from "react";
 import TextArea from "../input/TextArea";
@@ -133,6 +133,13 @@ export default function ViewComplaintFormPopup() {
             >
               {!data?.image1 || data?.image1 === '' ? "" : <Image
                 className={data?.image1 === "" ? "hidden" : ""}
+                onClick={()=> dispatch(openPopup({
+                  popup: 'viewImagePopup',
+                  data: {
+                    src: `https://res.cloudinary.com/doy0la086/image/upload/${data.image1}`
+                  }
+                }))}
+                
                 fill
                 src={`https://res.cloudinary.com/doy0la086/image/upload/${data?.image1}`}
                 alt="Post Image"
@@ -161,6 +168,12 @@ export default function ViewComplaintFormPopup() {
             >
               {!data?.image2 || data?.image2 === '' ? "" : <Image
                 className={data?.image2 === "" ? "hidden" : ""}
+                onClick={()=> dispatch(openPopup({
+                  popup: 'viewImagePopup',
+                  data: {
+                    src: `https://res.cloudinary.com/doy0la086/image/upload/${data.image2}`
+                  }
+                }))}
                 fill
                 src={`https://res.cloudinary.com/doy0la086/image/upload/${data?.image2}`}
                 alt="Post Image"
