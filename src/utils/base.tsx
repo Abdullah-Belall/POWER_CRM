@@ -10,7 +10,7 @@ export const BASE_ERP_URL = (process.env.NEXT_PUBLIC_ERP_BACKEND_URL || "http://
 export const errMsg = "There is problem, please try again later.";
 
 
-export const affectedFlagsTypesArr = [FlagsTypesEnum.PROJECT_TYPE, FlagsTypesEnum.COST_CENTER_TYPE, FlagsTypesEnum.ACCOUNT_TYPE]
+export const affectedFlagsTypesArr = [FlagsTypesEnum.PROJECT_TYPE, FlagsTypesEnum.COST_CENTER_TYPE]
 export const formatDate = (input: string | Date) => {
   let date: Date;
 
