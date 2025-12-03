@@ -5,6 +5,7 @@ import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accoun
 import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
 import { FundInterface } from "@/types/interfaces/funds-interface";
 import { TenantBranchInterface } from "@/types/interfaces/tenants-interface";
+import { MasterTransactionInterface } from "@/types/interfaces/transactions-interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
@@ -283,6 +284,20 @@ export interface PopupState {
     isOpen: boolean;
     data?: FundInterface
   };
+  journalFormPopup: {
+    isOpen: boolean;
+    data?: MasterTransactionInterface
+  };
+  updateJournalFormPopup: {
+    isOpen: boolean;
+    data?: MasterTransactionInterface
+  };
+  deleteJournalAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
 }
 
 type OpenPopupPayload = {
@@ -293,6 +308,15 @@ type OpenPopupPayload = {
 }[keyof PopupState];
 
 const initialState: PopupState = {
+  journalFormPopup: {
+    isOpen: false,
+  },
+  updateJournalFormPopup: {
+    isOpen: false,
+  },
+  deleteJournalAlert: {
+    isOpen: false,
+  },
   managerComplaintFormPopup: {
     isOpen: false,
   },

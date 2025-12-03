@@ -11,6 +11,7 @@ import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accoun
 import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
 import { GroupSettingInterface } from "@/types/interfaces/erp/group-interface";
 import { FundInterface } from "@/types/interfaces/funds-interface";
+import { MasterTransactionInterface } from "@/types/interfaces/transactions-interface";
 
 export interface TablesDataState {
   managerComplaintsTable: {
@@ -157,6 +158,10 @@ export interface TablesDataState {
     total: number;
     data: FundInterface[];
   };
+  journalsTable: {
+    total: number;
+    data: MasterTransactionInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -301,6 +306,10 @@ const initialState: TablesDataState = {
     data: [],
   },
   cashAtBanksFundsTable: {
+    total: 0,
+    data: [],
+  },
+  journalsTable: {
     total: 0,
     data: [],
   }

@@ -13,16 +13,18 @@ import { useAppSelector } from "@/store/hooks/selector";
 import { closePopup, selectPopup } from "@/store/slices/popups-slice";
 import { openSnakeBar } from "@/store/slices/snake-bar-slice";
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums";
+import { GET_JOURNALS_CREQ } from "@/utils/erp-requests/clients-reqs/operations/transactions-reqs";
+import JournalsTable from "@/components/tables/erp/transactions/journals-table";
 
 export default function GeneralJournal() {
   const dispatch = useAppDispatch()
   const fetchData = async () => {
-    const res = await CLIENT_COLLECTOR_REQ(GET_GROUP_SETTING_CREQ, {type: AccAnalyticEnum.ASSITS});
+    const res = await CLIENT_COLLECTOR_REQ(GET_JOURNALS_CREQ, {});
     if(res.done) {
       dispatch(fillTable({
-        tableName: 'assitsGroupTable',
+        tableName: 'journalsTable',
         obj: {
-          data: res.data.groupSettings,
+          data: res.data.journalMsts,
           total: res.data.total
         }
       }))
@@ -31,7 +33,7 @@ export default function GeneralJournal() {
   useEffect(() => {
     fetchData()
   }, [])
-  const deletePopup = useAppSelector(selectPopup('deleteGroupAlert'))
+  // const deletePopup = useAppSelector(selectPopup('deleteGroupAlert'))
   return (
     <>
       <div>
@@ -42,15 +44,14 @@ export default function GeneralJournal() {
                 Assits Group Setting
               </h3>
             </div>
-            <TableActions popup={"groupSettingFormPopup"} btn={"Create Assits Group Setting"} />
+            <TableActions popup={"journalFormPopup"} btn={"Create Journal"} />
           </div>
           <div>
-            <AssitsGroupTable />
+            <JournalsTable />
           </div>
         </div>
       </div>
-      <GroupSettingFormPopup acc_analy_type={AccAnalyticEnum.ASSITS} tableName="assitsGroupTable" />
-      <DeleteAlertFormPopup popupName={'deleteGroupAlert'} onDone={async () => {
+      {/* <DeleteAlertFormPopup popupName={'deleteGroupAlert'} onDone={async () => {
         const res = await CLIENT_COLLECTOR_REQ(DELETE_GROUP_SETTING_CREQ, {id: deletePopup.data?.id})
         if(res.done) {
           fetchData()
@@ -63,7 +64,7 @@ export default function GeneralJournal() {
             type: SnakeBarTypeEnum.ERROR
           }))
         }
-      }} />
+      }} /> */}
     </>
   );
 }

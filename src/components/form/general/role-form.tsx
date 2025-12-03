@@ -113,7 +113,7 @@ export default function RoleFormPopup() {
 
     'read-task',
 
-    'general-ladger'
+    'general-ledger'
   ];
   return popup.isOpen ? (<BlackLayer onClick={handleClose}>
     <div className="w-md border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 ">
