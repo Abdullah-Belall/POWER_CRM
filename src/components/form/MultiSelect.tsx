@@ -33,6 +33,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   };
 
   const handleSelect = (optionValue: string) => {
+    if(disabled) return;
     const newSelectedOptions = selectedOptions.includes(optionValue)
       ? selectedOptions.filter((value) => value !== optionValue)
       : [...selectedOptions, optionValue];
@@ -42,6 +43,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   };
 
   const removeOption = (index: number, value: string) => {
+    if(disabled) return;
     const newSelectedOptions = selectedOptions.filter((opt) => opt !== value);
     setSelectedOptions(newSelectedOptions);
     if (onChange) onChange(newSelectedOptions);
@@ -52,7 +54,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   );
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${disabled && 'cursor-not-allowed'}`}>
       <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
         {label}
       </label>
@@ -100,7 +102,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   </span>
                 )}
               </div>
-              <div className="flex items-center py-1 pl-1 pr-1 w-7">
+              <div onClick={toggleDropdown} className="flex items-center py-1 pl-1 pr-1 w-7">
                 <button
                   type="button"
                   onClick={toggleDropdown} 

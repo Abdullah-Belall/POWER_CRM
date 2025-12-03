@@ -4,8 +4,7 @@ import { fillTable, getTable } from "@/store/slices/tables-slice";
 import { checkNull, ComplaintPriorityStatusViewer, formatDate, StatusViewer } from "@/utils/base";
 import MainTable from "../main-table";
 import { getPageTrans } from "@/store/slices/language-slice";
-import { ManagerComplaintInterface } from "@/types/interfaces/complaints-manager-interfaces";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch } from "@/store/hooks/dispatch";
 import { MdAssignmentTurnedIn, MdOutlineHistoryToggleOff } from "react-icons/md";
 import { openPopup } from "@/store/slices/popups-slice";
@@ -20,17 +19,12 @@ import { openSnakeBar } from "@/store/slices/snake-bar-slice";
 import { selectCurrentUser } from "@/store/slices/user-slice";
 import { Tooltip } from "@mui/material";
 
-export default function ManagersComplaintsTable({data}: {data: {complaints: ManagerComplaintInterface[], total: number}}) {
+export default function ManagersComplaintsTable() {
   const tableData = useAppSelector(getTable('managerComplaintsTable'))
   const trans = useAppSelector(getPageTrans("managersComplaintsPage")).table;
   const currUser = useAppSelector(selectCurrentUser())
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(fillTable({tableName: 'managerComplaintsTable', obj: {
-      data: data?.complaints,
-      total: data?.total
-    }}))
-  }, [data])
+
   const [loading, setLoading] = useState(false)
   const formateData = tableData?.data?.map((e) => {
     const isCurrentSupporterAssigned = e.solving?.some(

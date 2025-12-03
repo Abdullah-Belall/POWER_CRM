@@ -23,7 +23,7 @@ export default function Systems() {
         total: res.data?.total
       })
     } else {
-      router.push("/sign-in");
+      router.push("/signin");
     }
   };
   useEffect(() => {

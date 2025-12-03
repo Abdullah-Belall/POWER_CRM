@@ -10,6 +10,7 @@ import { FlagInterface } from "@/types/interfaces/erp/flag-interface";
 import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface";
 import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
 import { GroupSettingInterface } from "@/types/interfaces/erp/group-interface";
+import { FundInterface } from "@/types/interfaces/funds-interface";
 
 export interface TablesDataState {
   managerComplaintsTable: {
@@ -124,6 +125,38 @@ export interface TablesDataState {
     total: number;
     data: TenantBranchInterface[];
   };
+  cashFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  expensessFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  revenueFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  assitsFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  personalCovenantFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  deptsAccountsFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  creditAccountsFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
+  cashAtBanksFundsTable: {
+    total: number;
+    data: FundInterface[];
+  };
 }
 
 const initialState: TablesDataState = {
@@ -236,6 +269,38 @@ const initialState: TablesDataState = {
     data: [],
   },
   tenantBranchesTable: {
+    total: 0,
+    data: [],
+  },
+  cashFundsTable: {
+    total: 0,
+    data: [],
+  },
+  expensessFundsTable: {
+    total: 0,
+    data: [],
+  },
+  revenueFundsTable: {
+    total: 0,
+    data: [],
+  },
+  assitsFundsTable: {
+    total: 0,
+    data: [],
+  },
+  personalCovenantFundsTable: {
+    total: 0,
+    data: [],
+  },
+  deptsAccountsFundsTable: {
+    total: 0,
+    data: [],
+  },
+  creditAccountsFundsTable: {
+    total: 0,
+    data: [],
+  },
+  cashAtBanksFundsTable: {
     total: 0,
     data: [],
   }

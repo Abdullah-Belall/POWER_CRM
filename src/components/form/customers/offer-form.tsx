@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 import { ServiceInterface, SystemInterface } from "@/types/interfaces/sales-interface"
 import MultiSelect from "../MultiSelect"
 
-export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer" }) {
+export default function CustomerOfferFormPopup({ refetch }: {refetch: () => Promise<void>}) {
   const router = useRouter()
   const popup = useAppSelector(selectPopup('offerFormPopup'))
   const dispatch = useAppDispatch()
@@ -50,7 +50,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
         w_tax: ''
       })
     } else {
-      router.push("/sign-in");
+      router.push("/signin");
     }
   };
   const fetchServicesData = async () => {
@@ -64,7 +64,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
     if (res.done) {
       setServices(res.data?.data)
     } else {
-      router.push("/sign-in");
+      router.push("/signin");
     }
   };
   useEffect(() => {
@@ -126,7 +126,7 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
       );
       setSelectedSystems([])
       setSelectedServices([])
-      router.push(window.location.pathname + `?forRefresh=${Math.random()}`)
+      await refetch()
     } else {
       dispatch(
         openSnakeBar({
@@ -160,7 +160,8 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
                     text: sys.name + ' | ' + sys.price+ ' EGP', 
                     selected: sys.selected
                   }))} 
-                  label="Select Systems" 
+                  label="Select Systems"
+                  defaultSelected={selectedSystems.map((e) => e.id)}
                   onChange={(selectedIds) => {
                     const selected = systems.filter((sys: any) => 
                       selectedIds.includes(String(sys.id))
@@ -195,7 +196,8 @@ export default function CustomerOfferFormPopup({  }: { type: "contract" | "offer
                     text: serv.title + ' | ' + serv.price+ ' EGP', 
                     selected: false
                   }))} 
-                  label="Select Services" 
+                  label="Select Services"
+                  defaultSelected={selectedServices.map((e) => e.id)}
                   onChange={(selectedIds) => {
                     const selected = services.filter((serv: any) => 
                       selectedIds.includes(String(serv.id))

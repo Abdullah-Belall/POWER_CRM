@@ -10,6 +10,7 @@ import BlackLayer from "../form/black-layer";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { RiFileExcel2Line } from "react-icons/ri";
 import Select from "../form/Select";
+import { FlagsTypesEnum } from "@/types/enums/erp/flags-enum";
 
 type Column = {
   id: string;
@@ -163,7 +164,7 @@ export default function MainTable({
     doc.save(`exported-data-${new Date().toISOString().slice(0, 10)}.pdf`);
   };
   const [openMenu, setOpenMenu] = useState(false)
-  const [filterSelect, setFilterSelect] = useState('')
+  const [filterSelect, setFilterSelect] = useState<'' | FlagsTypesEnum>(FlagsTypesEnum.ACCOUNT_GROUP)
   useEffect(() => {
     if(filterSelect !== '') {list?.data.find((e) => filterSelect === e.label)?.action()
       setCurrentPage(1)
@@ -176,7 +177,7 @@ export default function MainTable({
         <div className="py-4 pl-[18px] pr-4 flex items-center justify-between">
           <div>
             {list ? 
-              <Select options={list.data.map((e) => ({value: e.label, label: e.label}))} placeholder={list.label} value={filterSelect} onChange={(e) => setFilterSelect(e.target.value)} />
+              <Select options={list.data.map((e) => ({value: e.label, label: e.label}))} placeholder={list.label} value={filterSelect} onChange={(e) => setFilterSelect(e.target.value as FlagsTypesEnum)} />
             : ""}
           </div>
           <div className="relative">
@@ -382,14 +383,17 @@ export default function MainTable({
                 }}
                 className="w-full py-2 pl-3 pr-8 text-sm text-gray-800 bg-transparent border border-gray-300 rounded-lg appearance-none dark:bg-dark-900 h-9 bg-none shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
               >
+                <option value={5} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
+                  5
+                </option>
                 <option value={10} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
                   10
                 </option>
-                <option value={8} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
-                  8
+                <option value={20} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
+                  20
                 </option>
-                <option value={5} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
-                  5
+                <option value={30} className="text-gray-500 dark:bg-gray-900 dark:text-gray-400">
+                  30
                 </option>
               </select>
               <span className="absolute z-30 text-gray-500 -translate-y-1/2 right-2 top-1/2 dark:text-gray-400 pointer-events-none">
@@ -421,7 +425,7 @@ export default function MainTable({
               >
                 Previous
               </button>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 max-w-[220px] overflow-y-auto custom-scrollbar">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
                     <button

@@ -51,22 +51,6 @@ export default function FlagsTable({data, flag_type, onChangeFlag}: {data: {flag
       label: 'Select Flag',
       data: [
         {
-          label: FlagsTypesEnum.ACCOUNT_TYPE,
-          action: async () => onChangeFlag(FlagsTypesEnum.ACCOUNT_TYPE),
-        },
-        {
-          label: FlagsTypesEnum.ACCOUNT_REPORT,
-          action: async () => onChangeFlag(FlagsTypesEnum.ACCOUNT_REPORT),
-        },
-        {
-          label: FlagsTypesEnum.ACCOUNT_NATURE,
-          action: async () => onChangeFlag(FlagsTypesEnum.ACCOUNT_NATURE),
-        },
-        {
-          label: FlagsTypesEnum.ACCOUNT_ANALYTIC,
-          action: async () => onChangeFlag(FlagsTypesEnum.ACCOUNT_ANALYTIC),
-        },
-        {
           label: FlagsTypesEnum.ACCOUNT_GROUP,
           action: async () => onChangeFlag(FlagsTypesEnum.ACCOUNT_GROUP),
         },
@@ -107,12 +91,28 @@ export default function FlagsTable({data, flag_type, onChangeFlag}: {data: {flag
           action: async () => onChangeFlag(FlagsTypesEnum.JURISDICTION_TYPE),
         },
         {
-          label: FlagsTypesEnum.RECEIPT_TYPE,
-          action: async () => onChangeFlag(FlagsTypesEnum.RECEIPT_TYPE),
-        },
-        {
           label: FlagsTypesEnum.EMPLOYEE_TYPE,
           action: async () => onChangeFlag(FlagsTypesEnum.EMPLOYEE_TYPE),
+        },
+        {
+          label: FlagsTypesEnum.JOURNAL_TYPE,
+          action: async () => onChangeFlag(FlagsTypesEnum.JOURNAL_TYPE),
+        },
+        {
+          label: FlagsTypesEnum.CASH_RECEIT_TYPE,
+          action: async () => onChangeFlag(FlagsTypesEnum.CASH_RECEIT_TYPE),
+        },
+        {
+          label: FlagsTypesEnum.BANK_RECEIT_TYPE,
+          action: async () => onChangeFlag(FlagsTypesEnum.BANK_RECEIT_TYPE),
+        },
+        {
+          label: FlagsTypesEnum.CASH_PAYMENT_TYPE,
+          action: async () => onChangeFlag(FlagsTypesEnum.CASH_PAYMENT_TYPE),
+        },
+        {
+          label: FlagsTypesEnum.BANK_PAYMENT_TYPE,
+          action: async () => onChangeFlag(FlagsTypesEnum.BANK_PAYMENT_TYPE),
         },
       ]
     }} />

@@ -3,6 +3,7 @@ import { ComplaintStatusEnum, ScreenViewerEnum } from "@/types/enums/complaints-
 import { ComplaintSolvingInterface } from "@/types/interfaces/complaints-manager-interfaces";
 import { ChartOfAccountsInterface } from "@/types/interfaces/erp/chart-of-accounts-interface";
 import { CSAPInterface } from "@/types/interfaces/erp/const-center-interface";
+import { FundInterface } from "@/types/interfaces/funds-interface";
 import { TenantBranchInterface } from "@/types/interfaces/tenants-interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -223,6 +224,12 @@ export interface PopupState {
       id: string
     }
   };
+  deleteFundAlert: {
+    isOpen: boolean;
+    data?: {
+      id: string
+    }
+  };
   projectFormPopup: {
     isOpen: boolean;
     data?: any
@@ -259,6 +266,22 @@ export interface PopupState {
     data?: {
       src: string
     }
+  };
+  fundsFormPopup: {
+    isOpen: boolean;
+    data?: FundInterface
+  };
+  updateFundsFormPopup: {
+    isOpen: boolean;
+    data?: FundInterface
+  };
+  bankfundFormPopup: {
+    isOpen: boolean;
+    data?: FundInterface
+  };
+  updateBankFundsFormPopup: {
+    isOpen: boolean;
+    data?: FundInterface
   };
 }
 
@@ -397,6 +420,23 @@ const initialState: PopupState = {
   viewImagePopup: {
     isOpen: false,
   }
+  ,
+  fundsFormPopup: {
+    isOpen: false,
+  }
+  ,
+  updateFundsFormPopup: {
+    isOpen: false,
+  },
+  deleteFundAlert: {
+    isOpen: false,
+  },
+  bankfundFormPopup: {
+    isOpen: false,
+  },
+  updateBankFundsFormPopup: {
+    isOpen: false,
+  },
 };
 
 const popupSlice = createSlice({

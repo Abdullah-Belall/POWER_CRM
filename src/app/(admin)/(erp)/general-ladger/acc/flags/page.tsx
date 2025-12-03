@@ -9,7 +9,7 @@ import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
 import { useEffect, useState } from "react";
 
 export default function Flags() {
-  const [flagType, setFlagType] = useState(FlagsTypesEnum.ACCOUNT_TYPE)
+  const [flagType, setFlagType] = useState(FlagsTypesEnum.ACCOUNT_GROUP)
   const [data, setData] = useState<{
     flags: FlagInterface[],
     total: number
@@ -27,7 +27,7 @@ export default function Flags() {
     }
   }
   useEffect(() => {
-    fetchData(FlagsTypesEnum.ACCOUNT_TYPE)
+    fetchData(FlagsTypesEnum.ACCOUNT_GROUP)
   },[])
   return (
     <>

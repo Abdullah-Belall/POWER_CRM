@@ -11,11 +11,9 @@ import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs"
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
 import { UPDATE_CUSTOMER_STATUS } from "@/utils/requests/client-reqs/sales-reqs"
-import { useRouter } from "next/navigation"
 import { PotentialCustomerStatusEnum } from "@/types/enums/potential-customers-enums"
 
-export default function CustomerStatusFormPopup() {
-  const router = useRouter()
+export default function CustomerStatusFormPopup({ refetch }: {refetch: () => Promise<void>}) {
   const popup = useAppSelector(selectPopup('updateCustomerStatusFormPopup'))
   const dispatch = useAppDispatch()
   const handleClose = useCallback(() => dispatch(closePopup({
@@ -41,7 +39,7 @@ export default function CustomerStatusFormPopup() {
           type: SnakeBarTypeEnum.SUCCESS,
         })
       );
-      router.push(window.location.pathname + `?forRefresh=${Math.random()}`)
+      await refetch()
     } else {
       dispatch(
         openSnakeBar({

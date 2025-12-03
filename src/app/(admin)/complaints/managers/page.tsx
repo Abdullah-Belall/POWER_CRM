@@ -1,3 +1,4 @@
+"use client"
 import ManagerComplaintsTableActions from "@/components/complaints/managers-complaints-table-actions";
 import { ViewImage } from "@/components/form/common/view-image";
 import AssignComplaintFormPopup from "@/components/form/complaints/assign-complaint-form-popup";
@@ -6,12 +7,33 @@ import FinishComplaintFormPopup from "@/components/form/complaints/finish-compla
 import ManagerComplaintFormPopup from "@/components/form/complaints/manager-complaint-form-popup";
 import ViewComplaintFormPopup from "@/components/form/complaints/view-complaint-form-popup";
 import ManagersComplaintsTable from "@/components/tables/complaints/managers-complaints-table";
-import { MANAGER_COMPLAINTS_SERVER_REQ, SERVER_COLLECTOR_REQ } from "@/utils/requests/server-reqs/complaints-manager-reqs";
+import { useAppDispatch } from "@/store/hooks/dispatch";
+import { fillTable } from "@/store/slices/tables-slice";
+import { CLIENT_COLLECTOR_REQ } from "@/utils/requests/client-reqs/common-reqs";
+import { MANAGER_COMPLAINTS_REQ } from "@/utils/requests/client-reqs/managers-reqs";
+import { useEffect } from "react";
 
-export default async function ManagersComplaints() {
-  const res= await SERVER_COLLECTOR_REQ(MANAGER_COMPLAINTS_SERVER_REQ)
+export default function ManagersComplaints() {
+  const dispatch = useAppDispatch()
+  const fetchData = async () => {
+    const res = await CLIENT_COLLECTOR_REQ(MANAGER_COMPLAINTS_REQ)
+    if(res.done) {
+      dispatch(fillTable({tableName: 'managerComplaintsTable', obj: {
+        data: res?.data?.complaints,
+        total: res?.data?.total
+      }}))
+    }
+  }
+  useEffect(() => {
+    fetchData()
+    const intervalId = setInterval(() => {
+      fetchData()
+    }, 25000);
 
-  if(res.done){
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
   return (
     <>
     <div>
@@ -22,11 +44,10 @@ export default async function ManagersComplaints() {
           Clients Complaints
         </h3>
       </div>
-
     <ManagerComplaintsTableActions />
     </div>
     <div>
-      <ManagersComplaintsTable data={res.data} />
+      <ManagersComplaintsTable />
     </div>
       </div>
     </div>
@@ -37,8 +58,5 @@ export default async function ManagersComplaints() {
     <ComplaintSupportersHistoryPopup />
     <ViewImage />
     </>
-  )}
-  else {
-    <h1>ERRRRORRRR</h1>
-  }
+  )
 }

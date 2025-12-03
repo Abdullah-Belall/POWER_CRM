@@ -11,7 +11,6 @@ import { CLIENT_COLLECTOR_REQ, GET_USERS } from "@/utils/requests/client-reqs/co
 import { SnakeBarTypeEnum } from "@/types/enums/common-enums"
 import { openSnakeBar } from "@/store/slices/snake-bar-slice"
 import { CREATE_DISCUSSION } from "@/utils/requests/client-reqs/sales-reqs"
-import { useRouter } from "next/navigation"
 import { DiscussionStatusEnum } from "@/types/enums/discussion-status-enums"
 import TextArea from "../input/TextArea"
 import Checkbox from "../input/Checkbox"
@@ -26,8 +25,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-export default function CustomerDisussionFormPopup() {
-  const router = useRouter()
+export default function CustomerDisussionFormPopup({ refetch }: {refetch: () => Promise<void>}) {
   const popup = useAppSelector(selectPopup('discussionFormPopup'))
   const dispatch = useAppDispatch()
   const handleClose = useCallback(() => dispatch(closePopup({
@@ -63,51 +61,63 @@ export default function CustomerDisussionFormPopup() {
       message
     }))
   }
-  const validation = () => {
-    const {meeting_date} = data
-    if (meeting_date && !time) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Please select intervention time");
+  const isValid = () => {
+    const {meeting_date, details} = data
+    if(details.trim().length === 0) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, 'Details is required')
+      return false
+    }
+    if(!meeting) {
+      return true
+    }
+    if(!meeting_date || !time) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Please pick Meeting Date & Time");
       return false;
     }
-    if (!meeting_date && time) {
-      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Please select intervention date");
+    const now = dayjs();
+    if ((meeting_date as Dayjs).isBefore(now, "day")) {
+      handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Intervention date cannot be in the past");
       return false;
     }
-    if (meeting_date) {
-      const now = dayjs();
-
-      if ((meeting_date as Dayjs).isBefore(now, "day")) {
-        handleOpenSnakeBar(SnakeBarTypeEnum.ERROR, "Intervention date cannot be in the past");
+    if (time && typeof time !== "string" && typeof time !== "number") {
+      const combinedDateTime = (meeting_date as Dayjs)
+        .hour(time.hour())
+        .minute(time.minute())
+        .second(0)
+        .millisecond(0);
+      const oneHourLater = now.add(1, "hour");
+      if (combinedDateTime.isBefore(oneHourLater)) {
+        handleOpenSnakeBar(
+          SnakeBarTypeEnum.ERROR,
+          "Intervention date and time must be at least 1 hour from now"
+        );
         return false;
-      }
-
-      if (time && typeof time !== "string" && typeof time !== "number") {
-        const combinedDateTime = (meeting_date as Dayjs)
-          .hour(time.hour())
-          .minute(time.minute())
-          .second(0)
-          .millisecond(0);
-
-        const oneHourLater = now.add(1, "hour");
-        if (combinedDateTime.isBefore(oneHourLater)) {
-          handleOpenSnakeBar(
-            SnakeBarTypeEnum.ERROR,
-            "Intervention date and time must be at least 1 hour from now"
-          );
-          return false;
-        }
       }
     }
     return true
   }
   const handleConfirm: any = async () => {
     if (loading) return;
-    if(!validation()) return;
+    if(!isValid()) return;
+
+    let payload: any = {
+      details: data.details,
+      status: data.status,
+      customer_id: popup.data?.customer_id,
+    }
+    if(meeting) {
+      payload = {
+        ...payload,
+        meeting: data.meeting,
+        meeting_url: data.meeting_url,
+        meeting_employees: JSON.stringify(selectedEmployees.map((e) => e.id)),
+        meeting_date: data.meeting_date,
+      }
+    }
+
     setLoading(true);
     const res = await CLIENT_COLLECTOR_REQ(CREATE_DISCUSSION, {
-      data: { ...data, customer_id: popup.data?.customer_id,
-        meeting_employees: JSON.stringify(selectedEmployees.map((e) => e.id)),
-        },
+      data: payload,
     });
     setLoading(false);
     if (res.done) {
@@ -118,7 +128,16 @@ export default function CustomerDisussionFormPopup() {
           type: SnakeBarTypeEnum.SUCCESS,
         })
       );
-      router.push(window.location.pathname + `?forRefresh=${Math.random()}`)
+      setData({
+        details: "",
+        status: DiscussionStatusEnum.NORMAL,
+        meeting: '',
+        meeting_url: '',
+        meeting_date: null,
+      })
+      setSelectedEmployees([])
+      setMeeting(false)
+      await refetch()
     } else {
       dispatch(
         openSnakeBar({
@@ -274,7 +293,8 @@ export default function CustomerDisussionFormPopup() {
                     text: user.index + ' | ' + user.user_name, 
                     selected: user.selected
                   }))} 
-                  label="Select Employees" 
+                  label="Select Employees"
+                  defaultSelected={selectedEmployees.map((e) => e.id)}
                   onChange={(selectedIds) => {
                     const selected = employees.filter((user: any) => 
                       selectedIds.includes(String(user.id))

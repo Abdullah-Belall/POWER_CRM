@@ -25,6 +25,28 @@ export const GET_POTENTIAL_CUSTOMERS = async () => {
   }
 };
 
+export const CUSTOMER_PROFILE_CREQ = async ({ id }: any) => {
+  try {
+    const response = await axios.get(`${BASE_CRM_URL}/potential-customers/${id}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("access_token")}`,
+      },
+    });
+    return response?.data?.id
+      ? { done: true, data: response.data }
+      : { done: false, message: errMsg, status: response.status };
+  } catch (error: any) {
+    let message = errMsg;
+    if (error?.response?.status !== 400) {
+    }
+    message = error?.response?.data?.message;
+    return {
+      done: false,
+      message: message,
+      status: error.status,
+    };
+  }
+};
 export const GET_ALL_POTENTIAL_CUSTOMERS = async () => {
   try {
     const response = await axios.get(`${BASE_CRM_URL}/potential-customers/all`, {
@@ -208,7 +230,6 @@ export const CREATE_CONTRACT = async ({ data }: any) => {
     };
   }
 };
-
 
 export const CREATE_SYSTEM = async ({ data }: any) => {
   try {

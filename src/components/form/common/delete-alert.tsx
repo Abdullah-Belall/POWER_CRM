@@ -3,12 +3,12 @@ import { useState } from "react"
 import { MdOutlineClose } from "react-icons/md"
 import { useAppSelector } from "@/store/hooks/selector"
 import { useAppDispatch } from "@/store/hooks/dispatch"
-import { closePopup, selectPopup } from "@/store/slices/popups-slice"
+import { closePopup, PopupState, selectPopup } from "@/store/slices/popups-slice"
 import BlackLayer from "../black-layer"
 import Button from "@/components/ui/button/Button"
 
 
-export default function DeleteAlertFormPopup({ popupName, onDone }: { popupName: string, onDone: () => Promise<void> }) {
+export default function DeleteAlertFormPopup({ popupName, onDone }: { popupName: keyof PopupState, onDone: () => Promise<void> }) {
   const popup = useAppSelector(selectPopup(popupName as any))
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
